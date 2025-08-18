@@ -54,7 +54,7 @@ capital_one_agent_ai/
 #### \#\#\#\# 1. Clone the Repository
 
 ```bash
-git clone <your-repository-url>
+git clone git@github.com:pushpayush007/farming_agent.git
 cd <repository-directory>
 ```
 
