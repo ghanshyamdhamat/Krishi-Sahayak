@@ -192,3 +192,23 @@ Before using the chatbot for the first time, ensure **`index.py`** has been run 
   * [LangChain](https://www.langchain.com/)
 
 For any issues, please open an issue on GitHub or contact the maintainers. Happy farming\! 🌾
+
+
+**IMPORTANT**
+
+The solution can be tested for rice disease classification, soil classification, normal queries related to farming can be asked. 
+Able to answer multilingual queries. 
+
+Examples Queries:
+1. Is the weather good enough for planting rice?
+2. Tell me about rice diseases anf their preventive measures
+3. What is the weather forecast for the next three days?
+4. Provide crop recommendtion for the soil with Nitrogen 80 Potassium 40 Phosphorus 30
+
+The image upload option can be used for soil classification and rice disease classification.
+Example image that can be used for testing is added here:
+
+
+
+
+
