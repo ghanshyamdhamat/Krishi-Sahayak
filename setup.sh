@@ -49,7 +49,17 @@ fi
 
 # --- 4. Start Elasticsearch with Docker ---
 echo -e "\n${YELLOW}[5/8] Starting Elasticsearch Docker container...${NC}"
-docker run -d --name elasticsearch -p 9200:9200 -e "discovery.type=single-node" -e "xpack.security.enabled=false" docker.elastic.co/elasticsearch/elasticsearch:8.13.4
+CONTAINER_NAME_ES="elasticsearch"
+
+if [ "$(docker ps -q -f "name=${CONTAINER_NAME_ES}")" ]; then
+    echo -e "${GREEN}Container '${CONTAINER_NAME_ES}' is already running.${NC}"
+elif [ "$(docker ps -aq -f "name=${CONTAINER_NAME_ES}")" ]; then
+    echo -e "${YELLOW}Container '${CONTAINER_NAME_ES}' exists but is stopped. Starting it...${NC}"
+    docker start ${CONTAINER_NAME_ES}
+else
+    echo -e "${YELLOW}Container '${CONTAINER_NAME_ES}' not found. Creating and starting it...${NC}"
+    docker run -d --name ${CONTAINER_NAME_ES} -p 9200:9200 -e "discovery.type=single-node" -e "xpack.security.enabled=false" docker.elastic.co/elasticsearch/elasticsearch:8.13.4
+fi
 
 echo "Waiting for Elasticsearch to start..."
 until curl -s http://localhost:9200 >/dev/null; do
@@ -71,7 +81,17 @@ cd ../../../  # Return to the project root
 
 # --- 6. Start Neo4j with Docker ---
 echo -e "\n${YELLOW}[7/8] Starting Neo4j Docker container...${NC}"
-docker run -d --name neo4j -p7474:7474 -p7687:7687 -e NEO4J_AUTH=neo4j/test1234 neo4j:4.4
+CONTAINER_NAME_NEO4J="neo4j"
+
+if [ "$(docker ps -q -f "name=${CONTAINER_NAME_NEO4J}")" ]; then
+    echo -e "${GREEN}Container '${CONTAINER_NAME_NEO4J}' is already running.${NC}"
+elif [ "$(docker ps -aq -f "name=${CONTAINER_NAME_NEO4J}")" ]; then
+    echo -e "${YELLOW}Container '${CONTAINER_NAME_NEO4J}' exists but is stopped. Starting it...${NC}"
+    docker start ${CONTAINER_NAME_NEO4J}
+else
+    echo -e "${YELLOW}Container '${CONTAINER_NAME_NEO4J}' not found. Creating and starting it...${NC}"
+    docker run -d --name ${CONTAINER_NAME_NEO4J} -p7474:7474 -p7687:7687 -e NEO4J_AUTH=neo4j/test1234 neo4j:4.4
+fi
 
 echo "Waiting for Neo4j to start..."
 until curl -s http://localhost:7474 >/dev/null; do
