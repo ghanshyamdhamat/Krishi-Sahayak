@@ -32,6 +32,22 @@ except ImportError as e:
     ES_AVAILABLE = False
 
 class FarmerTools:
+    _embedding_model = None  # Class-level cache
+
+    @staticmethod
+    def get_embedding_model():
+        if FarmerTools._embedding_model is None:
+            FarmerTools._embedding_model = SentenceTransformer(
+                "Qwen/Qwen3-Embedding-4B",
+                device="cuda" if torch.cuda.is_available() else "cpu",
+                trust_remote_code=True,
+                model_kwargs={
+                    "load_in_8bit": True,
+                    "device_map": "auto"
+                }
+            )
+        return FarmerTools._embedding_model
+
     """
     Collection of tools that can be used by the agent to help farmers
     Lightweight version focused on API calls and search without heavy model loading
@@ -62,7 +78,7 @@ class FarmerTools:
         self.crop_model = None
         self.crop_model_features = None
         self.crop_model_path = os.getenv("CROP_MODEL_PATH", 
-            "/mnt/bb586fde-943d-4653-af27-224147bfba7e/Capital_One/capital_one_agent_ai/backend/model/crop_recommendation.pkl"
+            "./model/crop_recommendation.pkl"
         )
         self._load_crop_model()
         
@@ -793,6 +809,7 @@ class FarmerTools:
             scores.sort(key=lambda x: x[1], reverse=True)
             top_keys = [k for k, _ in scores[:5]]
 
+            
             if "embedding_text" not in top_keys:
                 top_keys.append("embedding_text")
             if "references or sources" not in top_keys:
@@ -845,10 +862,10 @@ class FarmerTools:
             # Filter each scheme to only include relevant keys
             filtered_results = [filter_scheme_keys(s, relevant_keys) for s in results]
             # Print and save as rag_context.json
-            rag_context = {"rag_context": filtered_results}
-            print(json.dumps(rag_context, indent=2, ensure_ascii=False))
-            with open("rag_context.json", "w", encoding="utf-8") as f:
-                json.dump(rag_context, f, indent=2, ensure_ascii=False)
+            # rag_context = {"rag_context": filtered_results}
+            # print(json.dumps(rag_context, indent=2, ensure_ascii=False))
+            # with open("rag_context.json", "w", encoding="utf-8") as f:
+            #     json.dump(rag_context, f, indent=2, ensure_ascii=False)
 
             return filtered_results
 
@@ -874,23 +891,12 @@ class FarmerTools:
             return []
 
         try:
-            # You may want to use a different index for farming info
-            index_name = "farming_kb"  # Change to your actual index name if different
+            index_name = "paddy"  # Change to your actual index name if different
 
-            # Compute embedding for the query
-            st_model = SentenceTransformer(
-                        "Qwen/Qwen3-Embedding-4B",
-                        device="cuda" if torch.cuda.is_available() else "cpu",
-                        trust_remote_code=True,
-                        # Pass quantization config to underlying transformers model
-                        model_kwargs={
-                            "load_in_8bit": True,
-                            "device_map": "auto"
-                        }
-                    )
+            # Use cached embedding model
+            st_model = self.get_embedding_model()
             query_embedding = st_model.encode(query)
 
-            # Perform hybrid search in the farming info index
             results = self.es_rag.farming_search(
                 query_text=query,
                 top_k=top_k,
@@ -899,13 +905,18 @@ class FarmerTools:
                 query_embedding=query_embedding
             )
 
-            # Optionally filter or format results as needed
             filtered_results = []
             for doc in results:
                 src = doc.get("_source", doc)
-                filtered_results.append(src)
+                filtered = {
+                    "section": src.get("section", ""),
+                    "subsection": src.get("subsection", ""),
+                    "text": src.get("text", "")
+                }
+                filtered_results.append(filtered)
 
-            logger.info(f"✅ Found {len(filtered_results)} farming info results")
+
+            logger.info(f"✅ Found 🥰🥰🥰😘  {len(filtered_results)} farming info results")
             # logger.info(f"🥰🥰🥰😘 farming info retreived {filtered_results}\n\n\n")
             return filtered_results
 
@@ -914,76 +925,32 @@ class FarmerTools:
             return []
 
 
-    def get_market_prices(self, crop: str, location: str = None) -> Dict:
+    # 
+    def get_market_prices(self, crop: str = None, location: str = None) -> Dict:
         """
-        Get market prices for crops using prices.csv
-        
+        Return the entire prices.csv file as a list of dicts.
         Args:
-            crop: The crop to get prices for
-            location: Optional location to narrow down prices (format: "District, State" or just "State")
-            
+            crop: Ignored, kept for compatibility.
+            location: Ignored, kept for compatibility.
         Returns:
-            Market price data dictionary
+            Dict with all CSV data.
         """
-        logger.info(f"Getting market prices for {crop} in {location}")
-
-        # Load the CSV (cache as needed for performance)
-        csv_path = "/mnt/bb586fde-943d-4653-af27-224147bfba7e/Capital_One/capital_one_agent_ai/prices.csv"
+        logger.info("Returning entire prices.csv file")
+        csv_path = "./prices.csv"
         try:
             df = pd.read_csv(csv_path)
         except Exception as e:
             logger.error(f"Could not load prices.csv: {e}")
             return {
-                "crop": crop,
-                "location": location or "Unknown",
                 "error": "Could not load price data"
             }
 
-        # Normalize input
-        crop_lower = crop.lower()
-        state = district = None
-        if location:
-            parts = [p.strip() for p in location.split(",")]
-            if len(parts) == 2:
-                district, state = parts
-            elif len(parts) == 1:
-                state = parts[0]
-
-        # Filter by crop (if possible), state, and district
-        filtered = df
-        if state:
-            filtered = filtered[filtered['State'].str.lower() == state.lower()]
-        if district:
-            filtered = filtered[filtered['District'].str.lower() == district.lower()]
-        # Optionally, filter by crop/variety if your CSV has that info
-
-        if filtered.empty:
-            logger.warning(f"No price data found for {crop} in {location}")
-            return {
-                "crop": crop,
-                "location": location or "Unknown",
-                "error": "No price data found for this location"
-            }
-
-        # Aggregate price info
-        min_price = filtered["Min Price (Rs/Quintal)"].min()
-        max_price = filtered["Max Price (Rs/Quintal)"].max()
-        avg_price = filtered["Avg Price (Rs/Quintal)"].mean()
-        markets = filtered["Market"].unique().tolist()
-
-        result = {
-            "crop": crop,
-            "location": location or "Unknown",
-            "markets": markets,
-            "min_price": f"₹{int(min_price)} per quintal",
-            "max_price": f"₹{int(max_price)} per quintal",
-            "avg_price": f"₹{int(avg_price)} per quintal",
-            "trend": "Stable",  # You can enhance this with more logic
+        all_data = df.to_dict(orient="records")
+        return {
+            "data": all_data,
+            "count": len(all_data),
             "last_updated": "2025-08-15"
         }
-
-        logger.info(f"✅ Market prices retrieved for {crop} in {location}")
-        return result
 
     def generate_rag_prompt(self, query: str, search_results: List[Dict]) -> str:
         """

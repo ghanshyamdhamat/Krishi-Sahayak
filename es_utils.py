@@ -329,17 +329,16 @@ class ElasticsearchRAG:
                             "script_score": {
                                 "query": {"match_all": {}},
                                 "script": {
-                                    "source": "cosineSimilarity(params.query_vector, 'chunk_embedding') + 1.0",
+                                    "source": "cosineSimilarity(params.query_vector, 'text_embedding') + 1.0",
                                     "params": {"query_vector": query_embedding.tolist()}
                                 }
                             }
                         },
                         {
-                            "match": {
-                                "chunk_text": {
-                                    "query": query_text,
-                                    "fuzziness": "AUTO"
-                                }
+                            "multi_match": {
+                                "query": query_text,
+                                "fields": ["text^3", "section^2", "subsection^2"],
+                                "fuzziness": "AUTO"
                             }
                         }
                     ]

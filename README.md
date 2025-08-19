@@ -65,7 +65,7 @@ It is highly recommended to use a virtual environment.
 ```bash
 conda create -n cap_one python=3.10
 conda activate cap_one
-pip install -r requirements_cap_one.txt
+pip install -r requirements.txt
 ```
 Oye# \#\#\#\# 3. Set Up Elasticsearch
 
@@ -90,9 +90,10 @@ Oye# \#\#\#\# 3. Set Up Elasticsearch
 
   * **Index the data into Elastic search:**
     ```bash
-    python backend/indexing/index.py
-    python backend/indexing/indexing_pdf_data.py
-    python backend/indexing/indexing_metadata_schemes.py
+    python indexing/index.py
+    python indexing/indexing_pdf_data.py
+    python indexing/indexing_metadata_schemes.py
+    python indexing/elasticsearch_ingest_paddy.py
     ```
     This will create the `schemes` index and upload all scheme documents with their corresponding embeddings.
 

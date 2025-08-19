@@ -10,11 +10,11 @@ import logging
 import queue
 from datetime import datetime
 import torch
-from neo4j_files.store_farmer_profile import StoreFarmerProfile
+# from neo4j_files.store_farmer_profile import StoreFarmerProfile
 
 from transformers import AutoTokenizer, AutoModelForCausalLM, WhisperProcessor,WhisperForConditionalGeneration, AutoModelForSeq2SeqLM,SeamlessM4Tv2ForSpeechToText, AutoProcessor,SpeechT5Processor, SpeechT5ForTextToSpeech, SpeechT5HifiGan
 from langchain_core.messages import HumanMessage
-from farmer_clean_agent import Qwen3LLM  # Import your LLM instance
+# from farmer_clean_agent import Qwen3LLM  # Import your LLM instance
 import warnings
 import soundfile as sf
 import io
@@ -61,63 +61,63 @@ logger.info(f'{sys.executable}')
 
 import ast
 
-def extract_triples(text: str) -> list:
-    """
-    Use LLM to extract (subject, predicate, object) triples from text.
-    Returns a list of triples: [(subject, predicate, object), ...]
-    """
-    triple_prompt = f"""Extract all factual (subject, predicate, object) triples from the following text. 
-Each triple should capture a distinct relationship or fact stated or implied in the text. 
-Be concise and use canonical forms for entities and relations.
+# def extract_triples(text: str) -> list:
+#     """
+#     Use LLM to extract (subject, predicate, object) triples from text.
+#     Returns a list of triples: [(subject, predicate, object), ...]
+#     """
+#     triple_prompt = f"""Extract all factual (subject, predicate, object) triples from the following text. 
+# Each triple should capture a distinct relationship or fact stated or implied in the text. 
+# Be concise and use canonical forms for entities and relations.
 
-Text:
-{text}
+# Text:
+# {text}
 
-Instructions:
-- Only include triples that are clearly supported by the text.
-- Use short, meaningful predicates (e.g., "grows", "located_in", "suffers_from").
-- If the subject is the farmer, use "Farmer" as the subject.
-- If the text mentions a location, crop, disease, or practice, use those as entities.
-- Return the result as a valid Python list of triples, e.g.:
-[("Farmer", "grows", "Wheat"), ("Farmer", "located_in", "Karnataka")]
-"""
-    llm = Qwen3LLM()
-    triples_str = llm.invoke({"messages": [HumanMessage(content=triple_prompt)]})
-    try:
-        triples = ast.literal_eval(triples_str)
-        if isinstance(triples, list):
-            return triples
-    except Exception as e:
-        logger.error(f"Triple extraction failed: {e}")
-    return []
+# Instructions:
+# - Only include triples that are clearly supported by the text.
+# - Use short, meaningful predicates (e.g., "grows", "located_in", "suffers_from").
+# - If the subject is the farmer, use "Farmer" as the subject.
+# - If the text mentions a location, crop, disease, or practice, use those as entities.
+# - Return the result as a valid Python list of triples, e.g.:
+# [("Farmer", "grows", "Wheat"), ("Farmer", "located_in", "Karnataka")]
+# """
+#     llm = Qwen3LLM()
+#     triples_str = llm.invoke({"messages": [HumanMessage(content=triple_prompt)]})
+#     try:
+#         triples = ast.literal_eval(triples_str)
+#         if isinstance(triples, list):
+#             return triples
+#     except Exception as e:
+#         logger.error(f"Triple extraction failed: {e}")
+#     return []
 
-def triples_to_cypher(triples: list, farmer_id: str) -> list:
-    """
-    Convert triples to Cypher MERGE statements for Neo4j.
-    """
-    cyphers = []
-    for s, p, o in triples:
-        # Sanitize predicate for Cypher relationship
-        rel = p.upper().replace(" ", "_")
-        cypher = (
-            f"MATCH (f:Farmer {{id: '{farmer_id}'}}) "
-            f"MERGE (x:Entity {{name: '{s}'}}) "
-            f"MERGE (y:Entity {{name: '{o}'}}) "
-            f"MERGE (x)-[:{rel}]->(y)"
-        )
-        cyphers.append(cypher)
-    return cyphers
+# def triples_to_cypher(triples: list, farmer_id: str) -> list:
+#     """
+#     Convert triples to Cypher MERGE statements for Neo4j.
+#     """
+#     cyphers = []
+#     for s, p, o in triples:
+#         # Sanitize predicate for Cypher relationship
+#         rel = p.upper().replace(" ", "_")
+#         cypher = (
+#             f"MATCH (f:Farmer {{id: '{farmer_id}'}}) "
+#             f"MERGE (x:Entity {{name: '{s}'}}) "
+#             f"MERGE (y:Entity {{name: '{o}'}}) "
+#             f"MERGE (x)-[:{rel}]->(y)"
+#         )
+#         cyphers.append(cypher)
+#     return cyphers
 
-def update_neo4j_with_triples(profile_store, cypher_statements: list):
-    """
-    Run Cypher MERGE statements in Neo4j.
-    """
-    with profile_store.driver.session() as session:
-        for cypher in cypher_statements:
-            try:
-                session.run(cypher)
-            except Exception as e:
-                logger.error(f"Cypher execution failed: {e}")
+# def update_neo4j_with_triples(profile_store, cypher_statements: list):
+#     """
+#     Run Cypher MERGE statements in Neo4j.
+#     """
+#     with profile_store.driver.session() as session:
+#         for cypher in cypher_statements:
+#             try:
+#                 session.run(cypher)
+#             except Exception as e:
+#                 logger.error(f"Cypher execution failed: {e}")
 
 
 
@@ -171,7 +171,7 @@ class TranslationPipeline:
             if torch.cuda.is_available():
                 self.input_translator = self.input_translator.to("cuda")
             
-            print("✅ Input translator (indic-en-1B) loaded successfully!")
+            logger.info("✅ Input translator (indic-en-1B) loaded successfully!")
             
             # Load output translator (English to Indian languages)
             print("Loading output translator (en-indic-1B)...")
@@ -245,102 +245,100 @@ class TranslationPipeline:
         return language_mapping.get(detected_lang, 'en-IN')
     
     def translate_to_english(self, text, source_language_code=None):
-        """
-        Translate input text to English using AI4Bharat IndicTrans2 (indic-en-1B)
-        Main method for RAG integration - takes any Indian language text and returns English
-        """
+        detected_lang = None
         if not source_language_code:
-            # Auto-detect if not provided
             detected_lang = self.detect_language(text)
-            # logger.info(f"🔄  \n\n\nDetected language: {detected_lang} \n\n")
             source_language_code = self.get_ai4bharat_language_code(detected_lang)
-            # logger.info(f"🔄 Using AI4Bharat code: {source_language_code}")
-            self.user_language = source_language_code  # Store for output translation
-        
+            self.user_language = source_language_code
+            logger.info(f"Detected language: {detected_lang}, AI4Bharat code: {source_language_code}")
+        else:
+            detected_lang = source_language_code.split('-')[0] if '-' in source_language_code else source_language_code
+            logger.info(f"AI4Bharat code provided: {source_language_code}, inferred detected_lang: {detected_lang}")
+
+        # Try to load models if not loaded
         if not self.input_translator or not self.input_tokenizer or not self.indic_processor:
-            print("AI4Bharat input translation model not available. Using original text.")
-            return text
-        
-        # If already in English, no need to translate
-        if source_language_code in ['en-IN', 'en']:
-            return text
-        
-        try:
-            # Map language codes for IndicTrans2
-            indic_lang_map = {
-                'hi-IN': 'hin_Deva',  # Hindi
-                'bn-IN': 'ben_Beng',  # Bengali
-                'gu-IN': 'guj_Gujr',  # Gujarati
-                'kn-IN': 'kan_Knda',  # Kannada
-                'ml-IN': 'mal_Mlym',  # Malayalam
-                'mr-IN': 'mar_Deva',  # Marathi
-                'or-IN': 'ory_Orya',  # Odia
-                'pa-IN': 'pan_Guru',  # Punjabi
-                'ta-IN': 'tam_Taml',  # Tamil
-                'te-IN': 'tel_Telu',  # Telugu
-                'ur-IN': 'urd_Arab',  # Urdu
-            }
-            
-            source_lang = indic_lang_map.get(source_language_code)
-            target_lang = 'eng_Latn'  # English
-            
-            if not source_lang:
-                print(f"Language {source_language_code} not supported by IndicTrans2. Using original text.")
-                return text
-            
-
-            # Use IndicProcessor for proper preprocessing
-            batch = self.indic_processor.preprocess_batch(
-                [text],
-                src_lang=source_lang,
-                tgt_lang=target_lang,
-            )
-            
-            # Tokenize the preprocessed sentences
-            device = "cuda" if torch.cuda.is_available() and self.input_translator.device.type == "cuda" else "cpu"
-            inputs = self.input_tokenizer(
-                batch,
-                truncation=True,
-                padding="longest",
-                return_tensors="pt",
-                return_attention_mask=True,
-            ).to(device)
-            
-            # Generate translation
-            with torch.no_grad():
-                generated_tokens = self.input_translator.generate(
-                    **inputs,
-                    use_cache=False,
-                    length_penalty=1.5,
-                    repetition_penalty=2.0,
-                    max_new_tokens=2048,
-                    num_beams=10,
-                    num_return_sequences=1,
-                )
-            
-            # Decode translation
-            generated_tokens = self.input_tokenizer.batch_decode(
-                generated_tokens,
-                skip_special_tokens=True,
-                clean_up_tokenization_spaces=True,
-            )
-            
-            # Postprocess the translations
-            if generated_tokens and len(generated_tokens) > 0:
-                translations = self.indic_processor.postprocess_batch(generated_tokens, lang=target_lang)
-                translated_text = translations[0].strip() if translations else generated_tokens[0].strip()
-                print(f"🔄 Input translation ({source_language_code} → English): '{text}' → '{translated_text}'")
-                return translated_text
+            logger.info(f"\n🥎\n🥎AI4Bharat input translation model not available. Using original text.\n\n")
+            self.initialize_translation_models()
+            # After loading, try again if models are now loaded
+            if self.input_translator and self.input_tokenizer and self.indic_processor:
+                logger.info("🔄 Retrying translation after loading models...")
+                return self.translate_to_english(text, source_language_code)
             else:
-                print("Input translation returned empty result. Using original text.")
                 return text
-                
-        except Exception as e:
-            print(f"❌ Input translation failed: {e}")
-            print("🔄 Using original text as fallback.")
+
+        if source_language_code in ['en-IN', 'en']:
+            logger.info("Input is already English, skipping translation.")
             return text
 
 
+        indic_lang_map = {
+            'hi-IN': 'hin_Deva',  # Hindi
+            'bn-IN': 'ben_Beng',  # Bengali
+            'gu-IN': 'guj_Gujr',  # Gujarati
+            'kn-IN': 'kan_Knda',  # Kannada
+            'ml-IN': 'mal_Mlym',  # Malayalam
+            'mr-IN': 'mar_Deva',  # Marathi
+            'or-IN': 'ory_Orya',  # Odia
+            'pa-IN': 'pan_Guru',  # Punjabi
+            'ta-IN': 'tam_Taml',  # Tamil
+            'te-IN': 'tel_Telu',  # Telugu
+            'ur-IN': 'urd_Arab',  # Urdu
+        }
+        source_lang = indic_lang_map.get(source_language_code)
+        target_lang = 'eng_Latn'  # English target language code for IndicTrans2
+        logger.info(f"IndicTrans2 source_lang: {source_lang}")
+
+        if not source_lang:
+            logger.info(f"❌ Language {source_language_code} not supported by IndicTrans2. Using original text.")
+            return text
+
+
+        # Use IndicProcessor for proper preprocessing
+        batch = self.indic_processor.preprocess_batch(
+            [text],
+            src_lang=source_lang,
+            tgt_lang=target_lang,
+        )
+        
+        # Tokenize the preprocessed sentences
+        device = "cuda" if torch.cuda.is_available() and self.input_translator.device.type == "cuda" else "cpu"
+        inputs = self.input_tokenizer(
+            batch,
+            truncation=True,
+            padding="longest",
+            return_tensors="pt",
+            return_attention_mask=True,
+        ).to(device)
+        
+        # Generate translation
+        with torch.no_grad():
+            generated_tokens = self.input_translator.generate(
+                **inputs,
+                use_cache=False,
+                length_penalty=1.5,
+                repetition_penalty=2.0,
+                max_new_tokens=2048,
+                num_beams=10,
+                num_return_sequences=1,
+            )
+        
+        # Decode translation
+        generated_tokens = self.input_tokenizer.batch_decode(
+            generated_tokens,
+            skip_special_tokens=True,
+            clean_up_tokenization_spaces=True,
+        )
+        
+        # Postprocess the translations
+        if generated_tokens and len(generated_tokens) > 0:
+            translations = self.indic_processor.postprocess_batch(generated_tokens, lang=target_lang)
+            translated_text = translations[0].strip() if translations else generated_tokens[0].strip()
+            logger.info(f"🔄\n✌️\n Input translation ({source_language_code} → English): '{text}' → '{translated_text}\n\n'")
+            return translated_text
+        else:
+            logger.info(f"\n🚑\n🚑Input translation returned empty result. Using original text.")
+            return text
+            
     def translate_from_english(self, text, target_language_code=None):
         """
         Translate English text back to user's language using AI4Bharat IndicTrans2.
@@ -350,7 +348,7 @@ class TranslationPipeline:
             target_language_code = self.user_language
         
         if not self.output_translator or not self.output_tokenizer or self.indic_processor is None:
-            print("AI4Bharat output translation model not available. Using original text.")
+            logger.info(f"❌\n❌AI4Bharat output translation model not available. Using original text.")
             return text
         
         if target_language_code in ['en-IN', 'en']:
@@ -571,15 +569,21 @@ class TranslationPipeline:
         Process user query for RAG system integration
         Returns: (english_query, user_language_code)
         """
-        # Detect language and store for output translation
+        # Quick check: if the input is ASCII (likely English), skip detection
+        if user_query and all(ord(c) < 128 for c in user_query):
+            self.user_language = "en-IN"
+            logger.info(f"\n\n\nskipping detect language\n\n")
+            return user_query, "en-IN"
+
+        # Otherwise, detect language and translate
         detected_lang = self.detect_language(user_query)
         logger.info(f"🔄 \n\n\n\Detected language: {detected_lang}\n\n\n\n")
         user_lang_code = self.get_ai4bharat_language_code(detected_lang)
         self.user_language = user_lang_code
-        
+
         # Translate to English for RAG processing
         english_query = self.translate_to_english(user_query, user_lang_code)
-        
+
         return english_query, user_lang_code
     
     def process_response_from_rag(self, english_response, target_language_code=None):
@@ -974,18 +978,18 @@ class ChatBot:
         return self.translation_pipeline.translate_from_english(text, target_language_code)
     
     def process_input_with_translation(self, user_input):
-        """Legacy method - process user input with language detection and translation to English"""
-        # Ensure translation models are loaded
-        self.ensure_translation_models_loaded()
-        
+        """Process user input with language detection and translation to English"""
+        # Detect language first (without loading translation models)
         english_query, user_lang_code = self.translation_pipeline.process_query_for_rag(user_input)
-        
-        # For backward compatibility, also return detected language
         detected_lang = user_lang_code.split('-')[0] if '-' in user_lang_code else user_lang_code
-        
+        self.ensure_translation_models_loaded()
+        # Only load translation models if not English
+        if user_lang_code not in ['en-IN', 'en']:
+            self.ensure_translation_models_loaded()
+
         if hasattr(st, 'info'):
             st.info(f"Detected language: {detected_lang} (AI4Bharat code: {user_lang_code})")
-        
+
         return english_query, detected_lang, user_lang_code
     
     def load_models(self, llm_model_path=None, stt_model_path=None):
@@ -1070,7 +1074,7 @@ class ChatBot:
                 # Process the query using the full agent pipeline
                 response = process_query(agent, english_input, profile)
                 
-                logger.info("✅ Farmer Agent response generated successfully")
+                logger.info(f"✅ Farmer Agent response generated successfully{response}\n\n")
                 return response
                 
             except ImportError as e:
@@ -1150,20 +1154,26 @@ class ChatBot:
         
         # Step 2: Generate response using LLM
         english_response = self.generate_llm_response(english_input, max_length)
-        logger.info(f"💬 LLM response generated: {english_response}")
-        
-        # Step 3: Translate response back to user's language
-        final_response = self.translate_output_to_user_language(english_response, user_lang_code)
-        indic_langs = {'hi', 'bn', 'gu', 'kn', 'ml', 'mr', 'or', 'pa', 'ta', 'te', 'ur'}
-        if detected_lang in indic_langs:
-            factory = IndicNormalizerFactory()
-            normalizer = factory.get_normalizer(detected_lang)
-            normalized_response = normalizer.normalize(final_response)
+        logger.info(f"💬 LLM response generated \n\n {user_lang_code}\n\n: {english_response}")
+        # Step 3: Translate response back to user's language (skip if English)
+        if user_lang_code in ['en-IN', 'en',]:
+            logger.info(f"")
+            normalized_response = english_response
         else:
-            normalized_response = final_response  # No normalization for English or unsupported languages
+             # Step 3: Translate response back to user's language
+            final_response = self.translate_output_to_user_language(english_response, user_lang_code)
+            indic_langs = {'hi', 'bn', 'gu', 'kn', 'ml', 'mr', 'or', 'pa', 'ta', 'te', 'ur'}
+            if detected_lang in indic_langs:
+                factory = IndicNormalizerFactory()
+                normalizer = factory.get_normalizer(detected_lang)
+                normalized_response = normalizer.normalize(final_response)
+                logger.info(f"\n\n✌️\n👌\n👩🏻‍🎓 normalised response line 1172 chatbot file: {normalized_response}\n\n")
+                logger.info(f"🔄 Final response translated to {user_lang_code}: {final_response}")
 
-        logger.info(f"🔄 Final response translated to {user_lang_code}: {final_response}")
-
+            else:
+                normalized_response = final_response  # No normalization for unsupported languages
+       
+        
         return normalized_response, english_input, english_response
         
         # return normalized_response, english_input, english_response
@@ -1418,7 +1428,7 @@ class ChatBot:
         # Step 3: Feed the constructed query into the existing RAG pipeline.
         # The `get_complete_response` method will handle translation to English,
         # querying the LLM/RAG, and translating the response back to the user's language.
-        final_recommendations, _, _ = self.get_complete_response(
+        final_recommendations, label = self.get_complete_response(
             user_input=rag_query,
             max_length=max_length,
             input_type="text"  # We treat this as a text input to the RAG system
@@ -1679,57 +1689,47 @@ class ChatBot:
                 st.error(f"Text-to-speech error: {e}")
 
 def main():
-    uri = "bolt://localhost:7687"
-    user = "neo4j"
-    pwd = "test1234"
-    profile_store = StoreFarmerProfile(uri=uri, user=user, password=pwd)
-    st.set_page_config(
-        page_title="AI Chatbot - Text, Speech & Vision",
-        page_icon="🤖",
-        layout="wide"
-    )
+    # uri = "bolt://localhost:7687"
+    # user = "neo4j"
+    # pwd = "test1234"
+    # profile_store = StoreFarmerProfile(uri=uri, user=user, password=pwd)
+    # st.set_page_config(
+    #     page_title="AI Chatbot - Text, Speech & Vision",
+    #     page_icon="🤖",
+    #     layout="wide"
+    # )
     # Login screen
-    if 'logged_in' not in st.session_state:
-        st.session_state.logged_in = False
+    # if 'logged_in' not in st.session_state:
+    #     st.session_state.logged_in = False
     
-    if not st.session_state.logged_in:
-        st.title("Login to SAHAYAK KRISHI")
-        username = st.text_input("Username")
-        password = st.text_input("Password", type="password")
+    # if not st.session_state.logged_in:
+    #     st.title("Login to SAHAYAK KRISHI")
+    #     username = st.text_input("Username")
+    #     password = st.text_input("Password", type="password")
 
-        if st.button("Login"):
-            if username == "admin" and password == "admin":
-                st.session_state.logged_in = True
-                st.session_state.farmer_id = username
-                # Fetch profile from DB after login
-                fetched_profile = profile_store.get_profile(username)
-                if fetched_profile:
-                    # If your get_profile returns a Neo4j Record, convert to dict
-                    if hasattr(fetched_profile, "data"):
-                        fetched_profile = fetched_profile.data()
-                    st.session_state.farmer_profile = fetched_profile
-                else:
-                    # If no profile found, initialize with defaults
-                    st.session_state.farmer_profile = {
-                        'username': username,
-                        'name': '',
-                        'state': '',
-                        'district': '',
-                        'taluka': '',
-                        'village': '',
-                        'country': 'India',
-                        'crops': [],
-                        'land_size': 0.0,
-                        'preferred_language': 'en'
-                    }
-                    
-                    st.success("Login successful!")
-                    st.rerun()
-            else:
-                st.error("Invalid credentials, please try again.")
-                st.stop()
-    
-    if st.session_state.logged_in:    
+    #     if st.button("Login"):
+    #         if username == "admin" and password == "admin":
+    #             st.session_state.logged_in = True
+    #             st.session_state.farmer_id = username
+    #             # Always initialize with defaults (no Neo4j)
+    #             st.session_state.farmer_profile = {
+    #                 'username': username,
+    #                 'name': 'Ghanshyam',
+    #                 'state': '',
+    #                 'district': '',
+    #                 'taluka': '',
+    #                 'village': '',
+    #                 'country': 'India',
+    #                 'crops': [],
+    #                 'land_size': 0.0,
+    #                 'preferred_language': 'en'
+    #             }
+    #             st.success("Login successful!")
+    #             st.rerun()
+    #         else:
+    #             st.error("Invalid credentials, please try again.")
+    #             st.stop()    
+    # if st.session_state.logged_in:    
         st.title("🤖 SAHAYAK KRISHI")
         st.subheader("Hi, How may I assist you today?")
 
@@ -1928,7 +1928,7 @@ def main():
                             #generate a unique ID for the profile
                             # import uuid
                             # # unique_id = str(uuid.uuid4())
-                            profile_store.store_profile(username , st.session_state.farmer_profile)
+                            # profile_store.store_profile(username , st.session_state.farmer_profile)
                             st.success("Profile saved and stored in database!")
                         except Exception as e:
                             st.error(f"Profile saved locally, but failed to store in database: {e}")
@@ -2016,11 +2016,6 @@ def main():
                             user_input, max_length=max_length, input_type="text"
                         )
                     
-                    # After final_response is generated
-                        triples = extract_triples(final_response)
-                        if triples:
-                            cypher_statements = triples_to_cypher(triples, st.session_state.farmer_id)
-                            update_neo4j_with_triples(profile_store, cypher_statements)
                     st.session_state.chat_history.append({
                         "role": "assistant",
                         "content": final_response,

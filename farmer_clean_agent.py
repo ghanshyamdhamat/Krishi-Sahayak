@@ -8,9 +8,10 @@ import os
 import json
 import logging
 import re
+import random
 from typing import Dict, List, Any, TypedDict, Annotated, Sequence, Optional, Literal
 from enum import Enum
-
+import concurrent.futures
 from langchain_core.messages import HumanMessage, SystemMessage, AIMessage
 from langchain_core.runnables import Runnable
 from langchain.prompts import ChatPromptTemplate, MessagesPlaceholder
@@ -388,7 +389,7 @@ def analyze_query_with_reasoning(state: AgentState) -> AgentState:
             "metadata_filters": {},
             "reasoning_chain": "Detected crop recommendation keywords. Prioritizing crop model."
         }
-        logger.info(f"Query analysis result: {analysis}")
+        logger.info(f"\n\n\n\nQuery analysis result using python:\n\n\n\n\n {analysis}")
         return {
             **state,
             "query_analysis": analysis,
@@ -411,35 +412,27 @@ def analyze_query_with_reasoning(state: AgentState) -> AgentState:
     
     # Enhanced Chain-of-thought reasoning prompt with Knowledge Graph
     reasoning_prompt = f"""You are an intelligent farming assistant. Analyze this query using step-by-step reasoning:
-This is the farmers profile context to help you:
+This is the farmer's profile context to help you:
 {profile_context}
 
 USER QUERY: "{latest_message}"
 
 REASONING PROCESS:
 Step 1: What is the farmer asking about?
-Step 2: What type of information do they need?
-Step 3: What data sources would be most helpful?
-Step 4: Should I use live APIs, knowledge base, or knowledge graph?
+    - If the query is ONLY a greeting or general chit-chat (e.g., "hi", "hello"), recognize it as a simple greeting.
+    - If the query contains a greeting AND a farming/weather/market/scheme question (e.g., "hi, how's the weather today?"), treat it as a farming-related query and NOT just a greeting.
+Step 2: What type of information do they need? If it's only a greeting or unrelated to farming, no farming information is needed.
+Step 3: What data sources would be most helpful? For greetings or unrelated queries, no tools are needed. For farming/weather/market/scheme queries, select the appropriate tools.
+Step 4: Should I use live APIs, knowledge base? Only use these if the query is about farming, weather, prices, schemes, or crop advice.
+Step 5: If the query mentions a location (district, state, city, village, etc.), extract it. Otherwise, use the location from the farmer profile.
 
-DECISION CRITERIA:
-- Weather queries → Use Weather API (live data needed)
-- Market prices → Use Price API (live data needed) 
-- Government schemes → Use Knowledge Base (comprehensive info needed)
-- Agricultural problems/diseases/pests → Use KNOWLEDGE_GRAPH (expert agricultural knowledge)
-- Farming practices/cultivation methods → Use KNOWLEDGE_GRAPH (technical knowledge)
-- Fertilizer/treatment recommendations → Use KNOWLEDGE_GRAPH (specific guidance)
-- General farming advice → Combine KNOWLEDGE_GRAPH + Knowledge Base
-- Location-specific info → Combine APIs + Knowledge Base + KNOWLEDGE_GRAPH
-
-Based on your analysis, determine the tools needed to answer the query with utmost accuracy:
+Based on your analysis, determine the tools needed to answer the query with utmost accuracy.
 
 Available tools:
 1. WEATHER_LIVE - Needs current weather data from API
 2. PRICES_LIVE - Needs current market prices from API  
 3. SCHEMES_KB - Needs government scheme info from knowledge base
-4. FARMING_KB - Needs general farming advice from knowledge base
-5. KNOWLEDGE_GRAPH - Needs expert agricultural knowledge from Neo4j graph (USE THIS for agricultural problems, diseases, pests, treatments, cultivation practices, fertilizers, crop management)
+4. FARMING_KB - Needs general farming advice for paddy or rice from crop knowledge base
 6. CROP_RECOMMENDATION - Needs crop recommendation model and weather data
 
 # Also classify the query type into any two of the following categories to best describe the query:
@@ -448,18 +441,46 @@ Available tools:
 "SolutionOrTreatment": "Actionable advice, products, or methods for solving an agricultural problem. This includes specific fertilizers (urea, ammonium sulfate), pesticides, organic controls, or corrective actions like draining a field.",
 "MarketAndFinance": "Data related to market prices, government schemes, crop insurance, subsidies, loans, or the economics of farming.",
 "AgronomicFact": "Fundamental scientific information about crop botany, soil science, plant nutrition, soil chemistry (e.g., nitrification, pH), or weather patterns. This describes the 'why' behind farming practices.",
-"Other": "Relevant agricultural information that does not fit into the other categories."
-
-IMPORTANT: If the query is about agricultural problems, diseases, pests, treatments, fertilizers, or farming practices, ALWAYS include KNOWLEDGE_GRAPH in your tools list with some other tool as well as you can't just rely on knowledge graph
+"Other": "Relevant agricultural information that does not fit into the other categories.",
+"GreetingOrChitChat": "Simple greetings or general conversation not related to farming (e.g., 'hi', 'hello', 'how are you', 'good morning')."
 
 Respond with your reasoning and then end with:
-TOOLS_NEEDED: [list of tools]
-CATEGORY: [FarmingActivity, AgriculturalProblem, SolutionOrTreatment, MarketAndFinance, AgronomicFact, Other]
+TOOLS_NEEDED: [list of tools, or leave empty if none needed]
+CATEGORY: [FarmingActivity, AgriculturalProblem, SolutionOrTreatment, MarketAndFinance, AgronomicFact, Other, GreetingOrChitChat]
+LOCATION: [location extracted from query or, if not present, from farmer profile]
+CROP: [Crop mentioned in query or, if not present, from farmer profile ]
 
-Example response:
-TOOLS_NEEDED: [KNOWLEDGE_GRAPH, FARMING_KB]
+Example responses:
+
+Example 1 (should i sow rice now):
+TOOLS_NEEDED: [WEATHER_LIVE, FARMING_KB]
 CATEGORY: [AgriculturalProblem, SolutionOrTreatment]
+LOCATION: [location extracted from farmer profile]
+CROP: [RICE]
 
+Example 2 (greeting only):
+TOOLS_NEEDED: []
+CATEGORY: [GreetingOrChitChat]
+LOCATION: [location extracted from farmer profile]
+CROP:[Crop extracted from farmer profile]
+
+Example 3 (mixed: greeting + weather):
+TOOLS_NEEDED: [WEATHER_LIVE]
+CATEGORY: [AgronomicFact]
+LOCATION: [location extracted from farmer profile]
+CROP:[Crop extracted from farmer profile]
+
+Example 4 (mixed: greeting + market):
+TOOLS_NEEDED: [PRICES_LIVE]
+CATEGORY: [MarketAndFinance]
+LOCATION: [location extracted from farmer profile]
+CROP:[Crop extracted from farmer profile]
+
+Example 5 Weather in tamilNadu:
+TOOLS_NEEDED: [WEATHER_LIVE]
+CATEGORY: [AgronomicFact]
+LOCATION: [Tamilnadu]
+CROP:[Crop extracted from farmer profile]
 """
     
     # Get reasoning from LLM
@@ -479,26 +500,54 @@ CATEGORY: [AgriculturalProblem, SolutionOrTreatment]
     }
 
 def parse_reasoning_response(reasoning_text: str, original_query: str, profile: Dict) -> Dict:
-    """Parse the chain-of-thought reasoning response for tools and categories."""
-    # Extract TOOLS_NEEDED
+    """Parse the chain-of-thought reasoning response for tools, categories, location, and crop."""
+    # Fuzzy match for TOOLS_NEEDED
     tools_match = re.search(r"TOOLS_NEEDED:\s*\[([^\]]*)\]", reasoning_text, re.IGNORECASE)
-    categories_match = re.search(r"CATEGORY:\s*\[([^\]]*)\]", reasoning_text, re.IGNORECASE)
+    if not tools_match:
+        tools_match = re.search(r"TOOLS_NEEDED:\s*([^\n]+)", reasoning_text, re.IGNORECASE)
 
     tools_needed = []
     if tools_match:
-        tools_needed = [t.strip() for t in tools_match.group(1).split(",") if t.strip()]
-    # Fallback to FARMING_KB if nothing found
-    if not tools_needed:
-        tools_needed = ["FARMING_KB"]
+        raw = tools_match.group(1).strip()
+        raw = raw.strip("[]")
+        tools_needed = [t.strip() for t in raw.split(",") if t.strip()]
+
+    # Fuzzy match for CATEGORY
+    categories_match = re.search(r"CATEGORY:\s*\[([^\]]*)\]", reasoning_text, re.IGNORECASE)
+    if not categories_match:
+        categories_match = re.search(r"CATEGORY:\s*([^\n]+)", reasoning_text, re.IGNORECASE)
 
     categories = []
     if categories_match:
-        categories = [c.strip() for c in categories_match.group(1).split(",") if c.strip()]
+        raw = categories_match.group(1).strip()
+        raw = raw.strip("[]")
+        categories = [c.strip() for c in raw.split(",") if c.strip()]
 
-    # Use the first tool as the main classification for backward compatibility
+    # Fuzzy match for LOCATION
+    location_match = re.search(r"LOCATION:\s*\[?([^\]\n]+)\]?", reasoning_text, re.IGNORECASE)
+    location = ""
+    if location_match:
+        location = location_match.group(1).strip()
+    else:
+        if profile.get("district") and profile.get("state"):
+            location = f"{profile['district']}, {profile['state']}"
+        elif profile.get("state"):
+            location = profile["state"]
+        else:
+            location = "India"
+
+    # Fuzzy match for CROP
+    crop_match = re.search(r"CROP:\s*\[?([^\]\n]+)\]?", reasoning_text, re.IGNORECASE)
+    crop = ""
+    if crop_match:
+        crop = crop_match.group(1).strip()
+    else:
+        # fallback to crop from profile if available
+        crops = profile.get("crops", [])
+        crop = crops[0] if crops else ""
+
     classification = tools_needed[0] if tools_needed else "FARMING_KB"
 
-    # Map classification to query_type and priority_tool
     classification_map = {
         "WEATHER_LIVE": {
             "query_type": "weather_info",
@@ -535,6 +584,8 @@ def parse_reasoning_response(reasoning_text: str, original_query: str, profile: 
         "search_query": original_query,
         "metadata_filters": {"state": profile.get("state")} if profile.get("state") else {},
         "categories": categories,
+        "location": location,
+        "crop": crop,
         "reasoning_chain": reasoning_text
     }
 
@@ -579,7 +630,7 @@ def extract_soil_data_from_query(query: str) -> Dict[str, float]:
     return soil_data
 
 def execute_tools_intelligently(state: AgentState) -> AgentState:
-    """Execute tools based on chain-of-thought analysis - now with KG support"""
+    """Execute tools based on chain-of-thought analysis - now with KG support (parallelized)"""
     logger.info("Node: execute_tools_intelligently")
     
     query_analysis = state.get("query_analysis", {})
@@ -593,71 +644,77 @@ def execute_tools_intelligently(state: AgentState) -> AgentState:
         "scheme_results": [],
         "crop_recommendation": None,
         "farming_info_results": [],
-        "knowledge_graph_results": [],  # Add KG results
+        "knowledge_graph_results": [],
         "weather_data": None,
         "market_data": None,
         "farmer_context": {} 
     }
-
-    try:
-        for tool in tools_needed:
-            logger.info(f"🔧 Executing tool: {tool}")
+    logger.info(f"\n\n\n tools are {tools_needed}\n\n\n")
+    def run_tool(tool):
+        try:
             
             if tool == "KNOWLEDGE_GRAPH":
                 logger.info("🧠 Using Knowledge Graph for agricultural expertise")
                 if search_query:
                     kg_results = farmer_tools.search_knowledge_graph_intelligent(search_query, profile_dict, top_k=3)
-                    updated_state["knowledge_graph_results"] = kg_results
-                    logger.info(f"✅ Found {len(kg_results)} results from Knowledge Graph")
-                    
-                    # Log what was found for debugging
-                    for i, result in enumerate(kg_results[:2], 1):
-                        logger.info(f"   KG Result {i}: {result.get('type', 'unknown')} - {result.get('content', '')[:100]}...")
-
+                    return ("knowledge_graph_results", kg_results)
             elif tool == "WEATHER_LIVE":
                 logger.info("🌤️ Using Weather API for live data")
-                location = get_farmer_location(profile_dict)
+                # Prefer location from query_analysis (LLM), fallback to profile
+                location = query_analysis.get("location") or get_farmer_location(profile_dict)
                 weather_data = farmer_tools.get_weather_data(location)
-                updated_state["weather_data"] = weather_data
-                logger.info(f"✅ Retrieved live weather data for {location}")
-
+                return ("weather_data", weather_data)
             elif tool == "PRICES_LIVE":
                 logger.info("💰 Using Price API for live market data")
-                location = get_farmer_location(profile_dict)
-                crops = profile_dict.get("crops", [])
+                location = query_analysis.get("location") or get_farmer_location(profile_dict)
+                crops = query_analysis.get("crop") or profile_dict.get("crops", [])
                 if crops:
-                    market_data = farmer_tools.get_market_prices(crops[0], location)
-                    updated_state["market_data"] = market_data
-                    logger.info(f"✅ Retrieved live market data for {crops[0]}")
-
+                    market_data = farmer_tools.get_market_prices()
+                    return ("market_data", market_data)
             elif tool == "CROP_RECOMMENDATION":
                 logger.info("🌱 Using Crop Recommendation Model")
                 soil_data = extract_soil_data_from_query(search_query)
-                location = get_farmer_location(profile_dict)
+                location = query_analysis.get("location") or get_farmer_location(profile_dict)
                 if soil_data:
                     crop_result = farmer_tools.recommend_crop(soil_data, location)
-                    updated_state["crop_recommendation"] = crop_result
-                    logger.info(f"✅ Crop recommendation completed for {location}")
+                    return ("crop_recommendation", crop_result)
                 else:
-                    updated_state["crop_recommendation"] = {
+                    return ("crop_recommendation", {
                         "error": "Soil parameters needed for crop recommendation",
                         "required_parameters": ["N", "P", "K", "ph"],
                         "example": "Please provide: N=90, P=42, K=43, ph=6.5"
-                    }
-
+                    })
             elif tool == "SCHEMES_KB":
                 logger.info("📚 Using Schemes Knowledge Base")
                 if search_query:
                     results = farmer_tools.search_schemes(search_query, model='qwen')
-                    updated_state.setdefault("scheme_results", []).extend(results)
-                    logger.info(f"✅ Found {len(results)} schemes from ES")
-
+                    return ("scheme_results", results)
             elif tool == "FARMING_KB":
                 logger.info("🌾 Using Farming Knowledge Base")
                 if search_query:
                     results = farmer_tools.search_farming_info(search_query, model='qwen', top_k=10)
-                    updated_state.setdefault("farming_info_results", []).extend(results)
-                    logger.info(f"✅ Found {len(results)} farming info results from ES")
+                    return ("farming_info_results", results)
+        except Exception as e:
+            logger.error(f"Error executing tool {tool}: {e}")
+        return (tool, None)
+
+    try:
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            future_to_tool = {executor.submit(run_tool, tool): tool for tool in tools_needed}
+            for future in concurrent.futures.as_completed(future_to_tool):
+                key, result = future.result()
+                if key == "scheme_results" and result:
+                    updated_state.setdefault("scheme_results", []).extend(result)
+                elif key == "farming_info_results" and result:
+                    updated_state.setdefault("farming_info_results", []).extend(result)
+                elif key == "knowledge_graph_results" and result:
+                    updated_state["knowledge_graph_results"] = result
+                elif key == "weather_data" and result:
+                    updated_state["weather_data"] = result
+                elif key == "market_data" and result:
+                    updated_state["market_data"] = result
+                elif key == "crop_recommendation" and result:
+                    updated_state["crop_recommendation"] = result
 
     except Exception as e:
         logger.error(f"Error executing tools: {e}")
@@ -761,7 +818,26 @@ def generate_intelligent_response(state: AgentState) -> AgentState:
         query_analysis = state.get("query_analysis", {})
         tools_needed = query_analysis.get("tools_needed", [])
         categories = query_analysis.get("categories", [])
-        
+        logger.info(f"\n\n categories: {categories}\n\n")
+        # If the query is just a greeting or chit-chat, return a direct response
+        if len(categories) == 1 and "GreetingOrChitChat" in categories:
+            responses = [
+                "Hello! How can I help you with your farming today?",
+                "Hi there! What farming question do you have in mind?",
+                "Hello! Looking for crop advice or scheme details?",
+                "Hi! I’m here to assist you with agriculture-related queries.",
+                "Hello! Do you want information on crops, pests, or schemes?",
+                "Hi there! How can I support your farming needs today?",
+                "Hello! Ask me anything about farming, I’ll do my best to help.",
+                "Hi! Do you want to know about planting, diseases, or government schemes?",
+                "Hello! I’m your farming assistant. What do you want to explore?",
+                "Hi there! Ready to answer your farming questions."
+            ]
+            return {
+                **state,
+                "final_response": random.choice(responses),
+                "next_step": END
+            }
         # Build context based on all collected data from various tools
         context_parts = []
         
@@ -787,10 +863,7 @@ def generate_intelligent_response(state: AgentState) -> AgentState:
             if "error" not in market_data:
                 context_parts.append(f"""
 💰 **LIVE MARKET DATA:**
-- Crop: {market_data.get('crop')}
-- Location: {market_data.get('location')}
-- Price Range: {market_data.get('price_range')}
-- Trend: {market_data.get('trend')}""")
+- Prices crop and location wise: {market_data.get('data')}""")
         
         # Add crop recommendation if available
         if state.get("crop_recommendation"):
@@ -812,18 +885,10 @@ To provide a crop recommendation, I need soil test data:
             scheme_results = state["scheme_results"]
             if scheme_results:
                 context_parts.append(f"\n📚 **GOVERNMENT SCHEME RESULTS:** ({len(scheme_results)} schemes found)")
-                for i, result in enumerate(scheme_results[:3], 1):
-                    context_parts.append(f"{i}. **{result.get('name', 'Scheme')}**")
-                    if result.get('purpose or objective of scheme'):
-                        context_parts.append(f"   - Objective: {result.get('purpose or objective of scheme')}")
-                    elif result.get('objective'):
-                        context_parts.append(f"   - Objective: {result.get('objective')}")
-                    
-                    if result.get('benefits'):
-                        context_parts.append(f"   - Benefits: {result.get('benefits')}")
-                    
-                    if result.get('eligibility'):
-                        context_parts.append(f"   - Eligibility: {result.get('eligibility')}")
+                for i, result in enumerate(scheme_results, 1):
+                    context_parts.append(f"{i}.")
+                    for key, value in result.items():
+                        context_parts.append(f"   - {key}: {value}")
         
         # Add farming information results if available (from FARMING_KB)
         if state.get("farming_info_results"):
@@ -916,7 +981,7 @@ Provide practical, actionable advice based ONLY on the available information abo
 
         # Extract only the final answer without thinking
         final_answer = extract_final_answer(response)
-
+        logger.info(f"\n\nhi\nresponse given:\n{response}  \n\n")
         return {
             **state,
             "final_response": final_answer,
@@ -999,30 +1064,30 @@ def process_query(agent, user_query: str, profile: Optional[FarmerProfile] = Non
         result_state = agent.invoke(initial_state)
         final_response = result_state.get("final_response", "Sorry, I couldn't process your request.")
         
-        # Store the interaction if farmer ID exists
-        if profile and profile.id:
-            # Determine problem type from query
-            problem_type = None
-            query_lower = user_query.lower()
-            if any(word in query_lower for word in ['disease', 'pest', 'problem', 'issue']):
-                problem_type = 'agricultural_problem'
-            elif any(word in query_lower for word in ['fertilizer', 'nutrition', 'nutrient']):
-                problem_type = 'nutrition_advice'
-            elif any(word in query_lower for word in ['weather', 'climate']):
-                problem_type = 'weather_inquiry'
-            elif any(word in query_lower for word in ['price', 'market', 'sell']):
-                problem_type = 'market_inquiry'
-            else:
-                problem_type = 'general_farming'
+        # # Store the interaction if farmer ID exists
+        # if profile and profile.id:
+        #     # Determine problem type from query
+        #     problem_type = None
+        #     query_lower = user_query.lower()
+        #     if any(word in query_lower for word in ['disease', 'pest', 'problem', 'issue']):
+        #         problem_type = 'agricultural_problem'
+        #     elif any(word in query_lower for word in ['fertilizer', 'nutrition', 'nutrient']):
+        #         problem_type = 'nutrition_advice'
+        #     elif any(word in query_lower for word in ['weather', 'climate']):
+        #         problem_type = 'weather_inquiry'
+        #     elif any(word in query_lower for word in ['price', 'market', 'sell']):
+        #         problem_type = 'market_inquiry'
+        #     else:
+        #         problem_type = 'general_farming'
             
-            farmer_tools.store_farmer_interaction(
-                farmer_id=profile.id,
-                query=user_query,
-                response=final_response,
-                problem_type=problem_type
-            )
+        #     farmer_tools.store_farmer_interaction(
+        #         farmer_id=profile.id,
+        #         query=user_query,
+        #         response=final_response,
+        #         problem_type=problem_type
+        #     )
             
-            logger.info(f"✅ Stored interaction for farmer {profile.id}")
+        #     logger.info(f"✅ Stored interaction for farmer {profile.id}")
         
         return final_response
     
