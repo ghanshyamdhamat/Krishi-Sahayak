@@ -1,3 +1,5 @@
 lid.176.bin
 .pdf
 .txt
+*.pyc
+__pycache__/
