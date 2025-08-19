@@ -3,3 +3,13 @@ lid.176.bin
 .txt
 *.pyc
 __pycache__/
+
+# Machine Learning Models
+/src/model/*.pth
+/src/model/*.pkl
+
+# Python virtual environment
+/venv/
+
+# Large data files
+/src/data/*.csv
