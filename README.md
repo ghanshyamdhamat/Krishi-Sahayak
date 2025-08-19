@@ -48,7 +48,7 @@ This is a **one-time process**. The script will prepare everything your project 
 ## Usage
 1.  **Activate the environment:**
     ```bash
-    conda activate cap_one
+    conda activate krishi_sahayak
     ```
 2.  **Run the application:**
     ```bash
