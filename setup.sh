@@ -12,7 +12,7 @@ NC='\033[0m' # No Color
 echo -e "${GREEN}=== SAHAYAK KRISHI: Automated Setup Script ===${NC}"
 
 # --- 1. Prerequisites Check ---
-echo -e "\n${YELLOW}[1/8] Checking for prerequisites (Conda and Docker)...${NC}"
+echo -e "\n${YELLOW}[1/9] Checking for prerequisites (Conda and Docker)...${NC}"
 
 # Check for Conda
 if ! command -v conda &> /dev/null; then
@@ -29,16 +29,16 @@ echo -e "${GREEN}Prerequisites are satisfied.${NC}"
 
 
 # --- 2. Create and activate conda environment ---
-echo -e "\n${YELLOW}[2/8] Creating conda environment 'krishi_sahayak' with Python 3.10...${NC}"
+echo -e "\n${YELLOW}[2/9] Creating conda environment 'krishi_sahayak' with Python 3.10...${NC}"
 conda create -y -n krishi_sahayak python=3.10
 
-echo -e "\n${YELLOW}[3/8] Activating conda environment...${NC}"
+echo -e "\n${YELLOW}[3/9] Activating conda environment...${NC}"
 source "$(conda info --base)/etc/profile.d/conda.sh"
 conda activate krishi_sahayak
 
 
 # --- 3. Install Python dependencies ---
-echo -e "\n${YELLOW}[4/8] Installing Python dependencies...${NC}"
+echo -e "\n${YELLOW}[4/9] Installing Python dependencies...${NC}"
 if [ -f src/requirements.txt ]; then
     pip install -r src/requirements.txt
 else
@@ -46,9 +46,24 @@ else
     exit 1
 fi
 
+# --- 4. Download and Place ML Models ---
+echo -e "\n${YELLOW}[5/9] Downloading ML models from Google Drive...${NC}"
+# IMPORTANT: Replace the URL below with your own Google Drive folder link
+GDRIVE_FOLDER_URL="https://drive.google.com/drive/folders/1ATTJQGKgXDCTDBCLgUlSduQbrzWLhotH?usp=sharing"
+MODEL_DIR="src/core/model"
 
-# --- 4. Start Elasticsearch with Docker ---
-echo -e "\n${YELLOW}[5/8] Starting Elasticsearch Docker container...${NC}"
+# Create the model directory if it doesn't exist. The -p flag handles this.
+echo "Ensuring model directory exists at '${MODEL_DIR}'..."
+mkdir -p "$MODEL_DIR"
+
+# Download the contents of the folder into the model directory
+echo "Starting download..."
+gdown --folder "$GDRIVE_FOLDER_URL" -O "$MODEL_DIR"
+
+echo -e "${GREEN}Models downloaded successfully.${NC}"
+
+# --- 5. Start Elasticsearch with Docker ---
+echo -e "\n${YELLOW}[6/9] Starting Elasticsearch Docker container...${NC}"
 CONTAINER_NAME_ES="elasticsearch"
 
 if [ "$(docker ps -q -f "name=${CONTAINER_NAME_ES}")" ]; then
@@ -68,8 +83,8 @@ done
 echo -e "${GREEN}Elasticsearch is up!${NC}"
 
 
-# --- 5. Index data into Elasticsearch ---
-echo -e "\n${YELLOW}[6/8] Indexing data into Elasticsearch...${NC}"
+# --- 6. Index data into Elasticsearch ---
+echo -e "\n${YELLOW}[7/9] Indexing data into Elasticsearch...${NC}"
 # NOTE: Assumes your indexing scripts are inside 'src/core/elastic_search/scripts/'
 cd src/core/elastic_search/scripts
 python index.py || true
@@ -80,7 +95,7 @@ cd ../../../  # Return to the project root
 
 
 # --- 6. Start Neo4j with Docker ---
-echo -e "\n${YELLOW}[7/8] Starting Neo4j Docker container...${NC}"
+echo -e "\n${YELLOW}[8/9] Starting Neo4j Docker container...${NC}"
 CONTAINER_NAME_NEO4J="neo4j"
 
 if [ "$(docker ps -q -f "name=${CONTAINER_NAME_NEO4J}")" ]; then
@@ -101,7 +116,7 @@ echo -e "${GREEN}Neo4j is up!${NC}"
 
 
 # --- 7. Ingest data into Neo4j Knowledge Graph ---
-echo -e "\n${YELLOW}[8/8] Ingesting data into Neo4j Knowledge Graph...${NC}"
+echo -e "\n${YELLOW}[9/9] Ingesting data into Neo4j Knowledge Graph...${NC}"
 cd core/neo4j_files
 python store_pdf_data.py || true
 cd ../..  # Return to the project root
