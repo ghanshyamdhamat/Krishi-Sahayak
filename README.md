@@ -109,10 +109,10 @@ Here are some of the known limitations of the current implementation:
 
 ## Troubleshooting
 - please contact us in case of any query. It's running on our base machine.
-  -ghanshyamd@iisc.ac.in
-  -deeptisahu@iisc.ac.in
-  -ayushpush@iisc.ac.in
-  -anshulm@iisc.ac.in 
+  - ghanshyamd@iisc.ac.in
+  - deeptisahu@iisc.ac.in
+  - ayushpush@iisc.ac.in
+  - anshulm@iisc.ac.in 
 
 ---
 
