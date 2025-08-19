@@ -63,7 +63,7 @@ This is a **one-time process**. The script will prepare everything your project 
 
 ---
 ## Architecture
-![Krishi Sahayak Architecture](Assets/Krishi Sahayak Architecture.png)
+[Krishi Sahayak Architecture](Assets/Krishi Sahayak Architecture.png)
 
 The application is built on a robust, three-tier architecture where a central agent orchestrates a suite of specialized tools to answer user queries. The workflow is designed to handle multimodal and multilingual input efficiently.
 
