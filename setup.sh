@@ -102,7 +102,7 @@ echo -e "${GREEN}Neo4j is up!${NC}"
 
 # --- 7. Ingest data into Neo4j Knowledge Graph ---
 echo -e "\n${YELLOW}[8/8] Ingesting data into Neo4j Knowledge Graph...${NC}"
-cd src/neo4j_files
+cd core/neo4j_files
 python store_pdf_data.py || true
 cd ../..  # Return to the project root
 

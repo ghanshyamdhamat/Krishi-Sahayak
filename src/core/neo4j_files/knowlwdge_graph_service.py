@@ -2,7 +2,7 @@ from neo4j import GraphDatabase
 from typing import List, Dict, Optional
 from enum import Enum
 import logging
-from neo4j_files.intelligent_search import IntelligentKGQueryPlanner, QueryPlan, SearchStrategy
+from .intelligent_search import IntelligentKGQueryPlanner, QueryPlan, SearchStrategy
 from typing import Any
 import os
 from dataclasses import dataclass
