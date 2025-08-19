@@ -1,0 +1,1420 @@
+chunksize 0
+section: null
+subsection: null
+# An Exhaustive Technical Report on Paddy Crop Cultivation in Tamil Nadu: A Synthesis of the TNAU Agritech Portal
+
+chunksize 1
+section: Introduction
+subsection: null
+Rice (*Oryza sativa* L.) stands as one of the three most important food
+crops globally, serving as the primary staple for over 2.7 billion
+people.^1^ In India, the cultivation of rice is a cornerstone of the
+agricultural economy and national food security. The nation dedicates
+approximately 44.6 million hectares to rice cultivation, yielding a
+total output of 80 million tonnes of paddy with an average productivity
+of 1855 kg/ha.^1^ This extensive cultivation spans nearly all states,
+with West Bengal, Uttar Pradesh, Andhra Pradesh, Punjab, and Tamil Nadu
+being among the major producers, collectively contributing to 92% of the
+total area and production.^1^
+
+Tamil Nadu, in particular, has a deeply entrenched history of paddy
+cultivation, supported by a diverse range of agro-climatic conditions
+and a sophisticated, traditional agricultural calendar. Recognizing the
+critical importance of this crop, the Tamil Nadu Agricultural University
+(TNAU), a premier institution for agricultural research and extension,
+has developed a comprehensive \"Expert System for Paddy.\" This system
+serves as an authoritative repository of scientific knowledge, best
+practices, and technological innovations tailored for the state\'s
+unique agricultural landscape. This report provides a comprehensive synthesis of the information
+contained within the TNAU Agritech Portal\'s Expert System for Paddy.
+
+chunksize 2
+section: Introduction
+subsection: null
+This report provides a comprehensive synthesis of the information
+contained within the TNAU Agritech Portal\'s Expert System for Paddy. It
+is designed to serve as a definitive technical guide for agricultural
+students, researchers, extension personnel, and progressive farmers. The
+document systematically covers every facet of paddy cultivation, from
+the fundamental botanical and climatic requirements to advanced
+post-harvest technologies, marketing structures, and the institutional
+support framework that underpins paddy farming in Tamil Nadu. By
+consolidating this vast body of knowledge, the report aims to present a
+holistic and actionable understanding of the science and practice of
+paddy cultivation as recommended by the state\'s leading agricultural
+authority.
+
+chunksize 3
+section: Section 1: Botanical Profile and Agro-Climatic Requirements
+subsection: null
+A foundational understanding of the paddy plant\'s biology and its
+interaction with the environment is essential for successful
+cultivation. The TNAU portal provides a detailed account of the
+botanical classification, morphology, and the specific agro-climatic
+parameters necessary for optimal growth and yield.
+
+chunksize 4
+section: Section 1: Botanical Profile and Agro-Climatic Requirements
+subsection: 1.1 Botanical Classification and Morphology of ***Oryza sativa*** {#botanical-classification-and-morphology-of-oryza-sativa}
+The paddy plant is systematically classified within the plant kingdom as
+follows ^2^:
+
+- **Kingdom:** Plantae
+
+- **Division:** Magnoliophyta
+
+- **Class:** Liliopsida
+
+- **Order:** Cyperales
+
+- **Family:** Gramineae (or Poaceae)
+
+- **Genus:** *Oryza*
+
+- **Species:** *sativa*
+
+- **Subspecies:** *indica*
+
+The morphology of the rice plant is characterized by distinct vegetative
+and reproductive structures that govern its growth and productivity. - **Roots:** The plant develops an adventitious root system from the
+  > basal nodes. Root development is promoted by the application of
+  > organic and phosphatic manures, with clayey soils providing an ideal
+  > medium for their growth.^2^
+
+- **Culm (Stem):** The culm is a jointed stem composed of a series of
+  > nodes and internodes.^2^
+
+- **Leaves:** Leaves are borne alternately on the culm in opposite
+  > directions, with one leaf produced at each node. The leaf consists
+  > of the leaf sheath, which is wrapped around the culm, and the leaf
+  > blade. A circular collar joins these two parts.
+
+chunksize 5
+section: Section 1: Botanical Profile and Agro-Climatic Requirements
+subsection: 1.1 Botanical Classification and Morphology of ***Oryza sativa*** {#botanical-classification-and-morphology-of-oryza-sativa}
+The leaf consists
+  > of the leaf sheath, which is wrapped around the culm, and the leaf
+  > blade. A circular collar joins these two parts. Key appendages
+  > include the **ligule**, a papery membrane at the juncture of the
+  > sheath and blade, and the **auricles**, which are small, paired,
+  > ear-like structures at the base of the blade.^2^
+
+- **Flag Leaf:** The topmost leaf situated just below the panicle is
+  > known as the flag leaf. This leaf is of paramount physiological
+  > importance as it is the primary source of photosynthetic products
+  > that are translocated to the developing grains. Its health and
+  > efficiency during the grain-filling stage are, therefore, direct
+  > determinants of final yield.^2^
+
+- **Panicle:** The panicle is the terminal shoot of the rice plant,
+  > which bears the grains. It consists of units called spikelets.^3^
+
+- **Grain (Caryopsis):** The rice grain is a true fruit, technically a
+  > caryopsis, where the seed coat is fused with the ovary wall. It
+  > consists of the hull (palea and lemma) and the brown rice, which
+  > contains the embryo and the endosperm. The endosperm serves as the
+  > food source for the germinating embryo.^2^
+
+chunksize 6
+section: Section 1: Botanical Profile and Agro-Climatic Requirements
+subsection: 1.2 Climatic Parameters for Optimal Growth {#climatic-parameters-for-optimal-growth}
+Rice is fundamentally a crop of tropical and sub-tropical climates,
+requiring specific environmental conditions for its various growth
+phases.^2^
+
+- **Temperature:** Paddy requires a fairly high temperature, with a
+  > general range of 20°C to 40°C. The optimal temperature for overall
+  > development is considered to be 30°C during the daytime and 20°C at
+  > night.^2^ Different growth stages have specific optimal temperature
+  > ranges ^2^:
+
+  - **Germination:** 20-35°C
+
+  - **Seedling Emergence:** 25-30°C
+
+  - **Rooting:** 25-28°C
+
+  - **Tillering:** 25-31°C
+
+  - Leaf Elongation: 31°C  
+    > High temperatures during the ripening phase can accelerate grain
+    > maturation, leading to prematurity and the formation of chalky
+    > kernels, while low temperatures can prolong the growth duration.3
+
+- **Rainfall and Water:** The crop demands abundant water, with an
+  > annual rainfall requirement ranging from 150 cm to 200 cm. It is
+  > cultivated as both a lowland crop with standing water and an upland
+  > rainfed crop. A rainfall of at least 125 cm is required during its
+  > vegetative stage.
+
+chunksize 7
+section: Section 1: Botanical Profile and Agro-Climatic Requirements
+subsection: 1.2 Climatic Parameters for Optimal Growth {#climatic-parameters-for-optimal-growth}
+It is
+  > cultivated as both a lowland crop with standing water and an upland
+  > rainfed crop. A rainfall of at least 125 cm is required during its
+  > vegetative stage. However, the timing of rainfall is critical; heavy
+  > downpours during anthesis (flowering) can wash away pollen and lead
+  > to sterility, significantly reducing grain set.^2^
+
+- **Relative Humidity (RH):** Relative humidity directly influences the
+  > plant\'s water relations and indirectly affects growth,
+  > photosynthesis, and pollination. High humidity conditions are
+  > conducive to the incidence of many insect pests and fungal diseases. > For instance, high RH favors the germination of fungal spores, such
+  > as those causing blast disease, on plant leaves. Pests like the
+  > Brown Plant Hopper thrive under conditions of moderate rainfall,
+  > high RH (around 80%), and temperatures between 20-33°C.^2^
+
+The intricate relationship between the plant\'s morphology and these
+climatic factors is evident. The efficiency of the flag leaf in grain
+filling is directly dependent on optimal solar radiation and
+temperature. Any deviation, such as excessive cloud cover or extreme
+temperatures, can impair this critical physiological process. This
+establishes a clear link between managing the agro-climatic environment
+and achieving high productivity.
+
+chunksize 8
+section: Section 1: Botanical Profile and Agro-Climatic Requirements
+subsection: 1.2 Climatic Parameters for Optimal Growth {#climatic-parameters-for-optimal-growth}
+The efficiency of the flag leaf in grain
+filling is directly dependent on optimal solar radiation and
+temperature. Any deviation, such as excessive cloud cover or extreme
+temperatures, can impair this critical physiological process. This
+establishes a clear link between managing the agro-climatic environment
+and achieving high productivity. Furthermore, the influence of humidity
+on pest and disease proliferation demonstrates that climatic management
+is inseparable from crop protection, creating a web of interconnected
+agronomic challenges.
+
+chunksize 9
+section: Section 1: Botanical Profile and Agro-Climatic Requirements
+subsection: 1.3 Soil Requirements and Suitability {#soil-requirements-and-suitability}
+Rice exhibits remarkable adaptability, allowing it to be cultivated in
+almost all types of soils, from the Indo-Gangetic plains to the coastal
+deltas, provided that high temperature, high humidity, and sufficient
+irrigation facilities are available.^2^ In India, rice is grown across a
+wide range of soil groups, including riverine alluvium, red-yellow
+soils, red loamy soils, laterite, coastal alluvium, and various black
+soils.^2^ This adaptability allows for its cultivation from sea level up
+to an elevation of 3000 meters and across latitudes from 8°N to 35°N.^2^
+
+chunksize 10
+section: Section 2: Paddy Cultivation Seasons and Varieties in Tamil Nadu
+subsection: null
+The agricultural practices for paddy in Tamil Nadu are governed by a
+highly developed and localized cultivation calendar. This system,
+refined over centuries, divides the year into distinct seasons, each
+with specific timings, durations, and suitable crop varieties. This
+intricate scheduling is a sophisticated adaptation to the state\'s
+diverse agro-climatic zones and its reliance on the bimodal rainfall
+pattern of the South-West and North-East monsoons.
+
+chunksize 11
+section: Section 2: Paddy Cultivation Seasons and Varieties in Tamil Nadu
+subsection: 2.1 Classification of Planting Seasons {#classification-of-planting-seasons}
+There are eight principal paddy planting seasons recognized in Tamil
+Nadu, each tailored to specific regional weather patterns and water
+availability.^5^ The distinction between short-duration varieties for
+seasons like
+
+*Kuruvai* and medium-to-long duration varieties for the main *Samba*
+season reflects a deliberate strategy to align the crop\'s life cycle
+with the expected duration of water supply, thereby mitigating the risks
+associated with unpredictable monsoons. The details of these seasons are
+summarized in Table 1.
+
+chunksize 12
+section: Section 2: Paddy Cultivation Seasons and Varieties in Tamil Nadu
+subsection: 2.1 Classification of Planting Seasons {#classification-of-planting-seasons}
+**Table 1: Detailed Paddy Planting Seasons in Tamil Nadu**
+| Season Name                         | Month of Sowing     | Duration (Days)   | Suitable Varieties     | Predominant Cultivating Districts                                                                                                                                                                  |
+|-------------------------------------|---------------------|-------------------|------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Navarai**                         | December - January  | \< 120            | Short duration         | Tiruvallur, Vellore, Tiruvannamalai, Cuddalore, Villupuram, Tiruchirapalli, Perambalur, Karur, Nagapattinam, Madurai, Theni, Salem, Namakkal, Dindigul, Dharmapuri, Coimbatore, Erode, Pudukkottai |
+| **Sornavari**                       | April - May         | \< 120            | Short duration         | Tiruvallur, Vellore, Tiruvannamalai, Cuddalore, Villupuram, Namakkal, Dharmapuri                                                                                                                   |
+| **Kar**                             | May - June          | \< 120            | Short duration         | Tirunelveli, Kanyakumari, Tuticorin, Erode, Coimbatore, Madurai, Theni, Dindigul, Salem, Namakkal, Dharmapuri                                                                                      |
+| **Kuruvai**                         | June - July         | \< 120            | Short duration         | Tiruchirapalli, Perambalur, Karur, Thanjavur, Nagapattinam, Tiruvarur, Pudukottai, Erode                                                                                                           |
+| **Early Samba**                     | July - August       | 130 - 135         | Medium & long duration | Tiruvallur, Vellore, Tiruvannamalai, Salem, Namakkal, Cuddalore, Villupuram, Madurai, Theni, Ramanathapuram, Dharmapuri, Coimbatore, Erode, Pudukkottai, Nilgiris                                  |
+| **Samba**                           | August              | 130--135 & \> 150 | Medium & long duration | All districts                                                                                                                                                                                      |
+| **Late Samba / Thaladi / Pishanam** | September - October | 130 - 135         | Medium & long duration | Tiruvallur, Madurai, Theni, Coimbatore, Erode, Dindigul, Kanyakumari, Tirunelveli, Tuticorin                                                                                                       |
+| **Late Thaladi**                    | October - November  | 115 - 120         | Medium & long duration | Thanjavur, Nagapattinam, Tiruvarur, Tiruchirapalli, Perambalur, Karur                                                                                                                              |
+
+chunksize 13
+section: Section 2: Paddy Cultivation Seasons and Varieties in Tamil Nadu
+subsection: 2.1 Classification of Planting Seasons {#classification-of-planting-seasons}
+Source: ^5^
+
+The geographical clustering of these seasons highlights their alignment
+with regional climatic nuances. For instance, the *Kuruvai* season is
+predominantly practiced in the Cauvery delta districts (Thanjavur,
+Tiruvarur, Nagapattinam), which historically rely on the release of
+water from the Mettur Dam in June. The *Kar* season is concentrated in
+the southern districts, which receive early showers from the South-West
+monsoon. This finely tuned system, while efficient, is also vulnerable. Any disruption, such as a delayed monsoon or a failure in dam water
+release, can have cascading negative impacts on the regional paddy
+economy, forcing farmers into suboptimal choices regarding planting time
+and variety duration.
+
+chunksize 14
+section: Section 3: Principal Rice Ecosystems and Cultivation Methodologies
+subsection: null
+Paddy cultivation in Tamil Nadu is practiced across three principal
+ecosystems, each defined by its water management regime: the Wet system,
+the Dry system, and the Semidry system.^6^ The Wet system, also known as
+irrigated rice, is the most dominant, contributing to 55% of the
+state\'s total rice production.^6^ Within this system, the Tamil Nadu
+Agricultural University has placed significant emphasis on promoting the
+System of Rice Intensification (SRI) as a water-efficient and
+high-productivity alternative to conventional methods.
+
+chunksize 15
+section: Section 3: Principal Rice Ecosystems and Cultivation Methodologies
+subsection: 3.1 Detailed Analysis of the System of Rice Intensification (SRI) {#detailed-analysis-of-the-system-of-rice-intensification-sri}
+SRI is not a fixed package of practices but a methodology based on a set
+of principles that alter the management of plants, soil, water, and
+nutrients to foster healthier and more extensive root systems, leading
+to more productive plants.^6^ This institutional focus on SRI represents
+a strategic response to the growing challenges of water scarcity and the
+need to enhance productivity without expanding cultivated area. #### 3.1.1 Core Principles and Critical Steps of SRI {#core-principles-and-critical-steps-of-sri}
+
+The successful implementation of SRI hinges on adherence to several
+critical steps that collectively create a more favorable growing
+environment for the rice plant ^6^:
+
+1. **Reduced Seed Rate and Nursery Area:** SRI requires only 7-8 kg of
+    > seed per hectare, a drastic reduction from conventional rates. > Consequently, the nursery area is reduced to just 100 m² per
+    > hectare.^6^
+
+2. **Transplanting Young Seedlings:** Very young seedlings, typically
+    > 14 days old (at the 3-leaf stage), are transplanted. This
+    > preserves the plant\'s potential for high tillering and root
+    > growth.^6^
+
+3. **Single Seedling and Wide Spacing:** A single seedling is carefully
+    > planted per hill to avoid root competition and trauma.
+
+chunksize 16
+section: Section 3: Principal Rice Ecosystems and Cultivation Methodologies
+subsection: 3.1 Detailed Analysis of the System of Rice Intensification (SRI) {#detailed-analysis-of-the-system-of-rice-intensification-sri}
+This
+    > preserves the plant\'s potential for high tillering and root
+    > growth.^6^
+
+3. **Single Seedling and Wide Spacing:** A single seedling is carefully
+    > planted per hill to avoid root competition and trauma. The
+    > seedlings are planted in a square pattern, typically at a wide
+    > spacing of 25 cm x 25 cm, which provides ample space for each
+    > plant to grow and tiller profusely.^6^
+
+4. **Mechanical Weeding:** The square planting geometry facilitates the
+    > use of a mechanical weeder, such as a cono weeder, in two
+    > directions (north-south and east-west). This not only controls
+    > weeds but also aerates the topsoil, which improves root health and
+    > incorporates weeds as organic matter. Weeding is recommended at
+    > 10-day intervals starting from 10 days after transplanting
+    > (DAT).^6^
+
+5. **Alternate Wetting and Drying (AWD) Water Management:** This is a
+    > cornerstone of SRI. Instead of continuous flooding, the field is
+    > irrigated to moisten the soil, and then water is allowed to recede
+    > until hairline cracks appear before the next irrigation.
+
+chunksize 17
+section: Section 3: Principal Rice Ecosystems and Cultivation Methodologies
+subsection: 3.1 Detailed Analysis of the System of Rice Intensification (SRI) {#detailed-analysis-of-the-system-of-rice-intensification-sri}
+**Alternate Wetting and Drying (AWD) Water Management:** This is a
+    > cornerstone of SRI. Instead of continuous flooding, the field is
+    > irrigated to moisten the soil, and then water is allowed to recede
+    > until hairline cracks appear before the next irrigation. This
+    > practice creates an aerobic soil environment that promotes robust
+    > root growth and can save 40-50% of irrigation water compared to
+    > conventional flooding.^6^
+
+#### 3.1.2 Comparative Analysis of Conventional vs. SRI Cultivation {#comparative-analysis-of-conventional-vs.-sri-cultivation}
+
+The methodological shifts involved in adopting SRI are substantial. Table 2 provides a direct comparison between conventional transplanted
+rice and the SRI method, highlighting the key differences in resource
+use and field practices.
+
+chunksize 18
+section: Section 3: Principal Rice Ecosystems and Cultivation Methodologies
+subsection: 3.1 Detailed Analysis of the System of Rice Intensification (SRI) {#detailed-analysis-of-the-system-of-rice-intensification-sri}
+**Table 2: Comparative Analysis of Conventional vs. SRI Cultivation**
+| Parameter             | Conventional Method        | SRI Method                          |
+|-----------------------|----------------------------|-------------------------------------|
+| **Nursery Area**      | 800 m²/ha                  | 100 m²/ha                           |
+| **Seed Rate**         | 60-150 kg/ha               | 7-8 kg/ha                           |
+| **Seedling Age**      | 21+ days                   | 14 days                             |
+| **Seedlings/Hill**    | 2-3+                       | 1                                   |
+| **Planting Geometry** | Rectangular / Random       | Square (25x25 cm)                   |
+| **Hills/m²**          | 50-66                      | 16                                  |
+| **Irrigation Method** | Continuous Flooding (5 cm) | Alternate Wetting & Drying (2.5 cm) |
+| **Weeding Method**    | Herbicide + Hand Weeding   | Mechanical Weeding (Cono Weeder)    |
+
+chunksize 19
+section: Section 3: Principal Rice Ecosystems and Cultivation Methodologies
+subsection: 3.1 Detailed Analysis of the System of Rice Intensification (SRI) {#detailed-analysis-of-the-system-of-rice-intensification-sri}
+Source: ^6^
+
+#### 3.1.3 Economic Viability and Advantages of SRI {#economic-viability-and-advantages-of-sri}
+
+The adoption of SRI translates into significant economic benefits,
+primarily driven by reduced input costs and increased yields. The
+comprehensive economic analysis provided by TNAU demonstrates a
+compelling financial case for the technology.
+
+chunksize 20
+section: Section 3: Principal Rice Ecosystems and Cultivation Methodologies
+subsection: 3.1 Detailed Analysis of the System of Rice Intensification (SRI) {#detailed-analysis-of-the-system-of-rice-intensification-sri}
+**Table 3: Economic Analysis of SRI vs. Conventional Method (Rs./Ha)**
+| Cost/Revenue Component   | Conventional (Rs.) | SRI (Rs.)  |
+|--------------------------|--------------------|------------|
+| Nursery Expenditure      | 2,100              | 681        |
+| Transplanting            | 2,400              | 3,200      |
+| Weeding                  | 3,200              | 3,200      |
+| Irrigation               | 300                | 240        |
+| **Total Expenditure**    | **21,419**         | **19,060** |
+| Revenue from Grain Yield | 42,441             | 56,014     |
+| Revenue from Straw Yield | 2,263              | 2,918      |
+| **Total Revenue**        | **44,704**         | **58,932** |
+| **Net Profit**           | **11,149**         | **23,868** |
+| **Cost-Benefit Ratio**   | **2.08**           | **3.09**   |
+
+chunksize 21
+section: Section 3: Principal Rice Ecosystems and Cultivation Methodologies
+subsection: 3.1 Detailed Analysis of the System of Rice Intensification (SRI) {#detailed-analysis-of-the-system-of-rice-intensification-sri}
+Source: ^6^
+
+The data clearly shows that despite slightly higher transplanting costs
+due to the need for skilled labor, the overall expenditure for SRI is
+lower, driven by massive savings in seed and nursery costs. Coupled with
+a significantly higher grain yield, this results in a net profit that is
+more than double that of the conventional method and a substantially
+higher cost-benefit ratio.^6^
+
+Beyond profitability, SRI offers a host of agronomic and environmental
+advantages ^6^:
+
+- **Increased Tillering:** Plants can easily produce 30 or more tillers. - **Profuse Root Growth:** The aerobic soil conditions lead to larger,
+  > deeper root systems. - **Improved Grain Filling:** Larger panicles with higher grain weight
+  > are common. - **Reduced Lodging:** Stronger culms and extensive roots make plants
+  > more resistant to lodging. - **Lower Pest and Disease Incidence:** Healthier plants are often more
+  > resilient. #### 3.1.4 Constraints to SRI Adoption {#constraints-to-sri-adoption}
+
+Despite its clear benefits, the large-scale adoption of SRI faces
+several practical challenges on the ground ^6^:
+
+- **Strict Water Control:** Requires reliable irrigation and good
+  > drainage, which is difficult in some areas, especially the delta
+  > regions.
+
+chunksize 22
+section: Section 3: Principal Rice Ecosystems and Cultivation Methodologies
+subsection: 3.1 Detailed Analysis of the System of Rice Intensification (SRI) {#detailed-analysis-of-the-system-of-rice-intensification-sri}
+#### 3.1.4 Constraints to SRI Adoption {#constraints-to-sri-adoption}
+
+Despite its clear benefits, the large-scale adoption of SRI faces
+several practical challenges on the ground ^6^:
+
+- **Strict Water Control:** Requires reliable irrigation and good
+  > drainage, which is difficult in some areas, especially the delta
+  > regions. - **Labor and Skill:** Initially requires more skilled labor for careful
+  > transplanting of young, single seedlings. - **Weed Menace:** The non-flooded conditions can lead to higher weed
+  > pressure if mechanical weeding is not timely and effective. - **Farmer Mindset:** Overcoming the traditional belief that more
+  > seedlings and continuous water are necessary for a good crop is a
+  > significant barrier. - **Implement Availability:** Lack of access to critical implements like
+  > markers and cono weeders can hinder adoption. The extensive and detailed promotion of SRI, complete with robust
+economic data and an honest assessment of its constraints, indicates a
+major institutional strategy by TNAU. It is a clear effort to
+re-engineer the state\'s rice production system towards greater
+sustainability and resilience in the face of modern agricultural
+challenges.
+
+chunksize 23
+section: Section 3: Principal Rice Ecosystems and Cultivation Methodologies
+subsection: 3.2 Conventional Wet, Dry, and Semidry Systems {#conventional-wet-dry-and-semidry-systems}
+While SRI is heavily promoted, TNAU also provides detailed guidelines
+for other cultivation systems suited to different water availability
+scenarios. #### 3.2.1 Transplanted Puddled Lowland Rice (Conventional Wet System) {#transplanted-puddled-lowland-rice-conventional-wet-system}
+
+This is the traditional irrigated method. Key practices include ^6^:
+
+- **Nursery Management:** Using a wet or dry nursery with a seed rate of
+  > 30-60 kg/ha depending on variety duration. - **Main Field Preparation:** Extensive puddling of the field with 2.5
+  > cm of standing water to create a soft, impervious layer. - **Manuring:** Application of 12.5 t/ha of FYM or 6.25 t/ha of green
+  > leaf manure, along with biofertilizers like *Azospirillum*. - **Transplanting:** Planting 2-3 seedlings per hill at an age of 18-40
+  > days, depending on variety duration. - **Water Management:** Maintaining a shallow depth of 2 cm of water for
+  > the first week, followed by cyclic submergence of 5 cm throughout
+  > the crop period. #### 3.2.2 Dry Seeded Rainfed Systems (Dry System) {#dry-seeded-rainfed-systems-dry-system}
+
+These systems are used in areas without assured irrigation, relying
+solely on monsoon rains.
+
+chunksize 24
+section: Section 3: Principal Rice Ecosystems and Cultivation Methodologies
+subsection: 3.2 Conventional Wet, Dry, and Semidry Systems {#conventional-wet-dry-and-semidry-systems}
+#### 3.2.2 Dry Seeded Rainfed Systems (Dry System) {#dry-seeded-rainfed-systems-dry-system}
+
+These systems are used in areas without assured irrigation, relying
+solely on monsoon rains. - **Dry Seeded Rainfed Un-puddled Low Land:** Involves dry ploughing to
+  > achieve a fine tilth, sowing dry seeds (75 kg/ha) with the onset of
+  > monsoon, and managing weeds through manual or chemical methods.^6^
+
+- **Rainfed Upland Rice:** Practiced on sloping lands, success is highly
+  > dependent on rainfall distribution. It requires fine tilth for good
+  > germination, using short-duration varieties and a seed rate of
+  > 80-100 kg/ha.^6^
+
+#### 3.2.3 Semidry System {#semidry-system}
+
+This is an intermediate system where the crop is direct-sown under dry
+conditions like a rainfed crop, but is converted to a wet, irrigated
+system once canal or tank water becomes available, typically after 30-45
+days. This system is common in command areas where water release is
+delayed.^6^
+
+chunksize 25
+section: Section 4: Nursery and Crop Establishment Practices
+subsection: null
+The foundation of a healthy and productive paddy crop is laid in the
+nursery. TNAU\'s recommendations emphasize a proactive and integrated
+approach to nursery management, focusing on producing vigorous,
+disease-free seedlings that are well-prepared for transplanting into the
+main field. This strategy aims to build resilience into the crop from
+its earliest stage, thereby reducing the need for curative interventions
+later in its lifecycle.
+
+chunksize 26
+section: Section 4: Nursery and Crop Establishment Practices
+subsection: 4.1 Types of Nursery Management {#types-of-nursery-management}
+Three primary types of nurseries are recommended, each suited to
+different water availability situations and cultivation systems.^7^
+
+- **Wet Nursery:** This is the conventional method used for transplanted
+  > puddled rice. It requires a 20-cent (800 m²) area near a reliable
+  > water source to raise seedlings for one hectare. The preparation
+  > involves dry ploughing, application of FYM, and repeated puddling. A
+  > basal dose of 40 kg DAP is recommended for less fertile soils. > Sprouted seeds are sown uniformly on leveled beds with a thin film
+  > of water.^7^
+
+- **Dapog / Mat Nursery:** This modern method is essential for SRI and
+  > mechanical transplanting. Seedlings are raised on a firm surface
+  > (like a polythene sheet or concrete floor) in a thin layer of a
+  > specially prepared soil mixture. The required area is only 100 m²
+  > per hectare. The soil mix typically consists of 70% soil, 20%
+  > well-decomposed organic matter (FYM/pressmud), and 10% rice hull,
+  > enriched with fertilizer. Seedlings are ready for transplanting in
+  > just 14-20 days.^7^
+
+- **Dry Nursery:** This method is adopted when there is a delay in the
+  > receipt of canal water or when water is scarce.
+
+chunksize 27
+section: Section 4: Nursery and Crop Establishment Practices
+subsection: 4.1 Types of Nursery Management {#types-of-nursery-management}
+Seedlings are ready for transplanting in
+  > just 14-20 days.^7^
+
+- **Dry Nursery:** This method is adopted when there is a delay in the
+  > receipt of canal water or when water is scarce. A 20-cent area is
+  > dry ploughed to a fine tilth. Raised beds are formed, and dry seeds
+  > are sown and covered with a mixture of sand and powdered FYM. The
+  > nursery is irrigated only to saturate the soil. Seedlings are
+  > typically ready for transplanting at the 4th leaf stage.^4^
+
+chunksize 28
+section: Section 4: Nursery and Crop Establishment Practices
+subsection: 4.2 Seed Quality, Rates, and Pre-Sowing Treatments {#seed-quality-rates-and-pre-sowing-treatments}
+The quality of the seed is a non-negotiable prerequisite for a good
+crop. TNAU provides specific guidelines for seed selection, rates, and
+protective treatments. - **Seed Rates:** The recommended seed rate varies significantly with
+  > the cultivation method ^7^:
+
+  - **SRI Method:** 7-8 kg/ha
+
+  - **Conventional Method:** 30 kg/ha (long duration), 40 kg/ha (medium
+    > duration), 60 kg/ha (short duration), 20 kg/ha (hybrids). - **Seed Quality Upgradation:** A simple and effective method to ensure
+  > the use of viable seeds is to immerse them in a common salt
+  > solution. A solution is prepared by dissolving salt in water until a
+  > fresh egg floats. When seeds are added, the low-density, non-viable
+  > seeds float and can be skimmed off. The healthy, sunken seeds are
+  > then washed thoroughly before use.^7^
+
+- **Seed Treatment:** Pre-sowing seed treatment is a critical step to
+  > protect the seedlings from seed-borne diseases and provide an
+  > initial growth boost.
+
+chunksize 29
+section: Section 4: Nursery and Crop Establishment Practices
+subsection: 4.2 Seed Quality, Rates, and Pre-Sowing Treatments {#seed-quality-rates-and-pre-sowing-treatments}
+The healthy, sunken seeds are
+  > then washed thoroughly before use.^7^
+
+- **Seed Treatment:** Pre-sowing seed treatment is a critical step to
+  > protect the seedlings from seed-borne diseases and provide an
+  > initial growth boost. This multi-pronged strategy involves a choice
+  > between chemical and biological pathways ^4^:
+
+  - **Wet Chemical Treatment:** Soaking seeds for 10 hours in a solution
+    > of fungicides like Carbendazim or Tricyclozole (2 g/L of water)
+    > provides protection against diseases like blast for up to 40
+    > days.^4^
+
+  - **Biological Treatment with *Pseudomonas fluorescens*:** Seeds are
+    > treated with a talc-based formulation of this beneficial bacterium
+    > (10 g/kg of seed) and soaked overnight. This provides protection
+    > against several fungal and bacterial diseases.^4^
+
+  - **Biofertilizer Treatment with *Azospirillum*:** Seeds are soaked in
+    > a slurry of bio-inoculants like *Azospirillum* (a nitrogen-fixing
+    > bacterium) and *Phosphobacteria* (a phosphate-solubilizing
+    > bacterium) or a combined formulation like *Azophos*. This helps in
+    > early nutrient availability to the seedling.^4^  
+    >   
+    > It is crucial to note that chemical fungicides and biological
+    > control agents are generally incompatible and should not be mixed.
+
+chunksize 30
+section: Section 4: Nursery and Crop Establishment Practices
+subsection: 4.2 Seed Quality, Rates, and Pre-Sowing Treatments {#seed-quality-rates-and-pre-sowing-treatments}
+This helps in
+    > early nutrient availability to the seedling.^4^  
+    >   
+    > It is crucial to note that chemical fungicides and biological
+    > control agents are generally incompatible and should not be mixed. > Farmers must choose one pathway at the outset.4 This conscious
+    > choice between a chemical or biological foundation for the crop
+    > underscores the holistic \"plant health\" paradigm being promoted,
+    > which aims to produce inherently resilient plants rather than
+    > simply relying on later-stage pest control.
+
+chunksize 31
+section: Section 4: Nursery and Crop Establishment Practices
+subsection: 4.3 Main Field Preparation and Transplanting {#main-field-preparation-and-transplanting}
+Proper establishment in the main field is the final step in ensuring a
+healthy crop stand. - **Land Preparation:** The main field is prepared by summer ploughing
+  > to conserve moisture and reduce initial weed load. For wet
+  > cultivation, the field is flooded and then puddled multiple times to
+  > create a soft, impermeable soil layer that holds water and
+  > facilitates easy transplanting.^4^
+
+- **Transplanting:** This is a delicate operation with long-term
+  > consequences for the crop\'s performance. Key recommendations
+  > include ^4^:
+
+  - **Optimum Seedling Age:** Varies by duration: 18-22 days for short,
+    > 25-30 for medium, and 35-40 for long duration varieties. - **Number of Seedlings:** 2-3 seedlings per hill for short duration
+    > and 2 per hill for medium/long duration varieties. - **Planting Depth:** Shallow planting (3 cm) is strongly recommended
+    > as it encourages quicker establishment and profuse tillering. > Deeper planting (\>5 cm) can delay establishment and reduce the
+    > number of tillers. - **Spacing:** Specific spacing recommendations are provided based on
+    > soil fertility and crop duration, ranging from 15x10 cm in less
+    > fertile soils for short-duration crops to 20x20 cm in high
+    > fertility soils for long-duration crops.^4^
+
+chunksize 32
+section: Section 5: Integrated Nutrient Management (INM)
+subsection: null
+Nutrient management in paddy cultivation has evolved from a reliance on
+high doses of chemical fertilizers to a more scientific, precise, and
+sustainable Integrated Nutrient Management (INM) approach. This system,
+advocated by TNAU, combines the use of organic manures, biofertilizers,
+and chemical fertilizers in a balanced and efficient manner. The goal is
+to sustain long-term soil health and productivity while optimizing
+economic returns and minimizing environmental impact.
+
+chunksize 33
+section: Section 5: Integrated Nutrient Management (INM)
+subsection: 5.1 Role of Nutrients and Deficiency Symptoms {#role-of-nutrients-and-deficiency-symptoms}
+Understanding the function of essential nutrients and recognizing their
+deficiency symptoms is crucial for timely corrective action. - **Macronutrients:**
+
+  - **Nitrogen (N):** Universally the most limiting nutrient for rice
+    > productivity. It is vital for vegetative development, imparting a
+    > healthy green color to leaves and promoting tillering. The plant
+    > primarily takes up nitrogen in the form of ammonia in submerged
+    > soils.^8^
+
+  - **Phosphorus (P):** Particularly important in early growth stages. > It promotes root development, tillering, and early flowering. It
+    > is mobile within the plant and can be remobilized from older
+    > tissues to new growth areas.^8^
+
+  - **Potassium (K):** Deficiency symptoms include dark green plants
+    > with yellowish-brown leaf margins and necrotic spots on the tips
+    > of older leaves. It can also lead to weak stems and lodging.^8^
+
+- **Secondary and Micronutrients:**
+
+  - **Silica (Si):** Essential for paddy, increasing the strength and
+    > rigidity of cells, which helps in resisting lodging and pest
+    > attacks.^8^
+
+  - **Iron (Fe):** Necessary for chlorophyll synthesis.
+
+chunksize 34
+section: Section 5: Integrated Nutrient Management (INM)
+subsection: 5.1 Role of Nutrients and Deficiency Symptoms {#role-of-nutrients-and-deficiency-symptoms}
+It can also lead to weak stems and lodging.^8^
+
+- **Secondary and Micronutrients:**
+
+  - **Silica (Si):** Essential for paddy, increasing the strength and
+    > rigidity of cells, which helps in resisting lodging and pest
+    > attacks.^8^
+
+  - **Iron (Fe):** Necessary for chlorophyll synthesis. Toxicity can be
+    > an issue, causing leaves to become short, brittle, and
+    > bleached.^8^
+
+  - **Zinc (Zn):** Deficiency leads to dusty brown spots on upper
+    > leaves, stunted growth, and decreased tillering.^8^
+
+  - **Boron (B):** Deficiency is characterized by white or bleached,
+    > rolled, and curled tips of the youngest leaves, leading to
+    > stunting and death of growing points.^8^
+
+chunksize 35
+section: Section 5: Integrated Nutrient Management (INM)
+subsection: 5.2 Fertilizer Recommendations and Application Schedules {#fertilizer-recommendations-and-application-schedules}
+TNAU provides specific \"blanket recommendations\" for NPK application,
+tailored to the different rice ecosystems practiced in Tamil Nadu. These
+serve as a baseline, which should ideally be adjusted based on soil test
+results. - Blanket N:P:K Recommendations (Kg/ha) ^8^:
+
+  - **Transplanted Puddled Low Land Rice:** 150:50:50
+
+  - **Direct Wet Seeded / Rainfed Rice:** 50:25:25
+
+  - **Semidry System:** 75:25:37.5
+
+- Application Methods and Schedule ^8^:
+
+  - **Basal Application:** The entire recommended dose of Phosphorus (P)
+    > and 25% of the recommended Nitrogen (N) and Potassium (K) are
+    > applied at the time of the last puddling and incorporated into the
+    > soil. Micronutrients like Zinc Sulphate (25 kg/ha) are also
+    > applied basally. - **Top Dressing:** The remaining 75% of N and K is applied in three
+    > equal splits at critical growth stages: active tillering, panicle
+    > initiation, and heading. This split application ensures that
+    > nutrients are available to the plant when they are most needed,
+    > improving nutrient use efficiency and preventing losses. - **Precision Nitrogen Management:** To move beyond calendar-based
+  > application, the use of a **Leaf Colour Chart (LCC)** is
+  > recommended.
+
+chunksize 36
+section: Section 5: Integrated Nutrient Management (INM)
+subsection: 5.2 Fertilizer Recommendations and Application Schedules {#fertilizer-recommendations-and-application-schedules}
+This split application ensures that
+    > nutrients are available to the plant when they are most needed,
+    > improving nutrient use efficiency and preventing losses. - **Precision Nitrogen Management:** To move beyond calendar-based
+  > application, the use of a **Leaf Colour Chart (LCC)** is
+  > recommended. The LCC is a simple tool that helps farmers assess the
+  > nitrogen status of the plant by comparing the color of its leaves to
+  > standardized color strips. Nitrogen is applied only when the leaf
+  > color falls below a critical threshold, ensuring a dynamic,
+  > needs-based approach. This practice is both economically beneficial,
+  > as it prevents wastage of expensive fertilizer, and environmentally
+  > sound, as it minimizes nitrogen leaching into groundwater.^8^
+
+chunksize 37
+section: Section 5: Integrated Nutrient Management (INM)
+subsection: 5.3 Organic Manures and Biofertilizers {#organic-manures-and-biofertilizers}
+The integration of organic and biological nutrient sources is a
+cornerstone of the INM philosophy, aimed at improving soil health and
+structure, which cannot be achieved by chemical fertilizers alone. - **Organic Manures:** The application of 12.5 tonnes/ha of Farmyard
+  > Manure (FYM) or compost, or 6.25 tonnes/ha of green manure (like
+  > *Sesbania* or *Daincha*), is recommended. These are incorporated
+  > into the soil during land preparation.^4^
+
+- **Biofertilizers:** These are microbial inoculants that enhance
+  > nutrient availability to the plant. Key biofertilizers for rice
+  > include ^8^:
+
+  - **Nitrogen Fixers:**
+
+    - ***Azospirillum*:** A bacterium that fixes atmospheric nitrogen. > It can be applied as a seed treatment, soil application, or
+      > through a seedling root dip before transplanting. - ***Azolla*:** A free-floating water fern that harbors a
+      > nitrogen-fixing blue-green alga. It can be incorporated as a
+      > green manure before transplanting or grown as a dual crop along
+      > with rice, where it suppresses weeds and continuously provides
+      > nitrogen. - **Blue Green Algae (BGA):** Applied to the flooded field (10
+      > kg/ha) about 10 days after transplanting.
+
+chunksize 38
+section: Section 5: Integrated Nutrient Management (INM)
+subsection: 5.3 Organic Manures and Biofertilizers {#organic-manures-and-biofertilizers}
+It can be incorporated as a
+      > green manure before transplanting or grown as a dual crop along
+      > with rice, where it suppresses weeds and continuously provides
+      > nitrogen. - **Blue Green Algae (BGA):** Applied to the flooded field (10
+      > kg/ha) about 10 days after transplanting. - **Phosphorus Solubilizers/Mobilizers:**
+
+    - **Mycorrhiza:** A symbiotic fungus that colonizes plant roots and
+      > helps in mobilizing phosphorus and other micronutrients like
+      > zinc and copper from the soil.^8^
+
+This integrated approach, combining the precision of tools like the LCC
+with the soil-building properties of organic manures and the
+nutrient-enhancing capabilities of biofertilizers, represents a
+sophisticated strategy to sustain rice productivity for the long term.
+
+chunksize 39
+section: Section 6: Crop Protection Strategies
+subsection: null
+Yield losses in rice due to insect pests can be as high as 22%, making
+effective crop protection an indispensable component of successful
+cultivation.^9^ The approach advocated by TNAU is a mature Integrated
+Pest Management (IPM) system that systematically prioritizes cultural
+and biological controls, resorting to chemical pesticides only as a last
+resort and based on scientifically determined Economic Threshold Levels
+(ETL). This ecological philosophy aims to create a resilient farming
+system that is less dependent on costly and potentially harmful chemical
+inputs.
+
+chunksize 40
+section: Section 6: Crop Protection Strategies
+subsection: 6.1 Integrated Pest Management (IPM) for Major Insect Pests {#integrated-pest-management-ipm-for-major-insect-pests}
+The TNAU portal identifies a range of major and minor insect pests that
+affect paddy.^10^ For each key pest, a multi-layered defense strategy is
+recommended.
+
+chunksize 41
+section: Section 6: Crop Protection Strategies
+subsection: 6.1 Integrated Pest Management (IPM) for Major Insect Pests {#integrated-pest-management-ipm-for-major-insect-pests}
+**Table 4: Integrated Management of Key Pests and Diseases**
+| Pest/Disease                    | Key Symptoms                                                                                                                  | Cultural Control                                                                                         | Biological Control                                                  | Chemical Control (with ETL)                                                                                                          |
+|---------------------------------|-------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------|
+| **Yellow Stem Borer**           | Central shoot dries up (\"dead heart\"); chaffy, white panicles (\"white ear\") ^3^                                           | Avoid close planting; destroy affected tillers; set up light traps; harvest at ground level ^3^          | Release of egg parasitoid *Trichogramma japonicum* ^3^              | Spray Fenthion or Monocrotophos. ETL: 5% dead hearts or 1 egg mass/m² ^3^                                                            |
+| **Gall Midge**                  | Formation of a silvery, tube-like gall instead of a normal tiller (\"onion shoot\" or \"silver shoot\") ^3^                   | Use resistant varieties (e.g., MDU 3, Sureka); apply optimal potash; set up light traps ^3^              | Release of parasitoid *Platygaster oryzae* at 1 per 10m² ^3^        | Spray Fenthion or Quinalphos. ETL: 1 gall/m² or 5% affected tillers ^3^                                                              |
+| **Brown Plant Hopper (BPH)**    | Plants dry up in circular patches, giving a scorched appearance (\"hopper burn\") ^3^                                         | Avoid close planting; provide alleyways (30 cm rogue spacing); avoid excess N; intermittent draining ^3^ | Conserve natural enemies like spiders and mirid bugs                | Direct spray at the base of plants with Monocrotophos or Imidacloprid. ETL: 1 hopper/tiller (vegetative) or 2/tiller (flowering) ^3^ |
+| **Leaf Folder**                 | Leaves are folded longitudinally; green tissue is scraped, leaving white, papery streaks ^7^                                  | Use resistant varieties (e.g., TKM-6); keep bunds clean; avoid excess N; set up light traps ^3^          | Release of egg parasitoid *Trichogramma chilonis* ^3^               | Spray Chlorpyriphos or Phosalone. ETL: 1 damaged leaf/hill ^3^                                                                       |
+| **Blast Disease**               | Spindle-shaped lesions with grey centers on leaves; blackening of nodes and panicle neck ^11^                                 | Use resistant varieties (e.g., BPT 5204, IR-64); avoid excess N; burn stubbles ^11^                      | Seed treatment and root dipping with *Pseudomonas fluorescens* ^11^ | Seed treatment with Thiram; spray Tricyclazole or Carbendazim at 2-5% disease severity ^11^                                          |
+| **Bacterial Leaf Blight (BLB)** | Water-soaked lesions starting from leaf tips/margins, turning yellow and drying; \"Kresek\" phase (wilting of seedlings) ^13^ | Balanced fertilization; proper spacing; field sanitation; avoid water stagnation                         | Seed treatment with *Pseudomonas fluorescens*                       | Spray Copper hydroxide or Streptomycin sulphate + Tetracycline combination                                                           |
+| **Rice Tungro Virus**           | Stunting; yellow to orange leaf discoloration starting from the tip; reduced tillering ^13^                                   | Use resistant varieties (e.g., Co 45, IR 36); control the vector (Green Leafhopper) ^7^                  | Apply neem cake in nursery to deter vector ^7^                      | Apply Carbofuran granules in nursery to control vector population ^7^                                                                |
+
+chunksize 42
+section: Section 6: Crop Protection Strategies
+subsection: 6.2 Identification and Management of Major Paddy Diseases {#identification-and-management-of-major-paddy-diseases}
+Historical disease epidemics, such as the Blast epidemic in Thanjavur
+(1919) and the Rice Tungro outbreak in Tamil Nadu (1985-87), underscore
+the devastating potential of pathogens.^14^ TNAU provides detailed
+diagnostic and management guides for these critical diseases. - **Blast (*Pyricularia oryzae*):** This is arguably the most
+  > significant fungal disease of rice. It manifests as **Leaf Blast**
+  > (spindle-shaped lesions), **Nodal Blast** (blackening and breaking
+  > of nodes), and **Neck Blast** (girdling of the panicle base, causing
+  > it to break and hang).^11^ The disease thrives in conditions of high
+  > humidity, frequent rain, and excessive nitrogen application. > Management is a classic IPM model: using resistant varieties,
+  > avoiding excess nitrogen, employing biological control via  
+  > *Pseudomonas fluorescens*, and, if necessary, applying fungicides
+  > like Tricyclazole based on disease severity.^11^
+
+- **Brown Spot (*Drechslera oryzae*):** Causes oval, sesame seed-shaped
+  > spots on leaves and can lead to grain discoloration. Management
+  > involves using tolerant varieties (e.g., Co 20) and seed treatment
+  > with fungicides like Captan or Thiram.^7^
+
+- **Sheath Blight (*Rhizoctonia solani*):** Characterized by large,
+  > oval, greyish-white lesions with a brown margin on the leaf sheath
+  > near the water line.
+
+chunksize 43
+section: Section 6: Crop Protection Strategies
+subsection: 6.2 Identification and Management of Major Paddy Diseases {#identification-and-management-of-major-paddy-diseases}
+Management
+  > involves using tolerant varieties (e.g., Co 20) and seed treatment
+  > with fungicides like Captan or Thiram.^7^
+
+- **Sheath Blight (*Rhizoctonia solani*):** Characterized by large,
+  > oval, greyish-white lesions with a brown margin on the leaf sheath
+  > near the water line. It can spread up the plant, causing blighting. > Management includes avoiding dense planting and high nitrogen
+  > doses.^13^
+
+- **Bacterial Leaf Blight (BLB) (*Xanthomonas oryzae*):** A serious
+  > bacterial disease that causes yellow, wavy lesions along leaf
+  > margins. In its severe \"Kresek\" phase, it causes entire seedlings
+  > to wilt and die. Management focuses on field sanitation, balanced
+  > nutrition, and avoiding the flow of irrigation water from infected
+  > to healthy fields.^13^
+
+- **Rice Tungro Disease (RTD):** A viral disease transmitted by the
+  > Green Leafhopper. Symptoms include stunting and yellow-orange
+  > discoloration of leaves. There is no cure for the virus itself, so
+  > management is entirely focused on controlling the insect vector and
+  > using tolerant varieties like IR 36.^7^
+
+The provision of specific ETLs for pests is a cornerstone of this IPM
+strategy. It shifts pest control from a prophylactic, calendar-based
+activity to a data-driven, reactive one.
+
+chunksize 44
+section: Section 6: Crop Protection Strategies
+subsection: 6.2 Identification and Management of Major Paddy Diseases {#identification-and-management-of-major-paddy-diseases}
+It shifts pest control from a prophylactic, calendar-based
+activity to a data-driven, reactive one. This prevents unnecessary and
+costly pesticide applications, protecting both the farmer\'s finances
+and the local agro-ecosystem.
+
+chunksize 45
+section: Section 7: Farm Implements and Mechanization
+subsection: null
+Mechanization is a critical driver of efficiency, timeliness, and
+profitability in modern agriculture. It helps overcome labor shortages,
+reduces drudgery, and ensures precision in farm operations. The TNAU
+portal catalogs a range of farm implements specifically designed or
+adapted for paddy cultivation, many of which are directly aligned with
+the agronomic practices it promotes, such as the System of Rice
+Intensification (SRI). This demonstrates a holistic approach where
+agronomic innovations are supported by corresponding mechanical
+innovations.
+
+chunksize 46
+section: Section 7: Farm Implements and Mechanization
+subsection: 7.1 Implements for Sowing, Transplanting, and Weeding {#implements-for-sowing-transplanting-and-weeding}
+These implements address the key labor bottlenecks in the crop
+establishment and maintenance phases. - **Seeders:** For direct seeding, several options are available. The
+  > **Improved Direct Paddy Seeder** is a manually operated drum seeder
+  > that ensures uniform seed distribution and plant population.^15^
+  > The  
+  > **Rice cum Daincha Seeder** simultaneously sows paddy and a green
+  > manure crop in alternate rows, suppressing weeds and improving soil
+  > fertility.^15^ For larger-scale operations, a tractor-mounted  
+  > **Seed cum Fertilizer Drill** is available, which places seeds and
+  > fertilizer in the root zone for better efficiency.^15^
+
+- **Transplanter:** The manually operated **Rice Transplanter** is
+  > designed for transplanting mat-type seedlings, which are prepared in
+  > Dapog or mat nurseries. It can plant 6 rows at a time with a
+  > standard row-to-row spacing of 200 mm, significantly speeding up the
+  > transplanting process.^15^
+
+- **Weeders:** Mechanical weeding is a core component of SRI. The **Cono
+  > Weeder**, with its two conical rotors, uproots and buries weeds in a
+  > single forward pass. The **Two Row Finger Type Paddy Rotary Weeder**
+  > is another manually operated tool that buries weeds and aerates the
+  > soil through a push-pull action.
+
+chunksize 47
+section: Section 7: Farm Implements and Mechanization
+subsection: 7.1 Implements for Sowing, Transplanting, and Weeding {#implements-for-sowing-transplanting-and-weeding}
+The **Cono
+  > Weeder**, with its two conical rotors, uproots and buries weeds in a
+  > single forward pass. The **Two Row Finger Type Paddy Rotary Weeder**
+  > is another manually operated tool that buries weeds and aerates the
+  > soil through a push-pull action. To reduce the drudgery associated
+  > with manual weeders, a **Battery Operated Portable Wetland Weeder**
+  > has also been developed.^15^
+
+chunksize 48
+section: Section 7: Farm Implements and Mechanization
+subsection: 7.2 Machinery for Harvesting and Post-Harvest Operations {#machinery-for-harvesting-and-post-harvest-operations}
+Mechanization of harvesting and subsequent operations is crucial to
+reduce turnaround time and minimize post-harvest losses. - **Harvesters:** The **Self Propelled Vertical Conveyor Reaper** is a
+  > lightweight machine that harvests the crop and lays it in windrows
+  > for easy collection.^15^ For a more integrated solution, the  
+  > **Mini Combine Harvester** performs the combined operations of
+  > harvesting, threshing, and winnowing. It is particularly suitable
+  > for small and marginal farmers and can be transported to
+  > inaccessible fields, offering substantial savings in cost (80%) and
+  > labor (91%) compared to manual methods.^15^
+
+- **Post-Harvest Tools:** A range of smaller implements aid in
+  > post-harvest processing. These include a **Manually Operated
+  > Fertilizer Broadcaster** for uniform top dressing, a power-operated
+  > **Paddy Winnower** for cleaning threshed grain, and a **Household
+  > Paddy Parboiling Unit** that allows for uniform parboiling of small
+  > batches (125 kg).^15^ For storage, the  
+  > **TNAU Insect Trap** is a simple, insecticide-free device that can
+  > be placed in storage bins to trap wandering stored-product
+  > insects.^15^
+
+chunksize 49
+section: Section 7: Farm Implements and Mechanization
+subsection: 7.2 Machinery for Harvesting and Post-Harvest Operations {#machinery-for-harvesting-and-post-harvest-operations}
+**Table 5: Key Paddy Farm Implements: Specifications and Costs**
+| Implement Name                              | Primary Function                 | Power Requirement   | Capacity (ha/day) | Approx. Cost (Rs.) | Key Features/Savings                                          |
+|---------------------------------------------|----------------------------------|---------------------|-------------------|--------------------|---------------------------------------------------------------|
+| **Improved Direct Paddy Seeder**            | Direct sowing in puddled soil    | Manual              | 1.1               | 4,800              | Reduces seed rate; ensures uniform population ^15^            |
+| **Rice Transplanter**                       | Transplanting mat seedlings      | Manual (1 operator) | 0.25              | 7,500              | Plants 6 rows at a time ^15^                                  |
+| **Cono Weeder**                             | Weeding in SRI fields            | Manual (1 operator) | 0.18              | 1,500              | Easy to operate; does not sink in soil ^15^                   |
+| **Self Propelled Vertical Conveyor Reaper** | Harvesting and windrowing        | 3.0 hp engine       | 1.0 (approx.)     | 60,000             | Lightweight; cost-effective for small farmers ^15^            |
+| **Mini Combine Harvester**                  | Harvesting, threshing, winnowing | Self-propelled      | 1.0               | 3,00,000           | Suitable for small farmers; 80% cost saving ^15^              |
+| **Household Paddy Parboiling Unit**         | Uniform parboiling of paddy      | Firewood            | 125 kg/batch      | 4,500              | Increased head rice recovery; can be used as storage bin ^15^ |
+
+chunksize 50
+section: Section 7: Farm Implements and Mechanization
+subsection: 7.2 Machinery for Harvesting and Post-Harvest Operations {#machinery-for-harvesting-and-post-harvest-operations}
+This catalog of implements demonstrates a clear strategy to build a
+complete technological \"package\" for farmers. The development of
+specialized tools for SRI, coupled with government schemes that provide
+subsidies for these very implements, creates a powerful incentive
+structure that nudges the entire paddy cultivation system towards
+modernization, higher efficiency, and greater profitability.
+
+chunksize 51
+section: Section 8: Post-Harvest Technology and Value Addition
+subsection: null
+The journey of paddy does not end at the farm gate. Post-harvest
+management is a critical phase that determines the final quality, market
+value, and economic return from the crop. The TNAU portal provides
+extensive information on the entire post-harvest chain, from primary
+processing to storage and value addition. This focus extends beyond mere
+cultivation, promoting a market-oriented approach where farmers and
+entrepreneurs can capture greater value from the entire supply chain.
+
+chunksize 52
+section: Section 8: Post-Harvest Technology and Value Addition
+subsection: 8.1 Primary Processing: From Harvest to Milling {#primary-processing-from-harvest-to-milling}
+Each step in the primary processing chain must be executed with care to
+maximize grain yield and minimize quality deterioration. - **Harvesting:** The timing of the harvest is crucial. The optimal
+  > stage is when about 80% of the panicles have 80% ripened spikelets,
+  > and the grain moisture content is around 20%. Harvesting can be done
+  > manually with sickles or mechanically using reapers or combine
+  > harvesters.^16^
+
+- **Threshing and Drying:** Threshing, the separation of grain from the
+  > straw, should be done immediately after harvesting to prevent
+  > quality loss. This can be done manually by beating the stalks or
+  > mechanically with threshers. The freshly threshed paddy must then be
+  > dried to a safe moisture level for storage. Methods include
+  > traditional **sun drying**, more reliable **mechanical drying** with
+  > heated air, and **chemical drying** by spraying a salt solution on
+  > the standing crop to hasten moisture reduction.^16^
+
+- **Parboiling:** This is a pre-milling hydrothermal treatment where
+  > rough rice is soaked, steamed, and then dried.
+
+chunksize 53
+section: Section 8: Post-Harvest Technology and Value Addition
+subsection: 8.1 Primary Processing: From Harvest to Milling {#primary-processing-from-harvest-to-milling}
+Methods include
+  > traditional **sun drying**, more reliable **mechanical drying** with
+  > heated air, and **chemical drying** by spraying a salt solution on
+  > the standing crop to hasten moisture reduction.^16^
+
+- **Parboiling:** This is a pre-milling hydrothermal treatment where
+  > rough rice is soaked, steamed, and then dried. Parboiling improves
+  > the milling quality (leading to higher head rice recovery), enhances
+  > the nutritive value by driving B-vitamins from the bran into the
+  > endosperm, and improves the storability of the rice.^16^
+
+- **Milling:** Milling is the process that transforms rough rice (paddy)
+  > into edible rice. The process involves ^16^:
+
+  1. **Cleaning:** Removing foreign matter like stones, dust, and
+      > chaff. 2. **Hulling (De-husking):** Removing the outer hull to produce brown
+      > rice. 3. **Polishing (Bran Removal):** Abrading the bran layers from the
+      > brown rice to produce white rice. The degree of polishing
+      > affects the appearance and nutritional content of the final
+      > product.
+
+chunksize 54
+section: Section 8: Post-Harvest Technology and Value Addition
+subsection: 8.2 Storage and Quality Grading {#storage-and-quality-grading}
+- **Storage:** Proper storage is essential to protect the grain from
+  > weather and pests. Grains can be stored in bags or in bulk. The
+  > basic requirements for good storage are a healthy, clean, and
+  > uniformly dried grain, and a storage structure that maintains a
+  > suitable environment and prevents pest infestation.^16^
+
+- **Quality and Grading:** The quality of milled rice is assessed based
+  > on characteristics like moisture content, percentage of broken
+  > grains, presence of foreign matter, chalkiness, and whiteness. Based
+  > on these parameters, Indian rice is graded into three main
+  > categories: **Common** (short/long bold), **Fine** (medium slender),
+  > and **Superfine** (long/short slender).^16^
+
+chunksize 55
+section: Section 8: Post-Harvest Technology and Value Addition
+subsection: 8.3 By-Products and Value-Added Rice Products {#by-products-and-value-added-rice-products}
+A \"whole crop\" utilization approach can significantly increase the
+profitability of rice cultivation. Modern milling yields valuable
+by-products, and rice itself is the base for numerous value-added
+products. - By-Products ^16^:
+
+  - **Rice Husk:** An abundant source of biomass fuel for boilers and
+    > kilns. The ash, being rich in silica, is used as an abrasive. - **Rice Straw:** Used as livestock fodder, for mushroom cultivation,
+    > and as a raw material for papermaking. - **Rice Bran:** The most valuable by-product. It is used as a
+    > high-quality animal feed and is the source of **Rice Bran Oil**, a
+    > healthy cooking oil rich in antioxidants like oryzanol and
+    > tocotrienols. - Value-Added Products ^16^:
+
+  - **Processed Products:** These are traditional convenience foods like
+    > **parched rice**, **puffed rice (*pori*)**, and **flaked rice**,
+    > which are produced through various heating and flattening
+    > processes. - **Fermented Products:** Rice is a key ingredient in iconic South
+    > Indian fermented foods like ***idli*** (steamed rice cake) and
+    > ***dosa*** (savory crepe), which are made from a fermented batter
+    > of rice and black gram.
+
+chunksize 56
+section: Section 8: Post-Harvest Technology and Value Addition
+subsection: 8.3 By-Products and Value-Added Rice Products {#by-products-and-value-added-rice-products}
+- **Fermented Products:** Rice is a key ingredient in iconic South
+    > Indian fermented foods like ***idli*** (steamed rice cake) and
+    > ***dosa*** (savory crepe), which are made from a fermented batter
+    > of rice and black gram. - **Extruded Products:** Rice flour is used to make a variety of
+    > extruded snacks and staples, such as ***sevai*** and
+    > ***idiappam*** (rice noodles) and ***murukku*** (a savory, crunchy
+    > snack). By highlighting these opportunities, TNAU encourages the development of
+a rural, agro-based industrial ecosystem. This fosters economic
+diversification, creating a more resilient rural economy where income is
+not solely dependent on the fluctuating price of a single raw commodity
+but is supplemented by processing and value addition.
+
+chunksize 57
+section: Section 9: Marketing, Schemes, and Institutional Support
+subsection: null
+The success of paddy cultivation in Tamil Nadu is underpinned by a
+robust and integrated ecosystem of support that encompasses marketing
+infrastructure, government financial assistance, and dedicated research
+institutions. This synergistic framework, orchestrated by the state
+government and TNAU, ensures that farmers have access to markets,
+incentives to adopt modern technologies, and a continuous supply of
+innovations to address emerging challenges.
+
+chunksize 58
+section: Section 9: Marketing, Schemes, and Institutional Support
+subsection: 9.1 Paddy Procurement and Marketing in Tamil Nadu {#paddy-procurement-and-marketing-in-tamil-nadu}
+The state has a structured marketing system to ensure that farmers
+receive a fair price for their produce, primarily through a
+Decentralised Procurement Scheme (DPS) and a network of Direct Purchase
+Centres (DPCs).^18^
+
+- **Decentralised Procurement Scheme (DPS):** Under this scheme, the
+  > state government, through its agencies, procures paddy directly from
+  > farmers. The primary agency is the **Tamil Nadu Civil Supplies
+  > Corporation (TNCSC)**. The procured paddy is used to meet the
+  > requirements of the state\'s Public Distribution System (PDS), and
+  > any surplus is contributed to the central pool managed by the Food
+  > Corporation of India (FCI). This system emphasizes direct purchase
+  > to ensure farmers receive the Minimum Support Price (MSP) promptly
+  > through account payee cheques.^18^
+
+- **Direct Purchase Centres (DPCs):** The TNCSC operates a vast network
+  > of over 1300 permanent DPCs across the paddy-growing regions. These
+  > centers are opened seasonally, aligning with the harvest periods of
+  > the *Kuruvai* (October-November) and *Samba* (January-March) crops. > To ensure transparency and efficiency, the operations of DPCs are
+  > monitored online, and bills are generated using a system that
+  > captures all relevant details of the transaction.
+
+chunksize 59
+section: Section 9: Marketing, Schemes, and Institutional Support
+subsection: 9.1 Paddy Procurement and Marketing in Tamil Nadu {#paddy-procurement-and-marketing-in-tamil-nadu}
+These
+  > centers are opened seasonally, aligning with the harvest periods of
+  > the *Kuruvai* (October-November) and *Samba* (January-March) crops. > To ensure transparency and efficiency, the operations of DPCs are
+  > monitored online, and bills are generated using a system that
+  > captures all relevant details of the transaction. In addition to
+  > permanent centers, **Mobile DPCs** are deployed to procure paddy
+  > directly from the fields of farmers who have a large quantity (300
+  > bags or more), reducing transportation burdens.^18^
+
+chunksize 60
+section: Section 9: Marketing, Schemes, and Institutional Support
+subsection: 9.2 Government Schemes and Subsidies for Paddy Farmers {#government-schemes-and-subsidies-for-paddy-farmers}
+The Government of Tamil Nadu implements several schemes to promote
+advanced agricultural practices, enhance productivity, and support
+farmers financially. These schemes act as the \"adoption engine,\"
+creating powerful incentives for farmers to embrace the technologies
+developed by research institutions.
+
+chunksize 61
+section: Section 9: Marketing, Schemes, and Institutional Support
+subsection: 9.2 Government Schemes and Subsidies for Paddy Farmers {#government-schemes-and-subsidies-for-paddy-farmers}
+**Table 6: Summary of Government Schemes for Paddy Farmers in Tamil
+
+chunksize 62
+section: Section 9: Marketing, Schemes, and Institutional Support
+subsection: 9.2 Government Schemes and Subsidies for Paddy Farmers {#government-schemes-and-subsidies-for-paddy-farmers}
+Nadu**
+
+chunksize 63
+section: Section 9: Marketing, Schemes, and Institutional Support
+subsection: 9.2 Government Schemes and Subsidies for Paddy Farmers {#government-schemes-and-subsidies-for-paddy-farmers}
+| Scheme Name                                      | Key Component                              | Benefit/Subsidy Details                                               | Eligibility Criteria                                                            |
+|--------------------------------------------------|--------------------------------------------|-----------------------------------------------------------------------|---------------------------------------------------------------------------------|
+| **Assistance for Quality Seed Production**       | Incentive for certified seed production    | Premium of Rs. 2/- per Kg of certified paddy seed                     | Farmers producing seeds on contract for the Dept. of Agriculture ^19^           |
+| **Seed Village Scheme**                          | Distribution of foundation/certified seeds | Seeds distributed at 50% cost to farmers                              | All farmers willing to produce quality seeds for self-use and distribution ^19^ |
+| **Cereals Development Programme**                | Demonstration on SRI                       | Subsidy of Rs. 3,000 per 0.4 ha demonstration for inputs              | All farmers in non-NFSM districts ^19^                                          |
+| **IAMWARM Project**                              | Demonstration on SRI                       | 100% subsidy up to Rs. 6,000/- per 1 ha demonstration                 | Farmers participating through Water Users\' Associations ^19^                   |
+| **National Food Security Mission (NFSM) - Rice** | Farm Implements                            | 50% subsidy up to Rs. 3,000/- for implements like Cono weeder         | Farmers in NFSM districts (Nagapattinam, Tiruvarur, etc.) ^19^                  |
+| **National Food Security Mission (NFSM) - Rice** | Rice Transplanter                          | 50% subsidy up to Rs. 70,000/- per transplanter                       | Farmers in NFSM districts ^19^                                                  |
+| **Agricultural Mechanisation Programme**         | Purchase of Machinery                      | 25% subsidy for machinery like tractors, power tillers, transplanters | All farmers ^20^                                                                |
+
+chunksize 64
+section: Section 9: Marketing, Schemes, and Institutional Support
+subsection: 9.2 Government Schemes and Subsidies for Paddy Farmers {#government-schemes-and-subsidies-for-paddy-farmers}
+These schemes demonstrate a clear policy direction. There is a strong
+emphasis on promoting quality seed production and the adoption of the
+System of Rice Intensification (SRI), with specific subsidies available
+for SRI inputs and critical implements like the cono weeder and
+transplanter. This direct financial support helps de-risk the adoption
+of new technologies for farmers.
+
+chunksize 65
+section: Section 9: Marketing, Schemes, and Institutional Support
+subsection: 9.3 Key Research Institutes and their Contributions {#key-research-institutes-and-their-contributions}
+The continuous improvement of paddy cultivation in the state is driven
+by a network of dedicated research institutions that function as
+\"innovation engines.\"
+
+- **Tamil Nadu Rice Research Institute (TRRI), Aduthurai:** A lead
+  > center for rice research in the state, TRRI has released numerous
+  > high-yielding varieties (ADT 1 to ADT 48) and hybrids (ADTRH-1, 2)
+  > that are widely cultivated in the Cauvery delta zone.^21^
+
+- **Paddy Breeding Station (PBS), TNAU, Coimbatore:** As the oldest rice
+  > research station in India (established 1912), PBS has an illustrious
+  > history of rice breeding, having released the renowned CO series of
+  > varieties (CO 1 to CO 50) and hybrids (CORH-1, 2, 3).^21^
+
+- **Rice Research Station, Tirur:** This station focuses on evolving
+  > varieties suitable for upland, semi-dry, and saline-alkaline
+  > conditions, having released the TKM series of varieties.^21^
+
+- **Specialized Research Centers:** Other institutions focus on specific
+  > challenges. The **Anbil Dharmalingam Agricultural College and
+  > Research Institute, Tiruchy**, is a pioneering center for
+  > salt-affected soils, having released salt-tolerant varieties like
+  > TRY 1 and TRY 2.
+
+chunksize 66
+section: Section 9: Marketing, Schemes, and Institutional Support
+subsection: 9.3 Key Research Institutes and their Contributions {#key-research-institutes-and-their-contributions}
+The **Anbil Dharmalingam Agricultural College and
+  > Research Institute, Tiruchy**, is a pioneering center for
+  > salt-affected soils, having released salt-tolerant varieties like
+  > TRY 1 and TRY 2. The **Agricultural Research Station,
+  > Ambasamudram**, has released 20 varieties (ASD series) suited for
+  > the southern districts.^21^
+
+This integrated system creates a dynamic feedback loop. The research
+institutes develop new varieties and technologies in response to
+field-level challenges. Government schemes then provide the policy and
+financial framework to extend these innovations to farmers. Finally, the
+structured marketing system ensures that the resulting increase in
+production finds a remunerative outlet. This comprehensive and
+synergistic ecosystem of support is fundamental to the sustainability
+and progress of paddy cultivation in Tamil Nadu.
+
+chunksize 67
+section: Conclusion
+subsection: null
+The Expert System for Paddy, developed by the Tamil Nadu Agricultural
+University, provides a remarkably detailed and integrated blueprint for
+the scientific cultivation of rice in the state. The analysis reveals a
+system that is deeply rooted in a scientific understanding of the
+crop\'s biology and its interaction with the diverse agro-climatic
+conditions of Tamil Nadu. The traditional wisdom embodied in the
+eight-season cultivation calendar is seamlessly blended with modern
+agricultural innovations. A central theme that emerges is the strategic and institutionally-driven
+shift towards sustainability and efficiency. The heavy emphasis on the
+System of Rice Intensification (SRI), supported by robust economic data,
+specialized farm implements, and targeted government subsidies,
+represents a concerted effort to address the critical contemporary
+challenges of water scarcity, rising input costs, and the need for
+higher productivity. This is complemented by a mature Integrated Pest
+Management (IPM) framework that prioritizes ecological balance and
+judicious use of chemicals, and an Integrated Nutrient Management (INM)
+approach that focuses on long-term soil health. Furthermore, the system extends beyond the farm gate, promoting a
+holistic, business-oriented perspective through its focus on
+post-harvest technology, value addition, and by-product utilization. This encourages the development of a diversified rural economy.
+
+chunksize 68
+section: Conclusion
+subsection: null
+Furthermore, the system extends beyond the farm gate, promoting a
+holistic, business-oriented perspective through its focus on
+post-harvest technology, value addition, and by-product utilization. This encourages the development of a diversified rural economy. The
+entire framework is supported by a synergistic ecosystem of dedicated
+research institutes that generate innovation, government schemes that
+drive adoption, and a structured marketing system that ensures
+profitability. In essence, the TNAU portal documents not just a set of practices, but a
+comprehensive, multi-layered, and dynamic strategy for sustaining and
+advancing paddy cultivation. It is a testament to the power of
+integrating research, extension, and policy to create a resilient and
+productive agricultural sector capable of ensuring food security and
+enhancing farmer livelihoods in Tamil Nadu.
+
+chunksize 69
+section: Appendix: Consolidated Frequently Asked Questions (FAQs)
+subsection: null
+This appendix compiles and categorizes questions and answers from the
+TNAU portal to provide a quick reference for common queries related to
+paddy cultivation.^3^
+
+chunksize 70
+section: Appendix: Consolidated Frequently Asked Questions (FAQs)
+subsection: General Information
+- What is the Kisan Call Centre number? > The number is 1551, providing free agricultural knowledge to
+  > farmers. - What is a \"paddy\"? > The term can refer to a field flooded with water for rice
+  > cultivation, or to rough, unhusked rice. - What are the main components of a rice grain? > It consists of the outer hull and the inner brown rice (caryopsis),
+  > which contains the embryo and the endosperm. - How long does it take to produce a rice crop? > The crop duration varies from 90 to 200 days, depending on the
+  > maturity of the variety.
+
+chunksize 71
+section: Appendix: Consolidated Frequently Asked Questions (FAQs)
+subsection: Season and Climate
+- How does climate affect rice yields? > Temperature, solar radiation, and rainfall directly influence
+  > physiological processes and indirectly affect the incidence of pests
+  > and diseases. High temperatures can cause premature ripening, while
+  > low temperatures prolong the growth cycle.
+
+chunksize 72
+section: Appendix: Consolidated Frequently Asked Questions (FAQs)
+subsection: Varieties
+- How many rice varieties exist? > There are about 120,000 known varieties of rice. - What is the difference between indica and japonica rice? > Indica varieties are typically tall, heavy-tillering, and grown in
+  > tropical and subtropical regions. Japonica varieties are shorter,
+  > with narrow dark green leaves, and are grown in cooler temperate
+  > climates.
+
+chunksize 73
+section: Appendix: Consolidated Frequently Asked Questions (FAQs)
+subsection: System of Rice Intensification (SRI)
+- What is the recommended seed rate for SRI? > 7-8 kg per hectare for a single seedling per hill. - What is the ideal age of seedlings for SRI transplanting? > 14-15 days old. - What is the water management practice in SRI? > Alternate Wetting and Drying (AWD) is practiced. The soil is
+  > irrigated to be moist for the first 10 days, then irrigated to 2.5
+  > cm after hairline cracks appear, until panicle initiation. - What weeder is used in SRI? > A Rotary Weeder or Cono weeder is used, typically at 10-day
+  > intervals starting from 10-15 DAT.
+
+chunksize 74
+section: Appendix: Consolidated Frequently Asked Questions (FAQs)
+subsection: Nursery Management
+- How can I select pure and healthy seeds? > Use a salt solution (100g salt in 1L water) to separate floating,
+  > non-viable seeds from healthy, sinking seeds. - What is the recommended seed treatment for seed-borne diseases? > Treat seeds with fungicides like Bavistin @ 2.5 g/kg or Beam 75 @
+  > 0.6 g/kg.
+
+chunksize 75
+section: Appendix: Consolidated Frequently Asked Questions (FAQs)
+subsection: Cultivation Practices
+- What is the recommended planting distance? > It varies. For High Yielding Varieties (HYV), it can be 20x10 cm or
+  > 20x15 cm. For SRI, it is a wider square planting of 25x25 cm or
+  > 30x30 cm. - What are the three main growth phases of a rice plant? > Vegetative (tillering), reproductive (panicle initiation to
+  > flowering), and ripening (grain filling).
+
+chunksize 76
+section: Appendix: Consolidated Frequently Asked Questions (FAQs)
+subsection: Nutrient Management
+- What is the cheapest source of nitrogenous fertilizer? > Urea fertilizer. - When should phosphate fertilizer be applied? > It should be applied only as a basal dose at the time of final
+  > ploughing. - What are the benefits of Azolla? > Azolla is a water fern that fixes atmospheric nitrogen, improves
+  > soil fertility, suppresses weeds, and can be used as animal feed. It
+  > can contribute up to 50 kg N/ha.
+
+chunksize 77
+section: Appendix: Consolidated Frequently Asked Questions (FAQs)
+subsection: Irrigation
+- What are the critical growth stages for water requirement in paddy? > Seedling stage, maximum tillering stage, panicle initiation stage,
+  > flowering stage, and the soft dough/milky stage.
+
+chunksize 78
+section: Appendix: Consolidated Frequently Asked Questions (FAQs)
+subsection: Pest and Diseases
+- What causes \"dead hearts\" and \"white ears\" in paddy? > These are characteristic symptoms of the Paddy Stem Borer. - What are the cultural methods to control Stem Borer? > Avoid close planting, destroy affected tillers, set up light traps,
+  > and harvest the crop close to the ground level. - What causes the \"hopper burn\" symptom? > This scorched appearance in circular patches is caused by a heavy
+  > infestation of the Brown Plant Hopper (BPH). - How can I control Blast disease? > Use resistant varieties, avoid excessive nitrogen fertilizer, and
+  > apply recommended fungicides like Tricyclazole or Carbendazim if the
+  > disease appears. Seed treatment and seedling root dip with
+  > Pseudomonas fluorescens is a recommended preventive biological
+  > method. - What is the vector for Rice Tungro Virus? > The Green Leafhopper transmits the virus. Management focuses on
+  > controlling this vector. #### Works cited
+
+1. Expert System for Paddy - TNAU Agritech Portal, accessed August 17,
+    > 2025,
+    > [[https://agritech.tnau.ac.in/expert_system/paddy/Index.html]{.underline}](https://agritech.tnau.ac.in/expert_system/paddy/Index.html)
+
+2. Botany of Paddy - TNAU Agritech Portal, accessed August 17, 2025,
+    > [[http://www.agritech.tnau.ac.in/expert_system/paddy/Botany.html]{.underline}](http://www.agritech.tnau.ac.in/expert_system/paddy/Botany.html)
+
+3. FAQs - TNAU Agritech Portal, accessed August 17, 2025,
+    > [[http://www.agritech.tnau.ac.in/expert_system/paddy/faqs.html]{.underline}](http://www.agritech.tnau.ac.in/expert_system/paddy/faqs.html)
+
+4.
+
+chunksize 79
+section: Appendix: Consolidated Frequently Asked Questions (FAQs)
+subsection: Pest and Diseases
+#### Works cited
+
+1. Expert System for Paddy - TNAU Agritech Portal, accessed August 17,
+    > 2025,
+    > [[https://agritech.tnau.ac.in/expert_system/paddy/Index.html]{.underline}](https://agritech.tnau.ac.in/expert_system/paddy/Index.html)
+
+2. Botany of Paddy - TNAU Agritech Portal, accessed August 17, 2025,
+    > [[http://www.agritech.tnau.ac.in/expert_system/paddy/Botany.html]{.underline}](http://www.agritech.tnau.ac.in/expert_system/paddy/Botany.html)
+
+3. FAQs - TNAU Agritech Portal, accessed August 17, 2025,
+    > [[http://www.agritech.tnau.ac.in/expert_system/paddy/faqs.html]{.underline}](http://www.agritech.tnau.ac.in/expert_system/paddy/faqs.html)
+
+4. ICT-AAS-paddy - TNAU Agritech Portal, accessed August 17, 2025,
+    > [[https://agritech.tnau.ac.in/govt_schemes_services/aas/paddy.html]{.underline}](https://agritech.tnau.ac.in/govt_schemes_services/aas/paddy.html)
+
+5. www.agritech.tnau.ac.in, accessed August 17, 2025,
+    > [[http://www.agritech.tnau.ac.in/expert_system/paddy/season.html]{.underline}](http://www.agritech.tnau.ac.in/expert_system/paddy/season.html)
+
+6. Rice Ecosystem - TNAU Agritech Portal, accessed August 17, 2025,
+    > [[http://www.agritech.tnau.ac.in/expert_system/paddy/riceecosystem.html]{.underline}](http://www.agritech.tnau.ac.in/expert_system/paddy/riceecosystem.html)
+
+7. Nursery Management - TNAU Agritech Portal, accessed August 17, 2025,
+    > [[http://www.agritech.tnau.ac.in/expert_system/paddy/nurserymgmt.html]{.underline}](http://www.agritech.tnau.ac.in/expert_system/paddy/nurserymgmt.html)
+
+8. Nutrient Management - TNAU Agritech Portal, accessed August 17,
+    > 2025,
+    > [[http://www.agritech.tnau.ac.in/expert_system/paddy/nutrientmanagement.html]{.underline}](http://www.agritech.tnau.ac.in/expert_system/paddy/nutrientmanagement.html)
+
+9. Crop Protection - TNAU Agritech Portal, accessed August 17, 2025,
+    > [[http://www.agritech.tnau.ac.in/expert_system/paddy/cropprotection.html]{.underline}](http://www.agritech.tnau.ac.in/expert_system/paddy/cropprotection.html)
+
+10. Pests of Rice - TNAU Agritech Portal :: Crop Protection, accessed
+    > August 17, 2025,
+    > [[https://agritech.tnau.ac.in/crop_protection/crop_prot_crop_insectpest%20_cereals_paddymain.html]{.underline}](https://agritech.tnau.ac.in/crop_protection/crop_prot_crop_insectpest%20_cereals_paddymain.html)
+
+11. Blast (Pyricularia oryzae) - Crop Protection, accessed August 17,
+    > 2025,
+    > [[http://www.agritech.tnau.ac.in/expert_system/paddy/cpdisblast.html]{.underline}](http://www.agritech.tnau.ac.in/expert_system/paddy/cpdisblast.html)
+
+12. Blast :Magnaporthe oryzae (Syn - TNAU Agritech Portal :: Crop
+    > Protection, accessed August 17, 2025,
+    > [[https://agritech.tnau.ac.in/crop_protection/rice_diseases/rice_1.html]{.underline}](https://agritech.tnau.ac.in/crop_protection/rice_diseases/rice_1.html)
+
+13. Management of diseases of important Agriculture Crops of Tamil Nadu
+    > Center for Plant Protection Studies, Department of Plant Pa,
+    > accessed August 17, 2025,
+    > [[https://agritech.tnau.ac.in/pdf/8.pdf]{.underline}](https://agritech.tnau.ac.in/pdf/8.pdf)
+
+14.
+
+chunksize 80
+section: Appendix: Consolidated Frequently Asked Questions (FAQs)
+subsection: Pest and Diseases
+Blast :Magnaporthe oryzae (Syn - TNAU Agritech Portal :: Crop
+    > Protection, accessed August 17, 2025,
+    > [[https://agritech.tnau.ac.in/crop_protection/rice_diseases/rice_1.html]{.underline}](https://agritech.tnau.ac.in/crop_protection/rice_diseases/rice_1.html)
+
+13. Management of diseases of important Agriculture Crops of Tamil Nadu
+    > Center for Plant Protection Studies, Department of Plant Pa,
+    > accessed August 17, 2025,
+    > [[https://agritech.tnau.ac.in/pdf/8.pdf]{.underline}](https://agritech.tnau.ac.in/pdf/8.pdf)
+
+14. Disease - Crop Protection, accessed August 17, 2025,
+    > [[http://www.agritech.tnau.ac.in/expert_system/paddy/cpdiseases.html]{.underline}](http://www.agritech.tnau.ac.in/expert_system/paddy/cpdiseases.html)
+
+15. Farm Implements - TNAU Agritech Portal, accessed August 17, 2025,
+    > [[http://www.agritech.tnau.ac.in/expert_system/paddy/farmimplements.html]{.underline}](http://www.agritech.tnau.ac.in/expert_system/paddy/farmimplements.html)
+
+16. Post Harvest Technology - TNAU Agritech Portal, accessed August 17,
+    > 2025,
+    > [[http://www.agritech.tnau.ac.in/expert_system/paddy/phtc.html]{.underline}](http://www.agritech.tnau.ac.in/expert_system/paddy/phtc.html)
+
+17. RICE - TNAU Agritech Portal :: Post Harvest Technology, accessed
+    > August 17, 2025,
+    > [[https://agritech.tnau.ac.in/postharvest/pht_cereal_rice.html]{.underline}](https://agritech.tnau.ac.in/postharvest/pht_cereal_rice.html)
+
+18. Marketing - TNAU Agritech Portal, accessed August 17, 2025,
+    > [[http://www.agritech.tnau.ac.in/expert_system/paddy/marketingmanagement.html]{.underline}](http://www.agritech.tnau.ac.in/expert_system/paddy/marketingmanagement.html)
+
+19. Schemes - TNAU Agritech Portal, accessed August 17, 2025,
+    > [[https://agritech.tnau.ac.in/expert_system/paddy/Schemes.html]{.underline}](https://agritech.tnau.ac.in/expert_system/paddy/Schemes.html)
+
+20. Government Schemes - TNAU Agritech Portal, accessed August 17, 2025,
+    > [[https://agritech.tnau.ac.in/agricultural_engineering/agriengg_govt_schemes.html]{.underline}](https://agritech.tnau.ac.in/agricultural_engineering/agriengg_govt_schemes.html)
+
+21. Institutes - TNAU Agritech Portal - Tamil Nadu Agricultural
+    > University, accessed August 17, 2025,
+    > [[https://agritech.tnau.ac.in/expert_system/paddy/institutes.html]{.underline}](https://agritech.tnau.ac.in/expert_system/paddy/institutes.html)
+
