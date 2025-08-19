@@ -108,8 +108,12 @@ Here are some of the known limitations of the current implementation:
 ---
 
 ## Troubleshooting
-- If for some case you aren't able to run our implementation due to .pth file error. Please refer to the zip file submitted. 
-- Please download the zip folder, extract the models and place them in `Krishi-Sahayak > src > model`
+- please contact us in case of any query. It's running on our base machine.
+  -ghanshyamd@iisc.ac.in
+  -deeptisahu@iisc.ac.in
+  -ayushpush@iisc.ac.in
+  -anshulm@iisc.ac.in 
+
 ---
 
 ## Acknowledgements

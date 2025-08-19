@@ -1,4 +1,4 @@
-gdown
+gdown==5.2.0
 absl-py==2.3.1
 accelerate==1.10.0
 aiohappyeyeballs==2.6.1
