@@ -110,7 +110,7 @@ if es.indices.exists(index=INDEX_NAME):
 
 # --- Read chunks.txt ---
 chunks = []
-with open("src/core/elastic_search/data/chunks.txt", "r", encoding="utf-8") as f:
+with open("../data/chunks.txt", "r", encoding="utf-8") as f:
     chunk = {}
     for line in f:
         if line.startswith("chunksize"):

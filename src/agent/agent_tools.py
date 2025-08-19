@@ -13,7 +13,7 @@ import pickle
 import torch
 import pandas as pd
 from core.neo4j_files.knowlwdge_graph_service import get_kg_service, KGResult
-from pathlib import Path
+
 try:
     import joblib
     JOBLIB_AVAILABLE = True
@@ -25,11 +25,13 @@ logger = logging.getLogger(__name__)
 
 # Import the ElasticsearchRAG utility
 try:
-    from src.utils.es_utils import ElasticsearchRAG
+    from utils.es_utils import ElasticsearchRAG
     ES_AVAILABLE = True
 except ImportError as e:
     logger.warning(f"ElasticsearchRAG not available: {e}")
     ES_AVAILABLE = False
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 class FarmerTools:
     _embedding_model = None  # Class-level cache
@@ -77,10 +79,11 @@ class FarmerTools:
         # Add crop model initialization
         self.crop_model = None
         self.crop_model_features = None
-        self.crop_model_path = os.getenv("CROP_MODEL_PATH", 
-            "./model/crop_recommendation.pkl"
-        )
-        self._load_crop_model()
+        # self.crop_model_path = os.getenv("CROP_MODEL_PATH", 
+        #     "./model/crop_recommendation.pkl"
+        # )
+        self.crop_model_path =  os.path.join(BASE_DIR,"..","core", "model", "crop_recommendation.pkl")
+        # self._load_crop_model()
         
         logger.info("✅ FarmerTools initialized (lightweight version)")
 
@@ -216,9 +219,11 @@ class FarmerTools:
             return
         try:
             if JOBLIB_AVAILABLE:
+                logger.info(f"👽\n👽\njoblib is availble line 219 agent tools clean\n\n")
                 self.crop_model = joblib.load(path)
             else:
                 with open(path, "rb") as f:
+                    logger.info(f"👽\n👽\n line 223 without joblib agent tools clean\n\n")
                     self.crop_model = pickle.load(f)
             
             # Default feature order based on your dataset
@@ -285,10 +290,10 @@ class FarmerTools:
     ) -> tuple[np.ndarray, Dict[str, float]]:
         """
         Build the feature vector in the correct order expected by the model.
-        Expected keys: N, P, K, temperature, humidity, ph, rainfall
+        Expected keys: N, P, K, temperature, humidity, pH, rainfall
         """
         ordered_feats = list(self.crop_model_features or 
-                           ["N", "P", "K", "temperature", "humidity", "ph", "rainfall"])
+                           ["N", "P", "K", "temperature", "humidity", "pH", "rainfall"])
         
         # Merge weather and soil data (soil can override weather keys if any)
         merged = {**weather_feats, **soil}
@@ -335,6 +340,7 @@ class FarmerTools:
         """
         if model_path:
             self._load_crop_model(model_path)
+            logger.info(f"✅\n✅\ncrop model loaded successfully\n\n")
         
         if self.crop_model is None:
             return {
@@ -375,7 +381,7 @@ class FarmerTools:
                 "recommended_crop": str(prediction),
                 "top_recommendations": top_recommendations,
                 "soil_parameters_used": {k: v for k, v in used_features.items() 
-                                       if k in ["N", "P", "K", "ph"]},
+                                       if k in ["N", "P", "K", "pH"]},
                 "weather_parameters_used": weather_feats,
                 "location": location,
                 "model_features": list(self.crop_model_features or [])
@@ -392,106 +398,8 @@ class FarmerTools:
                 "weather_location": location
             }
 
-    def parse_soil_health_card(self, soil_data: Dict) -> Dict[str, float]:
-        """
-        Parse soil health card data into format expected by crop model.
-        
-        Args:
-            soil_data: Raw soil data (could be from JSON, form input, etc.)
-            
-        Returns:
-            Cleaned soil parameters dict
-        """
-        try:
-            # Expected keys for the crop model
-            required_keys = ["N", "P", "K", "ph"]
-            optional_keys = ["EC", "OC", "Zn", "Fe", "Mn", "Cu", "B", "S"]
-            
-            cleaned_soil = {}
-            
-            # Handle different key naming conventions
-            key_mappings = {
-                "nitrogen": "N", "n": "N",
-                "phosphorus": "P", "p": "P", "phosphorous": "P",
-                "potassium": "K", "k": "K",
-                "pH": "ph", "PH": "ph"
-            }
-            
-            # Apply mappings and convert to float
-            for key, value in soil_data.items():
-                mapped_key = key_mappings.get(key, key)
-                if mapped_key in required_keys or mapped_key in optional_keys:
-                    try:
-                        cleaned_soil[mapped_key] = float(value)
-                    except (ValueError, TypeError):
-                        logger.warning(f"Could not convert soil parameter {key}={value} to float")
-            
-            # Validate required parameters
-            missing_required = [k for k in required_keys if k not in cleaned_soil]
-            if missing_required:
-                logger.warning(f"Missing required soil parameters: {missing_required}")
-            
-            return cleaned_soil
-            
-        except Exception as e:
-            logger.error(f"Error parsing soil health card: {e}")
-            return {}
 
-    
-    # def analyze_query(self, query: str, profile: Dict = None) -> List[Dict]:
-    #     """
-    #     Lightweight query analysis using keyword matching instead of heavy LLM.
-    #     This prevents loading a second 8B model just for intent classification.
-        
-    #     Args:
-    #         query: The user's question
-    #         profile: Optional user profile information
 
-    #     Returns:
-    #         List of dicts, each with query analysis for a sub-query
-    #     """
-    #     logger.info(f"Analyzing query (lightweight): {query}")
-        
-    #     query_lower = query.lower()
-    #     profile = profile or {}
-        
-    #     # Weather-related keywords
-    #     weather_keywords = ['weather', 'temperature', 'rain', 'forecast', 'climate', 'humidity', 'wind', 'sunny', 'cloudy']
-    #     if any(keyword in query_lower for keyword in weather_keywords):
-    #         return [{
-    #             "query_type": "weather_info",
-    #             "tools_needed": ["weather_api"],
-    #             "search_query": query,
-    #             "metadata_filters": {}
-    #         }]
-        
-    #     # Market/price-related keywords  
-    #     price_keywords = ['price', 'market', 'cost', 'sell', 'mandi', 'rate', 'buying', 'selling', 'profit', 'money']
-    #     if any(keyword in query_lower for keyword in price_keywords):
-    #         return [{
-    #             "query_type": "market_prices",
-    #             "tools_needed": ["price_api"],
-    #             "search_query": query,
-    #             "metadata_filters": {}
-    #         }]
-        
-    #     # Scheme-related keywords
-    #     scheme_keywords = ['scheme', 'subsidy', 'government', 'loan', 'credit', 'support', 'benefit', 'eligibility', 'pm kisan', 'insurance']
-    #     if any(keyword in query_lower for keyword in scheme_keywords):
-    #         return [{
-    #             "query_type": "scheme_search", 
-    #             "tools_needed": ["elasticsearch"],
-    #             "search_query": query,
-    #             "metadata_filters": {"state": profile.get("state")} if profile.get("state") else {}
-    #         }]
-        
-    #     # Default: treat as general farming question (search schemes)
-    #     return [{
-    #         "query_type": "general_question",
-    #         "tools_needed": ["elasticsearch"], 
-    #         "search_query": query,
-    #         "metadata_filters": {}
-    #     }]
 
     def analyze_query(self, query: str, profile: Dict = None) -> List[Dict]:
         """
@@ -682,7 +590,7 @@ class FarmerTools:
     #             index_name=index_to_search
     #         )
     #     except Exception as e:
-    #         logger.error(f"No metadata found 😔 Exception: {e}")
+    #         logger.error(f"No metadata found  Exception: {e}")
     #         results = []
             
     #     if not results:
@@ -776,7 +684,7 @@ class FarmerTools:
                     index_name=index_to_search
                 )
         except Exception as e:
-            logger.error(f"No metadata found 😔 Exception: {e}")
+            logger.error(f"No metadata found Exception: {e}")
             results = []
         if not results:
             logger.warning("No metadata results found or returned from Elasticsearch.")
@@ -787,7 +695,7 @@ class FarmerTools:
             }
             for item in results
         ]
-        logger.info(f"🥰🥰🥰❤️❤️❤️🥰🥰🥰❤️❤️❤️🥰🥰🥰❤️❤️❤️🥰🥰🥰❤️❤️❤️ metadata retreived {filtered}\n\n\n")
+        logger.info(f" metadata retreived {filtered}\n\n\n")
         return filtered
         
     def search_keys(self, query: str, model='minilm', index="schemes", query_embedding=None):
@@ -853,7 +761,7 @@ class FarmerTools:
 
             # Get relevant keys for this query
             relevant_keys = self.search_keys(query, model="minilm", index="schemes", query_embedding=self.query_embedding_mini_lm)
-            logger.info(f"\n\n🥰🥰🥰😘😘🚑❤️❤️❤️🥰🥰🥰❤️❤️❤️ relevant keys {relevant_keys}\n\n\n")
+            logger.info(f"\n\nrelevant keys {relevant_keys}\n\n\n")
             def filter_scheme_keys(scheme, allowed_keys):
                 # If ES returns _source, use that, else use scheme directly
                 src = scheme.get("_source", scheme)
@@ -916,8 +824,8 @@ class FarmerTools:
                 filtered_results.append(filtered)
 
 
-            logger.info(f"✅ Found 🥰🥰🥰😘  {len(filtered_results)} farming info results")
-            # logger.info(f"🥰🥰🥰😘 farming info retreived {filtered_results}\n\n\n")
+            logger.info(f"✅ Found  {len(filtered_results)} farming info results")
+            # logger.info(f"farming info retreived {filtered_results}\n\n\n")
             return filtered_results
 
         except Exception as e:
@@ -936,7 +844,7 @@ class FarmerTools:
             Dict with all CSV data.
         """
         logger.info("Returning entire prices.csv file")
-        csv_path = Path("./data/prices.csv")
+        csv_path = "./prices.csv"
         try:
             df = pd.read_csv(csv_path)
         except Exception as e:

@@ -224,7 +224,7 @@ qwen_model =  SentenceTransformer(
             trust_remote_code=True,
             model_kwargs={
                 "load_in_8bit": True,
-                "device_map": "auto"
+                "device_map": {"":0}
             }
         )
 for scheme in schemes:

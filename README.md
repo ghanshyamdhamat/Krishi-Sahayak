@@ -109,7 +109,7 @@ Here are some of the known limitations of the current implementation:
 
 ## Troubleshooting
 - If for some case you aren't able to run our implementation due to .pth file error. Please refer to the zip file submitted. 
-
+- Please download the zip folder, extract the models and place them in `Krishi-Sahayak > src > model`
 ---
 
 ## Acknowledgements

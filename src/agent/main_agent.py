@@ -19,7 +19,7 @@ from langgraph.graph import StateGraph, END
 from dotenv import load_dotenv
 from pydantic import BaseModel, Field
 from core.neo4j_files.store_farmer_profile import StoreFarmerProfile
-
+import time
 # Try to import transformers with error handling
 try:
     from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
@@ -31,11 +31,15 @@ except ImportError as e:
     TRANSFORMERS_AVAILABLE = False
 
 # Import custom tools
-from agent_tools import FarmerTools
+from agent.agent_tools import FarmerTools
 
 # --- SETUP ---
 
 load_dotenv()
+
+
+llm = None
+farmer_tools = None
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
@@ -153,7 +157,7 @@ class Qwen3LLM(Runnable):
             with torch.no_grad():
                 outputs = self.model.generate(
                     inputs,
-                    max_new_tokens=2048,
+                    max_new_tokens=4096,
                     temperature=0.2,
                     do_sample=True,
                     top_p=0.8,
@@ -187,112 +191,6 @@ class Qwen3LLM(Runnable):
     @property  
     def OutputType(self):
         return str
-
-# Fallback LLM for when transformers is not available
-class MockLLM(Runnable):
-    """Mock LLM that provides farming responses when Qwen3 is not available"""
-    
-    def __init__(self):
-        self.model_name = "mock-llm"
-    
-    def invoke(self, input_data, config=None, **kwargs):
-        """Generate contextual response based on input"""
-        if isinstance(input_data, dict):
-            if 'messages' in input_data:
-                messages = input_data['messages']
-                if messages and hasattr(messages[-1], 'content'):
-                    query = messages[-1].content.lower()
-                else:
-                    query = str(messages).lower()
-            else:
-                query = str(input_data).lower()
-        else:
-            query = str(input_data).lower()
-        
-        # Generate contextual responses based on query content
-        if any(word in query for word in ['weather', 'temperature', 'forecast', 'rain', 'climate']):
-            return """🌤️ **Weather Information:**
-
-Based on the available weather data for your location, here are the current conditions and farming recommendations:
-
-**Current Weather:**
-- Temperature: As per the weather data retrieved
-- Humidity: Current humidity levels
-- Conditions: Current weather conditions
-- Wind Speed: Current wind information
-
-**Farming Advice:**
-- Plan your farming activities based on current weather conditions
-- Consider irrigation needs based on humidity and rainfall
-- Monitor weather forecasts for planning field operations
-- Take protective measures during adverse weather conditions"""
-
-        elif any(word in query for word in ['price', 'market', 'cost', 'sell', 'mandi']):
-            return """💰 **Market Price Information:**
-
-**Current Market Trends:**
-- Prices are showing stability in most regions
-- Consider local demand and transportation costs
-- Monitor market trends for optimal selling time
-
-**Recommendations:**
-- Check local mandi prices regularly
-- Consider storage options vs immediate sale
-- Factor in quality premiums for better crops
-- Plan harvest timing based on market demand"""
-
-        elif any(word in query for word in ['scheme', 'subsidy', 'government', 'loan', 'support']):
-            return """🏛️ **Government Schemes Information:**
-
-Based on the scheme information found, here are the key details:
-
-**Available Schemes:**
-- Various government schemes are available for farmers
-- Income support and crop insurance options
-- Subsidies for agricultural inputs and equipment
-
-**Next Steps:**
-- Visit your nearest Krishi Vigyan Kendra
-- Contact local agriculture extension officer
-- Check eligibility criteria for specific schemes
-- Apply through proper channels with required documents"""
-
-        else:
-            return """🧑‍🌾 **Farming Assistant:**
-
-I'm here to help you with comprehensive farming support including:
-
-🌾 **Weather Services** - Current conditions and forecasts
-💰 **Market Information** - Crop prices and trends  
-🏛️ **Government Schemes** - Subsidies and support programs
-🌱 **Farming Guidance** - Best practices and recommendations
-
-Please ask specific questions about weather, prices, schemes, or farming practices for detailed assistance."""
-
-    @property
-    def InputType(self):
-        return dict
-
-    @property  
-    def OutputType(self):
-        return str
-
-# Initialize LLM
-if TRANSFORMERS_AVAILABLE:
-    try:
-        llm = Qwen3LLM()
-        logger.info("✅ Qwen3-8B model initialized successfully")
-    except Exception as e:
-        logger.error(f"Failed to initialize Qwen3-8B: {e}")
-        llm = MockLLM()
-        logger.info("✅ Using MockLLM as fallback")
-else:
-    llm = MockLLM()
-    logger.info("✅ Using MockLLM (transformers not available)")
-
-# Initialize tools
-farmer_tools = FarmerTools()
-logger.info("✅ Farmer tools initialized")
 
 # --- MODELS ---
 
@@ -357,7 +255,7 @@ def log_tool_usage_summary(state: AgentState):
 def analyze_query_with_reasoning(state: AgentState) -> AgentState:
     """Analyze query using chain-of-thought reasoning to decide on tools"""
     logger.info("Node: analyze_query_with_reasoning")
-    
+    start_time = time.time()
     # Extract the latest user message
     latest_message = None
     for message in reversed(state["messages"]):
@@ -376,26 +274,26 @@ def analyze_query_with_reasoning(state: AgentState) -> AgentState:
     query_lower = latest_message.lower()
 
     # Add crop recommendation detection
-    crop_keywords = ['crop recommendation', 'what crop', 'which crop', 'best crop', 'suitable crop', 
-                    'crop suggestion', 'recommend crop', 'soil test', 'soil health card', 
-                    'what to grow', 'what should i plant', 'crop selection']
-    if any(keyword in query_lower for keyword in crop_keywords):
-        analysis = {
-            "classification": "CROP_RECOMMENDATION",
-            "query_type": "crop_recommendation",
-            "tools_needed": ["CROP_RECOMMENDATION"],
-            "priority_tool": "crop_model",
-            "search_query": query_lower,
-            "metadata_filters": {},
-            "reasoning_chain": "Detected crop recommendation keywords. Prioritizing crop model."
-        }
-        logger.info(f"\n\n\n\nQuery analysis result using python:\n\n\n\n\n {analysis}")
-        return {
-            **state,
-            "query_analysis": analysis,
-            "reasoning_chain": analysis["reasoning_chain"],
-            "next_step": "execute_tools_intelligently"
-        }
+    # crop_keywords = ['crop recommendation', 'what crop', 'which crop', 'best crop', 'suitable crop', 
+    #                 'crop suggestion', 'recommend crop', 'soil test', 'soil health card', 
+    #                 'what to grow', 'what should i plant', 'crop selection']
+    # if any(keyword in query_lower for keyword in crop_keywords):
+    #     analysis = {
+    #         "classification": "CROP_RECOMMENDATION",
+    #         "query_type": "crop_recommendation",
+    #         "tools_needed": ["CROP_RECOMMENDATION"],
+    #         "priority_tool": "crop_model",
+    #         "search_query": query_lower,
+    #         "metadata_filters": {},
+    #         "reasoning_chain": "Detected crop recommendation keywords. Prioritizing crop model."
+    #     }
+    #     logger.info(f"\n\n\n\nQuery analysis result using python:\n\n\n\n\n {analysis}")
+    #     return {
+    #         **state,
+    #         "query_analysis": analysis,
+    #         "reasoning_chain": analysis["reasoning_chain"],
+    #         "next_step": "execute_tools_intelligently"
+    #     }
     
     # Get farmer profile context
     profile_dict = state["profile"].model_dump() if state.get("profile") else {}
@@ -433,7 +331,7 @@ Available tools:
 2. PRICES_LIVE - Needs current market prices from API  
 3. SCHEMES_KB - Needs government scheme info from knowledge base
 4. FARMING_KB - Needs general farming advice for paddy or rice from crop knowledge base
-6. CROP_RECOMMENDATION - Needs crop recommendation model and weather data
+6. CROP_RECOMMENDATION - Needs crop recommendation model and weather data if weather data not provided use weather live API tool as well
 
 # Also classify the query type into any two of the following categories to best describe the query:
 "FarmingActivity": "Procedural knowledge, best practices, or management strategies for a specific farming task (e.g., sowing, land preparation, fertilizer application timing, water management).",
@@ -592,7 +490,7 @@ def parse_reasoning_response(reasoning_text: str, original_query: str, profile: 
 def extract_soil_data_from_query(query: str) -> Dict[str, float]:
     """
     Extract soil parameters from user query using regex patterns.
-    Supports formats like: N=90, P=42, K=43, ph=6.5
+    Supports formats like: N=90, P=42, K=43, pH=6.5
     """
     import re
     
@@ -603,18 +501,14 @@ def extract_soil_data_from_query(query: str) -> Dict[str, float]:
         r'N\s*[=:]\s*(\d+\.?\d*)',
         r'P\s*[=:]\s*(\d+\.?\d*)', 
         r'K\s*[=:]\s*(\d+\.?\d*)',
-        r'ph\s*[=:]\s*(\d+\.?\d*)',
         r'pH\s*[=:]\s*(\d+\.?\d*)',
-        r'nitrogen\s*[=:]\s*(\d+\.?\d*)',
-        r'phosphorus\s*[=:]\s*(\d+\.?\d*)',
-        r'potassium\s*[=:]\s*(\d+\.?\d*)'
     ]
     
     param_map = {
         'N': 'N', 'nitrogen': 'N',
         'P': 'P', 'phosphorus': 'P',
         'K': 'K', 'potassium': 'K',
-        'ph': 'ph', 'pH': 'ph'
+        'ph': 'pH', 'pH': 'ph'
     }
     
     for pattern in patterns:
@@ -675,15 +569,25 @@ def execute_tools_intelligently(state: AgentState) -> AgentState:
                 logger.info("🌱 Using Crop Recommendation Model")
                 soil_data = extract_soil_data_from_query(search_query)
                 location = query_analysis.get("location") or get_farmer_location(profile_dict)
-                if soil_data:
+                # if soil_data:
+                #     crop_result = farmer_tools.recommend_crop(soil_data, location)
+                #     return ("crop_recommendation", crop_result)
+                # else:
+                #     return ("crop_recommendation", {
+                #         "error": "Soil parameters needed for crop recommendation",
+                #         "required_parameters": ["N", "P", "K", "ph"],
+                #         # "example": "Please provide: N=90, P=42, K=43, ph=6.5"
+                #     })
+                required_keys = {"N", "P", "K", "pH"}
+                if soil_data and required_keys.issubset(soil_data.keys()):
                     crop_result = farmer_tools.recommend_crop(soil_data, location)
                     return ("crop_recommendation", crop_result)
-                else:
-                    return ("crop_recommendation", {
-                        "error": "Soil parameters needed for crop recommendation",
-                        "required_parameters": ["N", "P", "K", "ph"],
-                        "example": "Please provide: N=90, P=42, K=43, ph=6.5"
-                    })
+                # else:
+                #     return ("crop_recommendation", {
+                #         "error": "Soil parameters needed for crop recommendation",
+                #         "required_parameters": ["N", "P", "K", "pH"],
+                #         "example": "Please provide: N=90, P=42, K=43, pH=6.5"
+                #     })
             elif tool == "SCHEMES_KB":
                 logger.info("📚 Using Schemes Knowledge Base")
                 if search_query:
@@ -720,7 +624,7 @@ def execute_tools_intelligently(state: AgentState) -> AgentState:
         logger.error(f"Error executing tools: {e}")
 
     updated_state["next_step"] = "generate_intelligent_response"
-    log_tool_usage_summary(updated_state)
+    # log_tool_usage_summary(updated_state)
     return updated_state
 
 def get_farmer_location(profile_dict: Dict) -> str:
@@ -740,9 +644,10 @@ def extract_final_answer(response_text: str) -> str:
     
     # Remove explicit thinking markers
     thinking_markers = [
-        "<think>", "</think>", "Let me think", "I need to think", 
-        "My thinking:", "Analysis:", "Step by step:", "First,", "Next,",
-        "Looking at this", "Considering", "Based on my analysis"
+        "<think>", "</think>", 
+        # "Let me think", "I need to think", 
+        # "My thinking:", "Analysis:", "Step by step:", "First,", "Next,",
+        # "Looking at this", "Considering", "Based on my analysis"
     ]
     
     cleaned_response = response_text
@@ -755,51 +660,51 @@ def extract_final_answer(response_text: str) -> str:
                 cleaned_response = parts[-1].strip()
     
     # Split by common answer markers
-    answer_markers = [
-        "**Answer:**", "**Response:**", "**Recommendation:**", 
-        "**Advice:**", "**Final Answer:**", "Here's my advice:",
-        "My recommendation:", "Based on this information:",
-        "🌤️", "💰", "📚", "🧑‍🌾"  # Start with emoji markers
-    ]
+    # answer_markers = [
+    #     "**Answer:**", "**Response:**", "**Recommendation:**", 
+    #     "**Advice:**", "**Final Answer:**", "Here's my advice:",
+    #     "My recommendation:", "Based on this information:",
+    #     "🌤️", "💰", "📚", "🧑‍🌾"  # Start with emoji markers
+    # ]
     
-    for marker in answer_markers:
-        if marker in cleaned_response:
-            parts = cleaned_response.split(marker, 1)
-            if len(parts) > 1:
-                return marker + parts[1].strip()
+    # for marker in answer_markers:
+    #     if marker in cleaned_response:
+    #         parts = cleaned_response.split(marker, 1)
+    #         if len(parts) > 1:
+    #             return marker + parts[1].strip()
     
-    # Remove thinking patterns with regex
-    import re
-    thinking_patterns = [
-        r"<think>.*?</think>",
-        r"Let me.*?[\.\n]",
-        r"I need to.*?[\.\n]", 
-        r"First.*?then.*?[\.\n]",
-        r"Step \d+.*?[\.\n]",
-        r"My thinking.*?[\.\n]",
-        r"Analysis.*?[\.\n]",
-        r"Looking at.*?I.*?[\.\n]",
-        r"Considering.*?[\.\n]",
-        r"Based on my analysis.*?[\.\n]"
-    ]
+    # # Remove thinking patterns with regex
+    # import re
+    # thinking_patterns = [
+    #     r"<think>.*?</think>",
+    #     r"Let me.*?[\.\n]",
+    #     r"I need to.*?[\.\n]", 
+    #     r"First.*?then.*?[\.\n]",
+    #     r"Step \d+.*?[\.\n]",
+    #     r"My thinking.*?[\.\n]",
+    #     r"Analysis.*?[\.\n]",
+    #     r"Looking at.*?I.*?[\.\n]",
+    #     r"Considering.*?[\.\n]",
+    #     r"Based on my analysis.*?[\.\n]"
+    # ]
     
-    for pattern in thinking_patterns:
-        cleaned_response = re.sub(pattern, "", cleaned_response, flags=re.IGNORECASE | re.DOTALL)
+    # for pattern in thinking_patterns:
+    #     cleaned_response = re.sub(pattern, "", cleaned_response, flags=re.IGNORECASE | re.DOTALL)
     
-    # If no explicit markers, look for paragraph breaks and take substantial content
-    paragraphs = [p.strip() for p in cleaned_response.split('\n\n') if p.strip()]
+    # # If no explicit markers, look for paragraph breaks and take substantial content
+    # paragraphs = [p.strip() for p in cleaned_response.split('\n\n') if p.strip()]
     
-    if paragraphs:
-        # Return paragraphs that don't start with analysis words
-        analysis_starters = ['based on', 'looking at', 'analyzing', 'considering', 'given that', 'let me', 'i need']
-        final_paragraphs = []
+    # if paragraphs:
+    #     # Return paragraphs that don't start with analysis words
+    #     analysis_starters = ['based on', 'looking at', 'analyzing', 'considering', 'given that', 'let me', 'i need']
+    #     final_paragraphs = []
         
-        for para in paragraphs:
-            if not any(para.lower().startswith(starter) for starter in analysis_starters):
-                final_paragraphs.append(para)
+    #     for para in paragraphs:
+    #         if not any(para.lower().startswith(starter) for starter in analysis_starters):
+    #             final_paragraphs.append(para)
         
-        if final_paragraphs:
-            return '\n\n'.join(final_paragraphs)
+    #     if final_paragraphs:
+    #         return '\n\n'.join(final_paragraphs)
     
     return cleaned_response.strip()
 
@@ -863,7 +768,7 @@ def generate_intelligent_response(state: AgentState) -> AgentState:
             if "error" not in market_data:
                 context_parts.append(f"""
 💰 **LIVE MARKET DATA:**
-- Prices crop and location wise: {market_data.get('data')}""")
+- Prices crop and location wise: {market_data.get('data')} and for more agricultural info user can refer to https://www.agmarknet.gov.in""")
         
         # Add crop recommendation if available
         if state.get("crop_recommendation"):
@@ -885,6 +790,7 @@ To provide a crop recommendation, I need soil test data:
             scheme_results = state["scheme_results"]
             if scheme_results:
                 context_parts.append(f"\n📚 **GOVERNMENT SCHEME RESULTS:** ({len(scheme_results)} schemes found)")
+                context_parts.append(f"Source of this information is https://www.myscheme.gov.in")
                 for i, result in enumerate(scheme_results, 1):
                     context_parts.append(f"{i}.")
                     for key, value in result.items():
@@ -896,6 +802,7 @@ To provide a crop recommendation, I need soil test data:
             # logger.info(f"farming info results: {farming_info_results}")
             if farming_info_results:
                 context_parts.append(f"\n🌾 **FARMING INFORMATION:** ({len(farming_info_results)} results found)")
+                context_parts.append(f"Source of this information is http://www.agritech.tnau.ac.in")
                 for i, result in enumerate(farming_info_results):
                     title = result.get('source_file') or result.get('name') or "Farming Information"
                     context_parts.append(f"{i}. **{title}**")
@@ -943,11 +850,10 @@ To provide a crop recommendation, I need soil test data:
         base_instruction = """You are a farming assistant. Follow these rules strictly:
         1. ONLY use information provided in the AVAILABLE INFORMATION section below
         2. if no information available, provide general farming principles with regard to the topic
-        3. Use knowledge graph for making decisions when available
-        4. When Knowledge Graph results are available, emphasize this authoritative information
-        5. Cross-reference different sources when available (KG + Elasticsearch + Live data)
-        6. Start your response directly with practical advice - no thinking process
-        7. If information is incomplete, acknowledge the limitation"""
+        3. Cross-reference different sources when available (KG + Elasticsearch + Live data)
+        4. Start your response directly with practical advice - no thinking process
+        5. If information is incomplete, acknowledge the limitation
+        6. Always give references from the data if provided"""
 
         # Create a response prompt that incorporates all available data
         tools_description = ", ".join([t.replace("_", " ").lower() for t in tools_needed])
@@ -964,7 +870,8 @@ RESPONSE GUIDELINES:
 - Base your response STRICTLY on the information provided above
 - If weather data is provided, reference the specific numbers and dates given
 - If market data is provided, use only the prices and trends shown
-- If schemes are listed, mention only the schemes, benefits, and eligibility shown above
+- If schemes are listed, answer based on the user query: {user_query}
+- If Crop Recommendation is asked answer based on the user query: {user_query}
 - If farming information is provided, stick to the guidance given
 - For missing information, suggest where farmers can get accurate details (local agriculture office, weather department, etc.)
 
@@ -981,7 +888,8 @@ Provide practical, actionable advice based ONLY on the available information abo
 
         # Extract only the final answer without thinking
         final_answer = extract_final_answer(response)
-        logger.info(f"\n\nhi\nresponse given:\n{response}  \n\n")
+        end_time = time.time()
+        # logger.info(f"\n\nhi\nresponse given and time taken {end_time-start_time}:\n{response}  \n\n")
         return {
             **state,
             "final_response": final_answer,
@@ -1038,6 +946,12 @@ def build_agent():
 
 def create_agent():
     """Create the agent with the workflow"""
+    global llm, farmer_tools
+    llm = Qwen3LLM()
+    logger.info("✅ Qwen3-8B model initialized successfully")
+    farmer_tools = FarmerTools()
+    logger.info("✅ Farmer tools initialized")
+    
     return build_agent()
 
 def process_query(agent, user_query: str, profile: Optional[FarmerProfile] = None) -> str:

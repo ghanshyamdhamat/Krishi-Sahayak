@@ -6,7 +6,7 @@ import numpy as np
 from sentence_transformers import SentenceTransformer
 
 # from /mnt/bb586fde-943d-4653-af27-224147bfba7e/Capital_One/capital_one_agent_ai/backend/enhanced_schemes.json 
-input_path = Path("src/core/elastic_search/data/schemes.json")
+input_path = Path("../data/schemes.json")
 schemes_metadata_subcategory=[]
 schemes_metadata_category=[]
 scheme_ids = []

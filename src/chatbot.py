@@ -10,9 +10,10 @@ import logging
 import queue
 from datetime import datetime
 import torch
-# from neo4j_files.store_farmer_profile import StoreFarmerProfile
-
+from core.neo4j_files.store_farmer_profile import StoreFarmerProfile
+import time
 from transformers import AutoTokenizer, AutoModelForCausalLM, WhisperProcessor,WhisperForConditionalGeneration, AutoModelForSeq2SeqLM,SeamlessM4Tv2ForSpeechToText, AutoProcessor,SpeechT5Processor, SpeechT5ForTextToSpeech, SpeechT5HifiGan
+from transformers import pipeline
 from langchain_core.messages import HumanMessage
 # from farmer_clean_agent import Qwen3LLM  # Import your LLM instance
 import warnings
@@ -22,12 +23,11 @@ import numpy as np
 warnings.filterwarnings("ignore")
 from indicnlp.normalize.indic_normalize import IndicNormalizerFactory
 from PIL import Image
-from src.agent.main_agent import create_agent, process_query, FarmerProfile
+from agent.main_agent import create_agent, process_query, FarmerProfile
 import torch
 import re
 import nltk
 import pycld2
-from pathlib import Path
 try:
     # This line will raise a LookupError if 'punkt' is not found
     nltk.data.find('tokenizers/punkt')
@@ -59,6 +59,7 @@ except ImportError:
 import sys
 logger.info(f'{sys.executable}')
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 import ast
 
@@ -202,19 +203,6 @@ class TranslationPipeline:
             self.output_tokenizer = None
             self.indic_processor = None
     
-    # def detect_language(self, text):
-    #     """Detect the language of input text"""
-    #     try:
-    #         if fasttext_model:
-    #             label = fasttext_model.predict(text.strip().replace('\n', ' '))[0][0]
-    #             detected_lang = label.replace('__label__', '')
-    #             return detected_lang
-    #         else:
-    #             from langdetect import detect
-    #             return detect(text)
-    #     except Exception as e:
-    #         print(f"Language detection failed: {e}")
-    #         return "en"  # Default to English
     def detect_language(self, text):
         """Detect the language of input text using pycld2"""
         try:
@@ -427,143 +415,6 @@ class TranslationPipeline:
         # 4. Join all translated sentences back into a single text
         return " ".join(all_translated_sentences)
     
-    # def translate_from_english(self, text, target_language_code=None):
-    #     """
-    #     Translate English text back to user's language using AI4Bharat IndicTrans2 (en-indic-1B)
-    #     Main method for RAG integration - takes English response and returns in user's language
-    #     """
-    #     if not target_language_code:
-    #         target_language_code = self.user_language
-        
-    #     if not self.output_translator or not self.output_tokenizer or not self.indic_processor:
-    #         print("AI4Bharat output translation model not available. Using original text.")
-    #         return text
-        
-    #     # If target is English, no need to translate
-    #     if target_language_code in ['en-IN', 'en']:
-    #         return text
-
-    #         # Map language codes for IndicTrans2
-    #     indic_lang_map = {
-    #             'hi-IN': 'hin_Deva',  # Hindi
-    #             'bn-IN': 'ben_Beng',  # Bengali
-    #             'gu-IN': 'guj_Gujr',  # Gujarati
-    #             'kn-IN': 'kan_Knda',  # Kannada
-    #             'ml-IN': 'mal_Mlym',  # Malayalam
-    #             'mr-IN': 'mar_Deva',  # Marathi
-    #             'or-IN': 'ory_Orya',  # Odia
-    #             'pa-IN': 'pan_Guru',  # Punjabi
-    #             'ta-IN': 'tam_Taml',  # Tamil
-    #             'te-IN': 'tel_Telu',  # Telugu
-    #             'ur-IN': 'urd_Arab',  # Urdu
-    #         }
-            
-    #     source_lang = 'eng_Latn'  # English
-    #     target_lang = indic_lang_map.get(target_language_code)
-        
-    #     if not target_lang:
-    #         print(f"Target language {target_language_code} not supported by IndicTrans2. Using original text.")
-    #         return text
-            
-    #     # --- CHUNKING LOGIC STARTS HERE ---
-    #     import re
-    #     # Split text into sentences (or paragraphs if you prefer)
-    #     sentences = re.split(r'(?<=[.!?])\s+', text)
-    #     translated_chunks = []
-
-    #     for sentence in sentences:
-    #         if not sentence.strip():
-    #             continue
-    #         batch = self.indic_processor.preprocess_batch(
-    #             [sentence],
-    #             src_lang=source_lang,
-    #             tgt_lang=target_lang,
-    #         )
-    #         device = "cuda" if torch.cuda.is_available() and self.output_translator.device.type == "cuda" else "cpu"
-    #         inputs = self.output_tokenizer(
-    #             batch,
-    #             truncation=True,
-    #             padding="longest",
-    #             return_tensors="pt",
-    #             return_attention_mask=True,
-    #         ).to(device)
-    #         with torch.no_grad():
-    #             generated_tokens = self.output_translator.generate(
-    #                 **inputs,
-    #                 use_cache=True,
-    #                 min_length=0,
-    #                 max_length=2048,
-    #                 num_beams=5,
-    #                 num_return_sequences=1,
-    #             )
-    #         generated_tokens = self.output_tokenizer.batch_decode(
-    #             generated_tokens,
-    #             skip_special_tokens=True,
-    #             clean_up_tokenization_spaces=True,
-    #         )
-    #         if generated_tokens and len(generated_tokens) > 0:
-    #             translations = self.indic_processor.postprocess_batch(generated_tokens, lang=target_lang)
-    #             translated_text = translations[0].strip() if translations else generated_tokens[0].strip()
-    #             translated_chunks.append(translated_text)
-    #         else:
-    #             translated_chunks.append(sentence)  # Fallback to original
-
-    #     # Join translated chunks
-    #     return " ".join(translated_chunks)
-    # except Exception as e:
-    #     print(f"❌ Output translation failed: {e}")
-    #     print("🔄 Using original text as fallback.")
-    #     return text
-            
-        #     # Use IndicProcessor for proper preprocessing
-        #     batch = self.indic_processor.preprocess_batch(
-        #         [text],
-        #         src_lang=source_lang,
-        #         tgt_lang=target_lang,
-        #     )
-            
-        #     # Tokenize the preprocessed sentences
-        #     device = "cuda" if torch.cuda.is_available() and self.output_translator.device.type == "cuda" else "cpu"
-        #     inputs = self.output_tokenizer(
-        #         batch,
-        #         truncation=True,
-        #         padding="longest",
-        #         return_tensors="pt",
-        #         return_attention_mask=True,
-        #     ).to(device)
-            
-        #     # Generate translation
-        #     with torch.no_grad():
-        #         generated_tokens = self.output_translator.generate(
-        #             **inputs,
-        #             use_cache=True,
-        #             min_length=0,
-        #             max_length=256,
-        #             num_beams=5,
-        #             num_return_sequences=1,
-        #         )
-            
-        #     # Decode translation
-        #     generated_tokens = self.output_tokenizer.batch_decode(
-        #         generated_tokens,
-        #         skip_special_tokens=True,
-        #         clean_up_tokenization_spaces=True,
-        #     )
-            
-        #     # Postprocess the translations
-        #     if generated_tokens and len(generated_tokens) > 0:
-        #         translations = self.indic_processor.postprocess_batch(generated_tokens, lang=target_lang)
-        #         translated_text = translations[0].strip() if translations else generated_tokens[0].strip()
-        #         print(f"🔄 Output translation (English → {target_language_code}): '{text}' → '{translated_text}'")
-        #         return translated_text
-        #     else:
-        #         print("Output translation returned empty result. Using original text.")
-        #         return text
-                
-        # except Exception as e:
-        #     print(f"❌ Output translation failed: {e}")
-        #     print("🔄 Using original text as fallback.")
-        #     return text
     
     def process_query_for_rag(self, user_query):
         """
@@ -621,8 +472,8 @@ class ChatBot:
 
         self.soil_model = None
         self.rice_disease_model = None
-        self.soil_model_name = Path("src/core/model/soil_classification_model.pth")  # IMPORTANT: Update this path
-        self.rice_disease_model_name = Path("src/core/model/paddy_disease_best_model.pth") # IMPORTANT: Update this path
+        self.soil_model_name = os.path.join(BASE_DIR,"core","model", "soil_classification_model.pth")  # IMPORTANT: Update this path
+        self.rice_disease_model_name = os.path.join(BASE_DIR,"core", "model", "paddy_disease_best_model.pth") # IMPORTANT: Update this path
 
         
         # Translation pipeline for RAG integration
@@ -1048,7 +899,8 @@ class ChatBot:
         Generate response using FarmerAgent with Langgraph for complex tasks
         Falls back to direct LLM for simple responses only if agent fails
         """
-        
+        start_time = time.time()
+
         # First try to use the farmer agent (recommended approach)
         if use_agent:
             try:
@@ -1123,7 +975,9 @@ class ChatBot:
                     pad_token_id=self.llm_tokenizer.pad_token_id if self.llm_tokenizer.pad_token_id else self.llm_tokenizer.eos_token_id,
                     eos_token_id=self.llm_tokenizer.eos_token_id,
                 )
-            
+            end_time = time.time()  # End timing after LLM response
+            logger.info(f"\n✅\n✅LLM response time: {end_time - start_time:.2f} seconds\n✅\n✅")
+
             response = self.llm_tokenizer.decode(outputs[0], skip_special_tokens=True)
             
             # Extract assistant response
@@ -1240,7 +1094,7 @@ class ChatBot:
             nn.Linear(256, NUM_CLASSES)
         )
 
-        state_dict = torch.load(self.rice_disease_model_name, map_location=device)
+        state_dict = torch.load(self.rice_disease_model_name, map_location=device, weights_only=False)
 
         model_instance.load_state_dict(state_dict)
         model_instance.to(device)
@@ -1324,7 +1178,7 @@ class ChatBot:
         )
 
         # Load the model state
-        state_dict = torch.load(self.soil_model_name, map_location=device)
+        state_dict = torch.load(self.soil_model_name, map_location=device, weights_only=False)
         model_instance.load_state_dict(state_dict)
         model_instance.to(device)
         model_instance.eval()  # Set the model to evaluation mode
@@ -1429,7 +1283,7 @@ class ChatBot:
         # Step 3: Feed the constructed query into the existing RAG pipeline.
         # The `get_complete_response` method will handle translation to English,
         # querying the LLM/RAG, and translating the response back to the user's language.
-        final_recommendations, label = self.get_complete_response(
+        final_recommendations,_ , label = self.get_complete_response(
             user_input=rag_query,
             max_length=max_length,
             input_type="text"  # We treat this as a text input to the RAG system
@@ -1537,7 +1391,7 @@ class ChatBot:
         try:
             with sr.AudioFile(audio_file) as source:
                 audio = self.recognizer.record(source)
-                text = self.recognizer.recognize_google(audio)
+                text = self.recognizer.recognize_wit(audio)
                 processed_text, _, _ = self.process_input_with_translation(text)
                 return processed_text
         except sr.UnknownValueError:
@@ -1688,50 +1542,66 @@ class ChatBot:
                 self.tts_engine.runAndWait()
             except Exception as e:
                 st.error(f"Text-to-speech error: {e}")
+    
+    def get_crop_recommendation(self, n, p, k, ph):
+        # Build the query
+        query = (
+            f"Recommend crops for N={n}, P={p}, K={k}, pH={ph} use crop recommendation tool. Specify the recommendation that you obtained from the crop recommendation tool and provide suitable cultivation practices for the recommended crops, typical fertilizer requirements for the soil, crop using rag search "
+        #    and FARMING_KB tool. tool needed: [crop_recommendation, FARMING_KB] "
+        )
+        # Use the complete pipeline (handles translation and agent)
+        final_response, _, _ = self.get_complete_response(query, max_length=None, input_type="text")
+
+        return final_response
 
 def main():
-    # uri = "bolt://localhost:7687"
-    # user = "neo4j"
-    # pwd = "test1234"
-    # profile_store = StoreFarmerProfile(uri=uri, user=user, password=pwd)
-    # st.set_page_config(
-    #     page_title="AI Chatbot - Text, Speech & Vision",
-    #     page_icon="🤖",
-    #     layout="wide"
-    # )
+    uri = "bolt://localhost:7687"
+    user = "neo4j"
+    pwd = "test1234"
+    profile_store = StoreFarmerProfile(uri=uri, user=user, password=pwd)
+    st.set_page_config(
+        page_title="AI Chatbot - Text, Speech & Vision",
+        page_icon="🤖",
+        layout="wide"
+    )
     # Login screen
-    # if 'logged_in' not in st.session_state:
-    #     st.session_state.logged_in = False
+    if 'logged_in' not in st.session_state:
+        st.session_state.logged_in = False
     
-    # if not st.session_state.logged_in:
-    #     st.title("Login to SAHAYAK KRISHI")
-    #     username = st.text_input("Username")
-    #     password = st.text_input("Password", type="password")
+    if not st.session_state.logged_in:
+        st.title("Login to KRISHI SAHAYAK")
+        username = st.text_input("Username")
+        password = st.text_input("Password", type="password")
+        retrieved_profile = profile_store.get_profile(username)
 
-    #     if st.button("Login"):
-    #         if username == "admin" and password == "admin":
-    #             st.session_state.logged_in = True
-    #             st.session_state.farmer_id = username
-    #             # Always initialize with defaults (no Neo4j)
-    #             st.session_state.farmer_profile = {
-    #                 'username': username,
-    #                 'name': 'Ghanshyam',
-    #                 'state': '',
-    #                 'district': '',
-    #                 'taluka': '',
-    #                 'village': '',
-    #                 'country': 'India',
-    #                 'crops': [],
-    #                 'land_size': 0.0,
-    #                 'preferred_language': 'en'
-    #             }
-    #             st.success("Login successful!")
-    #             st.rerun()
-    #         else:
-    #             st.error("Invalid credentials, please try again.")
-    #             st.stop()    
-    # if st.session_state.logged_in:    
-        st.title("🤖 SAHAYAK KRISHI")
+        if st.button("Login"):
+            if username == "admin" and password == "admin":
+                st.session_state.logged_in = True
+                st.session_state.farmer_id = username
+                # Always initialize with defaults (no Neo4j)
+                st.session_state.farmer_profile = {
+                    'username': username,
+                    'name': 'Ghanshyam',
+                    'state': 'Tamil nadu',
+                    'district': 'coimbatore',
+                    'taluka': 'pollachi',
+                    'village': 'anaimalai',
+                    'country': 'India',
+                    'crops': ['rice'],
+                    'land_size': 10.0,
+                    'preferred_language': 'en'
+                }
+                if retrieved_profile:
+                    st.session_state.farmer_profile.update(retrieved_profile)
+                st.session_state.farmer_profile['username'] = username
+                st.success("Login successful!")
+                st.rerun()
+            else:
+                st.error("Invalid credentials, please try again.")
+                st.stop()    
+    if st.session_state.logged_in: 
+
+        st.title("🤖 KRISHI SAHAYAK")
         st.subheader("Hi, How may I assist you today?")
 
         
@@ -1867,7 +1737,7 @@ def main():
             st.divider()
             
             # Settings
-            max_length = st.slider("Response Length", 50, 2000, 1500)
+            # max_length = st.slider("Response Length", 50, 2000, 1500)
             
             # Farmer Profile Section
             st.subheader("👨‍🌾 Farmer Profile")
@@ -1945,7 +1815,7 @@ def main():
             st.header("💬 Chat Interface")
             
             # Input method selection
-            input_options = ["Text Input", "Voice Recording", "Audio Upload", "Image Analysis"]
+            input_options = ["Text Input", "Image Analysis", "Crop Recommendation"]
             input_method = st.radio(
                 "Choose input method:",
                 options=input_options,
@@ -1963,24 +1833,28 @@ def main():
                     height=100,
                     placeholder="Enter your message here..."
                 )
+            elif input_method == "Crop Recommendation":
+                st.info("🌱 Enter soil nutrient values for crop recommendation.")
+                st.info("Response will be in your preferred language.")
+                n_value = st.number_input("Nitrogen (N)", min_value=0.0, max_value=1000.0, value=0.0)
+                p_value = st.number_input("Phosphorus (P)", min_value=0.0, max_value=1000.0, value=0.0)
+                k_value = st.number_input("Potassium (K)", min_value=0.0, max_value=1000.0, value=0.0)
+                ph_value = st.number_input("Soil pH", min_value=0.0, max_value=14.0, value=7.0)
+                send_button_text = "Get Crop Recommendation"
                 
-            elif input_method == "Voice Recording":
-                st.warning("Voice recording feature requires `streamlit-webrtc`. This is a placeholder.")
-                # Your WebRTC implementation would go here
-                
-            elif input_method == "Audio Upload":
-                uploaded_file = st.file_uploader(
-                    "Choose audio file",
-                    type=['wav', 'mp3', 'm4a', 'flac']
-                )
-                if uploaded_file is not None:
-                    with st.spinner("Processing audio..."):
-                        with tempfile.NamedTemporaryFile(delete=False, suffix=".wav") as tmp_file:
-                            tmp_file.write(uploaded_file.read())
-                            tmp_file_path = tmp_file.name
-                        user_input = st.session_state.chatbot.speech_to_text_seamless(tmp_file_path)
-                        st.success(f"Transcription: {user_input}")
-                        os.unlink(tmp_file_path)
+            # elif input_method == "Audio Upload":
+            #     uploaded_file = st.file_uploader(
+            #         "Choose audio file",
+            #         type=['wav', 'mp3', 'm4a', 'flac']
+            #     )
+            #     if uploaded_file is not None:
+            #         with st.spinner("Processing audio..."):
+            #             with tempfile.NamedTemporaryFile(delete=False, suffix=".wav") as tmp_file:
+            #                 tmp_file.write(uploaded_file.read())
+            #                 tmp_file_path = tmp_file.name
+            #             user_input = st.session_state.chatbot.speech_to_text_seamless(tmp_file_path)
+            #             st.success(f"Transcription: {user_input}")
+            #             os.unlink(tmp_file_path)
 
             elif input_method == "Image Analysis":
                 st.info("🖼️ Upload an image for soil or rice disease classification.")
@@ -2000,12 +1874,15 @@ def main():
             # Set disable_send appropriately
             if input_method == "Image Analysis":
                 disable_send = uploaded_image is None
+            elif input_method == "Crop Recommendation":
+                # Optionally, check for valid values (e.g., all > 0)
+                disable_send = not (n_value and p_value and k_value and ph_value)
             else:
                 disable_send = not user_input.strip()
             
             if st.button(send_button_text, type="primary", disabled=disable_send):
                 # Handle Text/Audio Input
-                if input_method in ["Text Input", "Voice Recording", "Audio Upload"] and user_input.strip():
+                if input_method in ["Text Input", "Audio Upload"] and user_input.strip():
                     st.session_state.chat_history.append({
                         "role": "user",
                         "content": user_input,
@@ -2014,7 +1891,7 @@ def main():
                     
                     with st.spinner("Processing..."):
                         final_response, _, _ = st.session_state.chatbot.get_complete_response(
-                            user_input, max_length=max_length, input_type="text"
+                            user_input, max_length=None, input_type="text"
                         )
                     
                     st.session_state.chat_history.append({
@@ -2056,6 +1933,27 @@ def main():
                     })
                     st.rerun()
 
+                # Handle Crop Recommendation
+
+                elif input_method == "Crop Recommendation":
+                    st.session_state.chat_history.append({
+                        "role": "user",
+                        "content": f"Crop recommendation requested for N={n_value}, P={p_value}, K={k_value}, pH={ph_value}",
+                        "timestamp": datetime.now().strftime("%H:%M:%S")
+                    })
+                    with st.spinner("Generating crop recommendation..."):
+                        # Call your crop recommendation function from farmer_clean_agent
+                        # Example: result = st.session_state.chatbot.get_crop_recommendation(n_value, p_value, k_value, ph_value)
+                        # If you don't have this method, you can call process_query or a custom method
+                        result = st.session_state.chatbot.get_crop_recommendation(n_value, p_value, k_value, ph_value)
+                    
+                    st.session_state.chat_history.append({
+                        "role": "assistant",
+                        "content": result,
+                        "timestamp": datetime.now().strftime("%H:%M:%S")
+                    })
+                    st.rerun()
+
         
         with col2:
             st.header("📊 Chat Stats")
@@ -2080,7 +1978,7 @@ def main():
         
         # Footer
         st.divider()
-        st.info("**SAHAYAK KRISHI** - Multilingual Agricultural Assistant")
+        st.info("**KRISHI SAHAYAK** - Multilingual Agricultural Assistant")
 
 if __name__ == "__main__":
     main()
