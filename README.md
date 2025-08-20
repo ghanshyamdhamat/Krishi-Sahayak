@@ -26,15 +26,16 @@
 - **Git:** To clone the repository.
 - **Conda:** To manage the Python environment.
 - **Docker:** To run the necessary database services. Please ensure the Docker daemon is running before you begin.
+- **NVIDIA GPU & CUDA:** For optimal performance with the AI models, an NVIDIA GPU with **CUDA 12.4** or compatible is recommended. The system was tested on this version.
 
 ---
 #### Step 1: Clone the repository and enter the directory:
 This is a **one-time process**. The script will prepare everything your project needs to run.
 
   ```bash
-  git clone <your-repo-url>
-  cd <repository-name>
-  ```
+  git clone [https://github.com/manapureanshul7/Krishi-Sahayak.git](https://github.com/manapureanshul7/Krishi-Sahayak.git)
+  cd Krishi-Sahayak
+  ```
 
 #### Step 2: Make the setup script executable and run it:
   ```bash
