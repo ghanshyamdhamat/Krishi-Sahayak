@@ -31,17 +31,16 @@
 ---
 #### Step 1: Clone the repository and enter the directory:
 This is a **one-time process**. The script will prepare everything your project needs to run.
-
-  ```bash
-  git clone https://github.com/manapureanshul7/Krishi-Sahayak.git
-  cd Krishi-Sahayak
-  ```
+```bash
+git clone https://github.com/manapureanshul7/Krishi-Sahayak.git
+cd Krishi-Sahayak
+```
 
 #### Step 2: Make the setup script executable and run it:
-  ```bash
-  chmod +x setup.sh
-  ./setup.sh
-  ```
+```bash
+chmod +x setup.sh
+./setup.sh
+```
   This script handles creating the Conda environment, installing all dependencies, and launching the required databases in Docker.
 
 ---
