@@ -33,7 +33,7 @@
 This is a **one-time process**. The script will prepare everything your project needs to run.
 
   ```bash
-  git clone [https://github.com/manapureanshul7/Krishi-Sahayak.git](https://github.com/manapureanshul7/Krishi-Sahayak.git)
+  git clone https://github.com/manapureanshul7/Krishi-Sahayak.git
   cd Krishi-Sahayak
   ```
 
