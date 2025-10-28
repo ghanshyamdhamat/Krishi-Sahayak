@@ -557,15 +557,6 @@ class ChatBot:
         except Exception as e:
             logger.error(f"Error unloading {model_type} model: {e}")
     
-    def cleanup_unused_models(self):
-        """Clean up models that haven't been used recently"""
-        current_time = time.time()
-        
-        for model_type, last_use in self.last_model_use.items():
-            if current_time - last_use > self.model_cache_timeout:
-                logger.info(f"⏰ Model {model_type} unused for {self.model_cache_timeout}s, unloading...")
-                self.unload_model(model_type)
-                del self.last_model_use[model_type]
     
     def force_cleanup_all_models(self):
         """Force cleanup of all models to free maximum memory"""
@@ -700,7 +691,7 @@ class ChatBot:
             logger.info("📥 Loading SeamlessM4Tv2 STT model on demand...")
             
             # Clean up other models to make space
-            self.cleanup_unused_models()
+            self.force_cleanup_all_models()
             
             self.seamless_stt_processor = AutoProcessor.from_pretrained(self.seamless_stt_model_name)
             self.seamless_stt_model = SeamlessM4Tv2ForSpeechToText.from_pretrained(
@@ -730,7 +721,7 @@ class ChatBot:
             logger.info("📥 Loading SpeechT5 TTS model on demand...")
             
             # Clean up other models to make space
-            self.cleanup_unused_models()
+            self.force_cleanup_all_models()
             
             fallback_tts_model = "microsoft/speecht5_tts"
             self.tts_processor = SpeechT5Processor.from_pretrained(fallback_tts_model)
@@ -769,7 +760,7 @@ class ChatBot:
             logger.info(f"📥 Loading legacy STT model on demand: {stt_model_path}")
             
             # Clean up other models to make space
-            self.cleanup_unused_models()
+            self.force_cleanup_all_models()
             
             self.stt_processor = WhisperProcessor.from_pretrained(stt_model_path, local_files_only=False)
             self.stt_model = WhisperForConditionalGeneration.from_pretrained(
@@ -1617,16 +1608,9 @@ def main():
         if 'models_configured' not in st.session_state:
             st.session_state.models_configured = False
         
-        # Default model paths
-        # default_llm_model = "Qwen/Qwen3-8B"
-        # default_stt_model = "openai/whisper-medium"
-        
+
         # Configure model paths for on-demand loading (first time only)
         if not st.session_state.models_configured:
-            # st.session_state.chatbot.load_models(
-            #     llm_model_path=default_llm_model,
-            #     stt_model_path=default_stt_model
-            # )
             st.session_state.models_configured = True
             st.info("🎯 Models configured for on-demand loading - they will load when first used to save GPU memory!")
         
@@ -1736,9 +1720,6 @@ def main():
             
             st.divider()
             
-            # Settings
-            # max_length = st.slider("Response Length", 50, 2000, 1500)
-            
             # Farmer Profile Section
             st.subheader("👨‍🌾 Farmer Profile")
             if 'farmer_profile' not in st.session_state:
@@ -1795,11 +1776,6 @@ def main():
                         }
                         # Store in Neo4j
                         try:
-                            
-                            #generate a unique ID for the profile
-                            # import uuid
-                            # # unique_id = str(uuid.uuid4())
-                            # profile_store.store_profile(username , st.session_state.farmer_profile)
                             st.success("Profile saved and stored in database!")
                         except Exception as e:
                             st.error(f"Profile saved locally, but failed to store in database: {e}")
@@ -1841,20 +1817,6 @@ def main():
                 k_value = st.number_input("Potassium (K)", min_value=0.0, max_value=1000.0, value=0.0)
                 ph_value = st.number_input("Soil pH", min_value=0.0, max_value=14.0, value=7.0)
                 send_button_text = "Get Crop Recommendation"
-                
-            # elif input_method == "Audio Upload":
-            #     uploaded_file = st.file_uploader(
-            #         "Choose audio file",
-            #         type=['wav', 'mp3', 'm4a', 'flac']
-            #     )
-            #     if uploaded_file is not None:
-            #         with st.spinner("Processing audio..."):
-            #             with tempfile.NamedTemporaryFile(delete=False, suffix=".wav") as tmp_file:
-            #                 tmp_file.write(uploaded_file.read())
-            #                 tmp_file_path = tmp_file.name
-            #             user_input = st.session_state.chatbot.speech_to_text_seamless(tmp_file_path)
-            #             st.success(f"Transcription: {user_input}")
-            #             os.unlink(tmp_file_path)
 
             elif input_method == "Image Analysis":
                 st.info("🖼️ Upload an image for soil or rice disease classification.")

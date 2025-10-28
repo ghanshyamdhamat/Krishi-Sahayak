@@ -273,28 +273,6 @@ def analyze_query_with_reasoning(state: AgentState) -> AgentState:
     
     query_lower = latest_message.lower()
 
-    # Add crop recommendation detection
-    # crop_keywords = ['crop recommendation', 'what crop', 'which crop', 'best crop', 'suitable crop', 
-    #                 'crop suggestion', 'recommend crop', 'soil test', 'soil health card', 
-    #                 'what to grow', 'what should i plant', 'crop selection']
-    # if any(keyword in query_lower for keyword in crop_keywords):
-    #     analysis = {
-    #         "classification": "CROP_RECOMMENDATION",
-    #         "query_type": "crop_recommendation",
-    #         "tools_needed": ["CROP_RECOMMENDATION"],
-    #         "priority_tool": "crop_model",
-    #         "search_query": query_lower,
-    #         "metadata_filters": {},
-    #         "reasoning_chain": "Detected crop recommendation keywords. Prioritizing crop model."
-    #     }
-    #     logger.info(f"\n\n\n\nQuery analysis result using python:\n\n\n\n\n {analysis}")
-    #     return {
-    #         **state,
-    #         "query_analysis": analysis,
-    #         "reasoning_chain": analysis["reasoning_chain"],
-    #         "next_step": "execute_tools_intelligently"
-    #     }
-    
     # Get farmer profile context
     profile_dict = state["profile"].model_dump() if state.get("profile") else {}
     profile_context = f"""
@@ -636,7 +614,6 @@ def get_farmer_location(profile_dict: Dict) -> str:
     else:
         return "India"
 
-
 def extract_final_answer(response_text: str) -> str:
     """Extract only the final answer from LLM response, removing thinking parts"""
     if not response_text:
@@ -707,7 +684,6 @@ def extract_final_answer(response_text: str) -> str:
     #         return '\n\n'.join(final_paragraphs)
     
     return cleaned_response.strip()
-
 
 def generate_intelligent_response(state: AgentState) -> AgentState:
     """Generate response using reasoning chain and all data sources collected from tools"""
@@ -977,32 +953,6 @@ def process_query(agent, user_query: str, profile: Optional[FarmerProfile] = Non
     try:
         result_state = agent.invoke(initial_state)
         final_response = result_state.get("final_response", "Sorry, I couldn't process your request.")
-        
-        # # Store the interaction if farmer ID exists
-        # if profile and profile.id:
-        #     # Determine problem type from query
-        #     problem_type = None
-        #     query_lower = user_query.lower()
-        #     if any(word in query_lower for word in ['disease', 'pest', 'problem', 'issue']):
-        #         problem_type = 'agricultural_problem'
-        #     elif any(word in query_lower for word in ['fertilizer', 'nutrition', 'nutrient']):
-        #         problem_type = 'nutrition_advice'
-        #     elif any(word in query_lower for word in ['weather', 'climate']):
-        #         problem_type = 'weather_inquiry'
-        #     elif any(word in query_lower for word in ['price', 'market', 'sell']):
-        #         problem_type = 'market_inquiry'
-        #     else:
-        #         problem_type = 'general_farming'
-            
-        #     farmer_tools.store_farmer_interaction(
-        #         farmer_id=profile.id,
-        #         query=user_query,
-        #         response=final_response,
-        #         problem_type=problem_type
-        #     )
-            
-        #     logger.info(f"✅ Stored interaction for farmer {profile.id}")
-        
         return final_response
     
     except Exception as e:
